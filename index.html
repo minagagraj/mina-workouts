@@ -81,6 +81,8 @@ h2{font-size:22px;margin:0;letter-spacing:-.3px}
 .ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#fde6dc,#fff1e6);color:#c2583f}
 .ph .e{font-size:54px;line-height:1}
 .ph .t{font-size:13px;font-weight:700;opacity:.8}
+.thumb.ph{overflow:hidden}
+.thumb.ph .e{font-size:24px}
 .exname{font-size:28px;font-weight:800;letter-spacing:-.5px;margin:0}
 .sr{display:flex;gap:10px;margin:12px 0}
 .stat{flex:1;background:var(--card);border-radius:16px;padding:12px;box-shadow:var(--shadow)}
@@ -302,7 +304,7 @@ var EX = {
   facepull:{name:"Face pulls", pic:"13", video:V("ljgqer1ZpXg"), icon:"💪", cue:"Rope at face height. Pull toward your forehead, elbows high, squeeze upper back."},
   farmer:{name:"Farmer carry", video:V("8OtwXwrJizk"), carry:1, icon:"🧺", cue:"Heavy dumbbells at your sides, stand tall, short quick steps. Breathe."},
   bandwalk:{name:"Banded lateral walks", video:V("pzQ2M_iY0D8"), bw:1, icon:"🎗️", cue:"Band around knees or ankles, slight squat, step sideways keeping tension."},
-  abduction:{name:"Hip abduction", video:V("7HylKT7G-EA"), icon:"🦋", cue:"Machine or band. Push knees out slowly, pause, return with control."},
+  abduction:{name:"Hip abduction machine", video:V("7HylKT7G-EA"), icon:"🦋", cue:"Machine or band. Push knees out slowly, pause, return with control."},
   incline:{name:"Incline dumbbell press", pic:"16", video:V("OC7Qs_SAO2E"), icon:"💪", cue:"Bench at ~30°. Lower dumbbells to upper chest, press up and slightly in."},
   sarow:{name:"Single-arm dumbbell row", pic:"14", video:V("EEFHHOCfHgw"), uni:"side", icon:"💪", cue:"Hand and knee on bench, flat back. Pull the dumbbell to your hip."},
   lateral:{name:"Lateral raise", video:V("q5sNYB1Q6aM"), icon:"🙆‍♀️", cue:"Light weights. Raise out to the side to shoulder height, lead with elbows."},
@@ -326,7 +328,13 @@ var EX2 = {
   goodMorning:{name:"Good morning", video:V("f23vXjoG2e8"), icon:"🏋️", cue:"Light bar on your upper back, soft knees. Push hips back with a flat back until you feel your hamstrings, then stand tall."},
   pullThrough:{name:"Cable pull-through", video:V("DbSF7ipBh5Y"), icon:"🍑", cue:"Face away from a low cable, rope between your legs. Push hips back, then snap them forward and squeeze glutes."},
   donkeyKick:{name:"Donkey kicks", video:V("QreOl2tgC-8"), uni:"side", bw:1, icon:"🍑", cue:"On hands and knees, knee bent. Kick the heel up toward the ceiling without arching your low back."},
-  legPress:{name:"Leg press", video:V("K5n2vg3oZa4"), icon:"🦵", cue:"Feet shoulder-width, a bit high on the plate for glutes. Lower until knees are near 90°, keep your low back on the pad."},
+  legPress:{name:"Leg press", video:V("K5n2vg3oZa4"), icon:"🦵", cue:"Feet high and wide on the plate to hit your glutes. Lower until knees are near 90°, keep your low back and hips on the pad, push through your heels."},
+  legExt:{name:"Leg extension", video:V("YyvSfVjQeL0"), icon:"🦵", cue:"Knee lined up with the machine's pivot, pad on your lower shin. Straighten your legs, squeeze 1 sec, lower slowly."},
+  legCurl:{name:"Seated leg curl", video:V("ELOCsoDSmrg"), icon:"🦵", cue:"Pad just above your heels, thigh pad snug. Curl your heels under you, pause, let it up slowly."},
+  lyingLegCurl:{name:"Lying leg curl", video:V("5xR8tvg4-yM"), icon:"🦵", cue:"Lie face down, pad above your heels, hips pressed into the bench. Curl up, lower slowly."},
+  ballCurl:{name:"Stability ball hamstring curl", video:V("XkESHgkTdFw"), bw:1, icon:"⚽", cue:"On your back, heels on the ball, hips lifted. Roll the ball in toward you, then out slowly. Keep hips up."},
+  kickMachine:{name:"Glute kickback machine", video:V("WhtxQnm4254"), uni:"side", icon:"🍑", cue:"Chest on the pad, foot on the plate. Push back and up through your heel, squeeze your glute, don't arch your low back."},
+  hackSquat:{name:"Hack squat", video:V("0tn5K9NlCfo"), icon:"🏋️‍♀️", cue:"Back flat on the pad, feet shoulder-width in the middle of the plate. Lower until thighs are about parallel, push up through your heels. Start light."},
   sumoSquat:{name:"Dumbbell sumo squat", video:V("2zL-1TYsN_A"), icon:"🏋️‍♀️", cue:"Wide stance, toes out, one dumbbell hanging between your legs. Sit straight down, knees follow toes."},
   trapBar:{name:"Trap bar deadlift", video:V("TU2xZ7s4jus"), icon:"🏋️", cue:"Stand in the middle of the bar, grab the handles, brace and push the floor away. Stand tall, then lower with control."},
   kbDeadlift:{name:"Kettlebell deadlift", video:V("hinonqqzatk"), icon:"🏋️", cue:"Bell between your feet. Push hips back, flat back, grab and stand up by squeezing glutes."},
@@ -356,7 +364,12 @@ var SWAPS = {
   hipThrust:["smithHipThrust","bridge","slGluteBridge"],
   bss:["reverseLunge","stepUp","splitSquat"],
   rdl:["slRdl","goodMorning","pullThrough"],
-  kickback:["donkeyKick","slGluteBridge","pullThrough"],
+  kickback:["kickMachine","donkeyKick","slGluteBridge"],
+  legExt:["legPress","goblet","splitSquat"],
+  legCurl:["lyingLegCurl","ballCurl","slRdl"],
+  kickMachine:["kickback","donkeyKick","slGluteBridge"],
+  hackSquat:["legPress","goblet","sumoSquat"],
+  legPress:["hackSquat","goblet","sumoSquat"],
   lunge:["reverseLunge","stepUp","splitSquat"],
   bridge:["hipThrust","smithHipThrust","slGluteBridge"],
   goblet:["legPress","sumoSquat","splitSquat"],
@@ -395,8 +408,9 @@ var DAYS = [
   blocks:[
    {label:"Block 1", rest:90, items:[P("hipThrust",4,{reps:10})]},
    {label:"Block 2", rest:75, items:[P("bss",3,{reps:8,each:"leg"})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("rdl",3,{reps:10}), P("kickback",3,{reps:12,each:"side"})]},
-   {label:"Finisher", rest:45, finisher:true, items:[P("lunge",2,{reps:10,each:"leg"}), P("bridge",2,{hold:30,variant:"hold"})]}
+   {label:"Block 3", rest:60, superset:true, items:[P("legExt",3,{reps:12}), P("legCurl",3,{reps:12})]},
+   {label:"Block 4", rest:60, superset:true, items:[P("rdl",3,{reps:10}), P("kickback",3,{reps:12,each:"side"})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("abduction",2,{reps:20}), P("bridge",2,{hold:30,variant:"hold"})]}
   ]},
  {key:"tue", short:"Tue", day:"Tuesday", title:"Upper Push/Pull", mins:"40–45 min", focus:"Chest · Back · Shoulders",
   warmup:{text:"Arm circles (forward & back), then 15 light band pull-aparts."},
@@ -410,9 +424,10 @@ var DAYS = [
   warmup:{text:"Banded lateral walks — 20 steps each way.", ex:"bandwalk"},
   blocks:[
    {label:"Block 1", rest:75, items:[P("hipThrust",4,{reps:12})]},
-   {label:"Block 2", rest:60, superset:true, items:[P("goblet",3,{reps:10}), P("abduction",3,{reps:15})]},
-   {label:"Block 3", rest:60, items:[P("lunge",3,{reps:12,each:"leg"})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("kickback",3,{reps:12,each:"side"}), P("bridge",3,{reps:20,variant:"pulses"})]}
+   {label:"Block 2", rest:75, items:[P("legPress",3,{reps:12})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("kickMachine",3,{reps:12,each:"side"}), P("abduction",3,{reps:15})]},
+   {label:"Block 4", rest:60, items:[P("lunge",2,{reps:12,each:"leg"})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("legExt",2,{reps:15}), P("bridge",2,{reps:20,variant:"pulses"})]}
   ]},
  {key:"thu", short:"Thu", day:"Thursday", title:"Upper + Core", mins:"40 min", focus:"Arms · Back · Core",
   warmup:{text:"Light rowing (machine or band) for 3 min + 10 slow shoulder-blade squeezes."},
@@ -426,7 +441,7 @@ var DAYS = [
   warmup:{text:"5 min easy cardio + hip hinge practice (hands on hips, push hips back ×10).", mins:5},
   blocks:[
    {label:"Block 1", rest:120, items:[P("deadlift",3,{reps:6})]},
-   {label:"Block 2", rest:75, superset:true, items:[P("goblet",3,{reps:10}), P("pushup",3,{reps:10})]},
+   {label:"Block 2", rest:75, superset:true, items:[P("hackSquat",3,{reps:10}), P("pushup",3,{reps:10})]},
    {label:"Block 3", rest:60, items:[P("row",3,{reps:10})]},
    {label:"Finisher", rest:30, finisher:true, items:[P("bridge",2,{hold:40,variant:"hold"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
   ]}
@@ -489,7 +504,7 @@ function buildSteps(d){
     b.items.forEach(function(p0, i){
       var label = b.label;
       if(b.superset) label += " · Superset " + "AB"[i];
-      else if(b.finisher) label += " · " + (i+1) + " of " + b.items.length;
+      else if(b.finisher && b.items.length > 1) label += " · " + (i+1) + " of " + b.items.length;
       steps.push({type:"ex", p:effP(d.key, bi, i, p0), base:p0, block:b, bi:bi, idx:i, label:label});
     });
   });
