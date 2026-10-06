@@ -67,6 +67,10 @@ h2{font-size:22px;margin:0;letter-spacing:-.3px}
 .goal .box{flex:0 0 26px;height:26px;border-radius:8px;border:2px solid #e3cfc5;display:grid;place-items:center;color:#fff;font-size:15px;font-weight:800;transition:all .15s}
 .goal.on .box{background:var(--good);border-color:var(--good)}
 .goal.on .gt{color:var(--muted);text-decoration:line-through}
+.meal{display:block;font-size:11px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.6px;margin-bottom:1px}
+.goal.on .meal{color:var(--muted)}
+.foodnote{font-size:13px;color:var(--ink);background:var(--bg);border-radius:12px;padding:9px 12px;margin-top:8px}
+.foodnote.small{font-size:12px;color:var(--muted)}
 /* workout */
 .progress{height:8px;background:#f3e3da;border-radius:99px;overflow:hidden;flex:1;margin:0 12px}
 .progress i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width .3s}
@@ -213,6 +217,14 @@ var GOALS = [
   {k:"water", t:"Drink water"}
 ];
 
+var FOOD = [
+  {k:"b", m:"Breakfast", t:"Greek yogurt with berries"},
+  {k:"s1", m:"Snack", t:"2 hard-boiled eggs"},
+  {k:"l", m:"Lunch", t:"Rotisserie chicken with a bagged salad kit"},
+  {k:"s2", m:"Snack", t:"String cheese and an apple"},
+  {k:"d", m:"Dinner", t:"Sheet-pan chicken or salmon with frozen veggies and potatoes (425°F, 25 min)"}
+];
+
 // ---- storage (safe) ----
 var mem = {};
 function load(k, d){ try{ var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return mem[k] !== undefined ? mem[k] : d; } }
@@ -309,6 +321,24 @@ function bindGoals(){
   });
 }
 
+// ---- food card ----
+function foodHtml(){
+  var f = load("mw_food_" + ymd(), {});
+  var n = FOOD.filter(function(x){ return f[x.k]; }).length;
+  return '<div class="goals food"><div class="h"><b>Today’s food</b><span>'+n+'/'+FOOD.length+' meals</span></div>' +
+    FOOD.map(function(x){ return '<button class="goal'+(f[x.k]?' on':'')+'" data-food="'+x.k+'"><span class="box">'+(f[x.k]?'✓':'')+'</span><span class="gt"><span class="meal">'+x.m+'</span>'+esc(x.t)+'</span></button>'; }).join("") +
+    '<div class="foodnote">💧 Drink water all day.</div><div class="foodnote small">🛒 Sunday prep: Buy a rotisserie chicken and boil a dozen eggs.</div></div>';
+}
+function bindFood(){
+  app.querySelectorAll("[data-food]").forEach(function(b){
+    b.onclick = function(){
+      var key = "mw_food_" + ymd(); var f = load(key, {}); f[b.dataset.food] = !f[b.dataset.food]; save(key, f);
+      var card = b.closest(".food"); var tmp = document.createElement("div"); tmp.innerHTML = foodHtml();
+      card.replaceWith(tmp.firstChild); bindFood();
+    };
+  });
+}
+
 // ---- HOME ----
 function renderHome(){
   var t = todayIdx();
@@ -325,8 +355,9 @@ function renderHome(){
       '<div class="dayname">'+d.day+(i===t?' <span class="badge">TODAY</span>':'')+(done?' <span class="badge good">DONE</span>':'')+'</div>' +
       '<div class="daytitle">'+d.title+'</div><div class="daytime">⏱ '+d.mins+' · '+d.focus+'</div></div><div class="chev">›</div></button>';
   });
-  html += '</div><div class="footer">Mon–Fri plan · tap a day to start</div>';
+  html += '</div><div style="height:14px"></div>' + foodHtml() + '<div class="footer">Mon–Fri plan · tap a day to start</div>';
   app.innerHTML = html;
+  bindFood();
   app.querySelectorAll("[data-day]").forEach(function(b){ b.onclick = function(){ go("#day=" + b.dataset.day); }; });
 }
 
@@ -349,12 +380,12 @@ function renderOverview(){
     });
     html += '</div>';
   });
-  html += goalsHtml();
+  html += goalsHtml() + foodHtml();
   html += '<div class="sticky"><button class="cta" id="start">Start workout ▶</button></div>';
   app.innerHTML = html;
   document.getElementById("home").onclick = function(){ go("#"); };
   document.getElementById("start").onclick = function(){ state.sets = {}; unlockAudio(); requestWake(); go("#day="+d.key+"&step=0"); };
-  bindGoals();
+  bindGoals(); bindFood();
 }
 
 // ---- STEP ----
