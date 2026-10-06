@@ -460,7 +460,7 @@ function renderHome(){
   var doneCount = DAYS.filter(function(d){ return doneThisWeek(d.key); }).length;
   var html = '<p class="sub" style="margin-top:6px">'+greet+', Mina</p><h1>Your week</h1>' +
     '<p class="sub">'+doneCount+' of 5 workouts done this week' + (t<0 ? ' · Weekend = rest or an easy walk 🌿' : '') + '</p>' +
-    '<div class="tip">💡 Leave 1–2 reps in the tank.</div>' + trackCardHtml() + '<div class="cards">';
+    '<div class="tip">💡 Leave 1–2 reps in the tank.</div>' + trackCardHtml() + goalsHtml() + '<div class="cards">';
   DAYS.forEach(function(d, i){
     var done = doneThisWeek(d.key);
     html += '<button class="daycard'+(i===t?' today':'')+(done?' done':'')+'" data-day="'+d.key+'">' +
@@ -471,6 +471,7 @@ function renderHome(){
   html += '</div><div style="height:14px"></div>' + foodHtml() + '<div class="footer">Mon–Fri plan · tap a day to start</div>';
   app.innerHTML = html;
   bindFood();
+  bindGoals();
   document.getElementById("track").onclick = function(){ go("#food"); };
   app.querySelectorAll("[data-day]").forEach(function(b){ b.onclick = function(){ go("#day=" + b.dataset.day); }; });
 }
