@@ -292,16 +292,16 @@ var EX = {
   hipThrust:{name:"Hip thrust", pic:"01", video:V("LM8XHLYJoYs"), icon:"🍑", cue:"Chin tucked, ribs down. Drive through heels and squeeze glutes hard at the top for 1 sec."},
   bss:{name:"Bulgarian split squat", pic:"02", video:V("hiLF_pF3EJM"), uni:"leg", icon:"🦵", cue:"Rear foot on bench. Lean slightly forward to bias glutes. Do all reps on one leg, then switch."},
   rdl:{name:"Romanian deadlift", pic:"03", video:V("_oyxCn2iSjU"), icon:"🏋️", cue:"Soft knees, push hips back, bar slides down thighs. Feel the hamstring stretch, then stand tall."},
-  kickback:{name:"Cable kickback", pic:"04", video:V("5jJNfIlKTmg"), uni:"side", icon:"🍑", cue:"Slight forward lean, kick back and up with control. Don't arch your lower back."},
+  kickback:{name:"Cable kickback", pic:"04", video:V("5jJNfIlKTmg"), uni:"side", cable:1, icon:"🍑", cue:"Slight forward lean, kick back and up with control. Don't arch your lower back."},
   lunge:{name:"Walking lunges", pic:"05", video:V("kRzcRkKy1ns"), uni:"leg", icon:"🚶‍♀️", cue:"Long steps, back knee lightly toward the floor, push through the front heel."},
   bridge:{name:"Glute bridge", pic:"06", video:V("wPM8icPu6H8"), icon:"🍑", cue:"Feet flat, press through heels, squeeze glutes. Keep ribs down — no back arching."},
   goblet:{name:"Goblet squat", pic:"07", video:V("nfX7IFK9UNI"), icon:"🏋️‍♀️", cue:"Hold the weight at your chest, sit between your hips, knees track over toes."},
   deadlift:{name:"Deadlift", pic:"08", video:V("VL5Ab0T07e4"), icon:"🏋️", cue:"Bar over mid-foot, brace your core, push the floor away. Keep the bar close."},
   bench:{name:"Bench press", pic:"09", video:V("vcBig73ojpE"), icon:"💪", cue:"Shoulder blades squeezed, feet planted, lower to mid-chest with control. A machine press works too."},
-  row:{name:"Seated cable row", pic:"10", video:V("sP_4vybjVJs"), icon:"💪", cue:"Tall chest, pull elbows back to your sides, squeeze shoulder blades together."},
+  row:{name:"Seated cable row", pic:"10", video:V("sP_4vybjVJs"), cable:1, icon:"💪", cue:"Tall chest, pull elbows back to your sides, squeeze shoulder blades together."},
   ohp:{name:"Overhead press", pic:"11", video:V("_RlRDWO2jfg"), icon:"💪", cue:"Squeeze glutes and brace. Press straight up, finish with biceps by ears."},
   pulldown:{name:"Lat pulldown", pic:"12", video:V("gFHQ5S6rPwo"), icon:"💪", cue:"Pull the bar to your upper chest, elbows down and back. Don't lean way back."},
-  facepull:{name:"Face pulls", pic:"13", video:V("ljgqer1ZpXg"), icon:"💪", cue:"Rope at face height. Pull toward your forehead, elbows high, squeeze upper back."},
+  facepull:{name:"Face pulls", pic:"13", video:V("ljgqer1ZpXg"), cable:1, icon:"💪", cue:"Rope at face height. Pull toward your forehead, elbows high, squeeze upper back."},
   farmer:{name:"Farmer carry", video:V("8OtwXwrJizk"), carry:1, icon:"🧺", cue:"Heavy dumbbells at your sides, stand tall, short quick steps. Breathe."},
   bandwalk:{name:"Banded lateral walks", video:V("pzQ2M_iY0D8"), bw:1, icon:"🎗️", cue:"Band around knees or ankles, slight squat, step sideways keeping tension."},
   abduction:{name:"Hip abduction machine", video:V("7HylKT7G-EA"), icon:"🦋", cue:"Machine or band. Push knees out slowly, pause, return with control."},
@@ -326,7 +326,7 @@ var EX2 = {
   splitSquat:{name:"Split squat", video:V("m8mQ_92_Ylg"), uni:"leg", icon:"🦵", cue:"Both feet on the floor in a long stance. Drop straight down, then push up through the front foot."},
   slRdl:{name:"Single-leg RDL", video:V("84hrdsHgDuQ"), uni:"leg", icon:"🏋️", cue:"Light dumbbell, soft standing knee. Hinge forward as the back leg lifts, hips square. Hold something for balance if needed."},
   goodMorning:{name:"Good morning", video:V("f23vXjoG2e8"), icon:"🏋️", cue:"Light bar on your upper back, soft knees. Push hips back with a flat back until you feel your hamstrings, then stand tall."},
-  pullThrough:{name:"Cable pull-through", video:V("DbSF7ipBh5Y"), icon:"🍑", cue:"Face away from a low cable, rope between your legs. Push hips back, then snap them forward and squeeze glutes."},
+  pullThrough:{name:"Cable pull-through", video:V("DbSF7ipBh5Y"), cable:1, icon:"🍑", cue:"Face away from a low cable, rope between your legs. Push hips back, then snap them forward and squeeze glutes."},
   donkeyKick:{name:"Donkey kicks", video:V("QreOl2tgC-8"), uni:"side", bw:1, icon:"🍑", cue:"On hands and knees, knee bent. Kick the heel up toward the ceiling without arching your low back."},
   legPress:{name:"Leg press", video:V("K5n2vg3oZa4"), icon:"🦵", cue:"Feet high and wide on the plate to hit your glutes. Lower until knees are near 90°, keep your low back and hips on the pad, push through your heels."},
   legExt:{name:"Leg extension", video:V("YyvSfVjQeL0"), icon:"🦵", cue:"Knee lined up with the machine's pivot, pad on your lower shin. Straighten your legs, squeeze 1 sec, lower slowly."},
@@ -334,6 +334,16 @@ var EX2 = {
   lyingLegCurl:{name:"Lying leg curl", video:V("5xR8tvg4-yM"), icon:"🦵", cue:"Lie face down, pad above your heels, hips pressed into the bench. Curl up, lower slowly."},
   ballCurl:{name:"Stability ball hamstring curl", video:V("XkESHgkTdFw"), bw:1, icon:"⚽", cue:"On your back, heels on the ball, hips lifted. Roll the ball in toward you, then out slowly. Keep hips up."},
   kickMachine:{name:"Glute kickback machine", video:V("WhtxQnm4254"), uni:"side", icon:"🍑", cue:"Chest on the pad, foot on the plate. Push back and up through your heel, squeeze your glute, don't arch your low back."},
+  machineRow:{name:"Seated row machine", video:V("TeFo51Q_Nsc"), icon:"💪", cue:"Chest against the pad, grab the handles. Pull elbows back past your sides, squeeze shoulder blades, return slowly."},
+  preacherCurl:{name:"Machine preacher curl", video:V("AR-oARBkYxI"), icon:"💪", cue:"Seat set so your armpits sit at the top of the pad. Curl up, squeeze, lower all the way slowly."},
+  dipMachine:{name:"Seated dip machine", video:V("Zg0tT27iYuY"), icon:"💪", cue:"Sit tall, elbows tucked by your sides. Press the handles down until arms are straight, come up slowly."},
+  tricepMachine:{name:"Tricep extension machine", video:V("bSp5GIsxwJU"), icon:"💪", cue:"Elbows on the pad lined up with the pivot. Straighten your arms, squeeze the back of your arms, return slowly."},
+  hammerCurl:{name:"Hammer curl", video:V("8XLxfXROrTo"), icon:"💪", cue:"Dumbbells at your sides, palms facing in. Curl up without swinging, elbows stay by your ribs."},
+  dbCurl:{name:"Dumbbell bicep curl", video:V("av7-8igSXTs"), icon:"💪", cue:"Palms forward, elbows by your sides. Curl up, squeeze, lower slowly. No swinging."},
+  cableCurl:{name:"Cable bicep curl", video:V("NFzTWp2qpiE"), cable:1, icon:"💪", cue:"Low cable with a bar. Elbows pinned to your sides, curl up, lower slowly."},
+  benchDip:{name:"Bench dips", video:V("0326dy_-CzM"), bw:1, icon:"🙌", cue:"Hands on a bench behind you, knees bent. Lower until elbows are about 90°, press up. Stop if your shoulders feel pinchy."},
+  ropePushdown:{name:"Rope pushdown", video:V("vB5OHsJ3EME"), cable:1, icon:"💪", cue:"High cable with a rope. Elbows by your sides, push down and spread the rope at the bottom."},
+  dbOverheadExt:{name:"Overhead dumbbell tricep extension", video:V("-Vyt2QdsR7E"), icon:"💪", cue:"Hold one dumbbell overhead with both hands. Lower it behind your head, elbows pointing up, then straighten."},
   hackSquat:{name:"Hack squat", video:V("0tn5K9NlCfo"), icon:"🏋️‍♀️", cue:"Back flat on the pad, feet shoulder-width in the middle of the plate. Lower until thighs are about parallel, push up through your heels. Start light."},
   sumoSquat:{name:"Dumbbell sumo squat", video:V("2zL-1TYsN_A"), icon:"🏋️‍♀️", cue:"Wide stance, toes out, one dumbbell hanging between your legs. Sit straight down, knees follow toes."},
   trapBar:{name:"Trap bar deadlift", video:V("TU2xZ7s4jus"), icon:"🏋️", cue:"Stand in the middle of the bar, grab the handles, brace and push the floor away. Stand tall, then lower with control."},
@@ -341,17 +351,17 @@ var EX2 = {
   dbBench:{name:"Dumbbell bench press", video:V("VmB1G1K7v94"), icon:"💪", cue:"Shoulder blades squeezed, lower the dumbbells to chest level, press up and slightly in."},
   machineChest:{name:"Machine chest press", video:V("sqNwDkUU_Ps"), icon:"💪", cue:"Handles at mid-chest height. Press out without locking elbows hard, return slowly."},
   chestRow:{name:"Chest-supported row", video:V("H75im9fAUMc"), icon:"💪", cue:"Chest on an incline bench, dumbbells hanging. Pull elbows back toward your hips and squeeze."},
-  saCableRow:{name:"Single-arm cable row", video:V("_z5NMUxkxxw"), uni:"side", icon:"💪", cue:"Cable at chest height. Pull your elbow back past your side, don't twist your body."},
+  saCableRow:{name:"Single-arm cable row", video:V("_z5NMUxkxxw"), uni:"side", cable:1, icon:"💪", cue:"Cable at chest height. Pull your elbow back past your side, don't twist your body."},
   dbShoulderPress:{name:"Seated dumbbell shoulder press", video:V("qEwKCR5JCog"), icon:"💪", cue:"Sit tall with your back on the bench. Press up from shoulder height, don't arch your low back."},
   machineShoulder:{name:"Machine shoulder press", video:V("TnhIyp4kmO8"), icon:"💪", cue:"Seat set so handles start at shoulder height. Press up, lower slowly."},
-  saPulldown:{name:"Single-arm cable pulldown", video:V("XbZgoSNJXm4"), uni:"side", icon:"💪", cue:"Half-kneel under a high cable. Pull your elbow down to your side, feel your lat, return slowly."},
+  saPulldown:{name:"Single-arm cable pulldown", video:V("XbZgoSNJXm4"), uni:"side", cable:1, icon:"💪", cue:"Half-kneel under a high cable. Pull your elbow down to your side, feel your lat, return slowly."},
   reversePecDeck:{name:"Reverse pec deck", video:V("JL8nHvZcAK8"), icon:"💪", cue:"Face the pad, arms out front. Open your arms wide with a slight elbow bend, squeeze upper back."},
   bandPullApart:{name:"Band pull-aparts", video:V("stwYTTPXubo"), bw:1, icon:"🎗️", cue:"Band at shoulder height, arms straight. Pull it apart to your chest, squeeze shoulder blades."},
   suitcaseCarry:{name:"Suitcase carry", video:V("y-hn_Ha1-RE"), carry:1, icon:"🧳", cue:"One heavy dumbbell in one hand. Walk tall without leaning. Switch hands halfway."},
   trapCarry:{name:"Trap bar carry", video:V("CQBECWpvbsg"), carry:1, icon:"🧺", cue:"Stand inside a loaded trap bar, deadlift it up, walk with short steps and a tall chest."},
-  cableAbduction:{name:"Cable hip abduction", video:V("pvnR8CDb4BU"), uni:"side", icon:"🦋", cue:"Ankle strap on the outside leg. Sweep the leg out to the side slowly, no leaning."},
+  cableAbduction:{name:"Cable hip abduction", video:V("pvnR8CDb4BU"), uni:"side", cable:1, icon:"🦋", cue:"Ankle strap on the outside leg. Sweep the leg out to the side slowly, no leaning."},
   clamshell:{name:"Banded clamshells", video:V("m_ZPapmqeNM"), uni:"side", bw:1, icon:"🐚", cue:"Lie on your side, band above knees, heels together. Open the top knee without rolling back."},
-  cableLateral:{name:"Cable lateral raise", video:V("Z5FA9aq3L6A"), uni:"side", icon:"🙆‍♀️", cue:"Low cable, handle in the far hand. Raise out to shoulder height, lower slowly."},
+  cableLateral:{name:"Cable lateral raise", video:V("Z5FA9aq3L6A"), uni:"side", cable:1, icon:"🙆‍♀️", cue:"Low cable, handle in the far hand. Raise out to shoulder height, lower slowly."},
   machineLateral:{name:"Lateral raise machine", video:V("NNAs8jx_zJI"), icon:"🙆‍♀️", cue:"Pads on the outside of your arms. Raise to shoulder height, pause, lower with control."},
   sidePlank:{name:"Side plank", video:V("XeN4pEZZJNI"), uni:"side", bw:1, icon:"🧘‍♀️", cue:"Elbow under shoulder, hips lifted in a straight line. Drop the bottom knee to make it easier."},
   bearHold:{name:"Bear plank hold", video:V("XqH46t5TD98"), bw:1, icon:"🐻", cue:"Hands and knees, then lift knees an inch off the floor. Flat back, breathe, belly gently in."},
@@ -369,6 +379,15 @@ var SWAPS = {
   legCurl:["lyingLegCurl","ballCurl","slRdl"],
   kickMachine:["kickback","donkeyKick","slGluteBridge"],
   hackSquat:["legPress","goblet","sumoSquat"],
+  machineChest:["bench","dbBench","pushup"],
+  machineRow:["chestRow","sarow","row"],
+  machineShoulder:["dbShoulderPress","ohp"],
+  preacherCurl:["dbCurl","hammerCurl","cableCurl"],
+  hammerCurl:["preacherCurl","dbCurl","cableCurl"],
+  dipMachine:["tricepMachine","benchDip","ropePushdown"],
+  tricepMachine:["dipMachine","dbOverheadExt","ropePushdown"],
+  reversePecDeck:["bandPullApart","facepull"],
+  machineLateral:["lateral","cableLateral"],
   legPress:["hackSquat","goblet","sumoSquat"],
   lunge:["reverseLunge","stepUp","splitSquat"],
   bridge:["hipThrust","smithHipThrust","slGluteBridge"],
@@ -382,14 +401,21 @@ var SWAPS = {
   farmer:["suitcaseCarry","trapCarry"],
   abduction:["cableAbduction","bandwalk","clamshell"],
   incline:["dbBench","machineChest","inclinePushup"],
-  sarow:["saCableRow","chestRow","row"],
+  sarow:["machineRow","chestRow","saCableRow"],
   lateral:["cableLateral","machineLateral"],
   pullup:["pulldown","saPulldown"],
   plank:["bearHold","sidePlank"],
   deadbug:["birdDog","toeTap"],
   pushup:["inclinePushup","machineChest","dbBench"]
 };
-function swapKey(dk, bi, ii){ return dk + ":" + bi + ":" + ii; }
+// cable moves are only offered as the last (optional) swap choices
+Object.keys(SWAPS).forEach(function(k){ var a = SWAPS[k]; SWAPS[k] = a.filter(function(x){ return !EX[x].cable; }).concat(a.filter(function(x){ return EX[x].cable; })); });
+// saved swaps are keyed by day + original exercise (+ which time it appears that day), so moving blocks never mixes them up
+function swapKey(dk, bi, ii){
+  var d = DAYS.find(function(x){ return x.key === dk; }), ex = d.blocks[bi].items[ii].ex, occ = 0;
+  d.blocks.forEach(function(b, j){ b.items.forEach(function(it, k){ if(it.ex === ex && (j < bi || (j === bi && k < ii))) occ++; }); });
+  return dk + "|" + ex + "|" + occ;
+}
 // prescription with her swap applied (same sets/reps/rest; "each side" follows the new move)
 function effP(dk, bi, ii, p){
   var alt = (load("mw_swaps", {}) || {})[swapKey(dk, bi, ii)];
@@ -409,16 +435,17 @@ var DAYS = [
    {label:"Block 1", rest:90, items:[P("hipThrust",4,{reps:10})]},
    {label:"Block 2", rest:75, items:[P("bss",3,{reps:8,each:"leg"})]},
    {label:"Block 3", rest:60, superset:true, items:[P("legExt",3,{reps:12}), P("legCurl",3,{reps:12})]},
-   {label:"Block 4", rest:60, superset:true, items:[P("rdl",3,{reps:10}), P("kickback",3,{reps:12,each:"side"})]},
+   {label:"Block 4", rest:60, superset:true, items:[P("rdl",3,{reps:10}), P("kickMachine",3,{reps:12,each:"side"})]},
    {label:"Finisher", rest:30, finisher:true, items:[P("abduction",2,{reps:20}), P("bridge",2,{hold:30,variant:"hold"})]}
   ]},
- {key:"tue", short:"Tue", day:"Tuesday", title:"Upper Push/Pull", mins:"40–45 min", focus:"Chest · Back · Shoulders",
+ {key:"tue", short:"Tue", day:"Tuesday", title:"Upper Push/Pull", mins:"40–45 min", focus:"Chest · Back · Arms",
   warmup:{text:"Arm circles (forward & back), then 15 light band pull-aparts."},
   blocks:[
-   {label:"Block 1", rest:90, items:[P("bench",4,{reps:8})]},
-   {label:"Block 2", rest:75, items:[P("row",4,{reps:8})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("ohp",3,{reps:10}), P("pulldown",3,{reps:10})]},
-   {label:"Finisher", rest:45, finisher:true, items:[P("facepull",2,{reps:15}), P("farmer",2,{hold:40,holdWord:"carry"})]}
+   {label:"Block 1", rest:75, items:[P("machineChest",4,{reps:10})]},
+   {label:"Block 2", rest:75, items:[P("machineRow",4,{reps:10})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("machineShoulder",3,{reps:12}), P("pulldown",3,{reps:12})]},
+   {label:"Block 4", rest:45, superset:true, items:[P("preacherCurl",3,{reps:12}), P("dipMachine",3,{reps:12})]},
+   {label:"Finisher", rest:45, finisher:true, items:[P("reversePecDeck",2,{reps:15}), P("farmer",2,{hold:40,holdWord:"carry"})]}
   ]},
  {key:"wed", short:"Wed", day:"Wednesday", title:"Glute Hypertrophy", mins:"40–45 min", focus:"Glutes",
   warmup:{text:"Banded lateral walks — 20 steps each way.", ex:"bandwalk"},
@@ -429,20 +456,21 @@ var DAYS = [
    {label:"Block 4", rest:60, items:[P("lunge",2,{reps:12,each:"leg"})]},
    {label:"Finisher", rest:30, finisher:true, items:[P("legExt",2,{reps:15}), P("bridge",2,{reps:20,variant:"pulses"})]}
   ]},
- {key:"thu", short:"Thu", day:"Thursday", title:"Upper + Core", mins:"40 min", focus:"Arms · Back · Core",
+ {key:"thu", short:"Thu", day:"Thursday", title:"Upper + Core", mins:"40–45 min", focus:"Arms · Back · Core",
   warmup:{text:"Light rowing (machine or band) for 3 min + 10 slow shoulder-blade squeezes."},
   blocks:[
    {label:"Block 1", rest:75, items:[P("incline",3,{reps:10})]},
    {label:"Block 2", rest:60, items:[P("sarow",3,{reps:10,each:"side"})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("lateral",3,{reps:12}), P("pullup",3,{reps:8})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("plank",3,{hold:30}), P("deadbug",2,{reps:8,each:"side"})]}
+   {label:"Block 3", rest:60, superset:true, items:[P("machineLateral",3,{reps:12}), P("pullup",3,{reps:10})]},
+   {label:"Block 4", rest:45, superset:true, items:[P("hammerCurl",3,{reps:12}), P("tricepMachine",3,{reps:12})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("plank",3,{hold:30}), P("deadbug",3,{reps:8,each:"side"})]}
   ]},
  {key:"fri", short:"Fri", day:"Friday", title:"Full Body", mins:"40–45 min", focus:"Total body",
   warmup:{text:"5 min easy cardio + hip hinge practice (hands on hips, push hips back ×10).", mins:5},
   blocks:[
    {label:"Block 1", rest:120, items:[P("deadlift",3,{reps:6})]},
    {label:"Block 2", rest:75, superset:true, items:[P("hackSquat",3,{reps:10}), P("pushup",3,{reps:10})]},
-   {label:"Block 3", rest:60, items:[P("row",3,{reps:10})]},
+   {label:"Block 3", rest:60, items:[P("machineRow",3,{reps:10})]},
    {label:"Finisher", rest:30, finisher:true, items:[P("bridge",2,{hold:40,variant:"hold"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
   ]}
 ];
@@ -1323,6 +1351,23 @@ function refreshAfterBody(){
   if(!location.hash || location.hash === "#"){ renderHome(); window.scrollTo(0, y); }
   openBodyWeight();
 }
+
+// one-time move of old position-based swap keys ("tue:2:1") to exercise-based keys ("tue|pulldown|0")
+(function migrateSwaps(){
+  var sw = load("mw_swaps", null); if(!sw || typeof sw !== "object" || sw._v === 2) return;
+  var OLD = {tue:[["bench"],["row"],["ohp","pulldown"],["facepull","farmer"]], thu:[["incline"],["sarow"],["lateral","pullup"],["plank","deadbug"]],
+             mon:[["hipThrust"],["bss"],["legExt","legCurl"],["rdl","kickback"],["abduction","bridge"]]};
+  var out = {_v: 2};
+  Object.keys(sw).forEach(function(k){
+    var m = /^(\w+):(\d+):(\d+)$/.exec(k);
+    if(!m){ if(k.indexOf("|") > 0) out[k] = sw[k]; return; }
+    var dk = m[1], bi = +m[2], ii = +m[3], ex = null;
+    if(OLD[dk]) ex = (OLD[dk][bi] || [])[ii];
+    else { var d = DAYS.find(function(x){ return x.key === dk; }); var it = d && d.blocks[bi] && d.blocks[bi].items[ii]; ex = it && it.ex; }
+    if(ex && (SWAPS[ex] || []).indexOf(sw[k]) >= 0) out[dk + "|" + ex + "|0"] = sw[k];
+  });
+  save("mw_swaps", out);
+})();
 
 render();
 </script>
