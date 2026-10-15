@@ -125,6 +125,46 @@ h2{font-size:22px;margin:0;letter-spacing:-.3px}
 .weekstrip span{width:44px;height:44px;border-radius:12px;background:#f3e3da;display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--muted)}
 .weekstrip span.on{background:var(--good);color:#fff}
 .footer{font-size:12px;color:var(--muted);text-align:center;margin-top:18px}
+/* calories + plate */
+.pbar.thin{height:7px;margin-top:6px}
+.kbar i{background:linear-gradient(90deg,#6aa9d8,#4f8fc4)}
+.kbar.over i{background:#e0a23b}
+.fsum .kbar{background:rgba(255,255,255,.3);height:10px;margin:6px 0 8px}
+.fsum .kbar i{background:rgba(255,255,255,.85)}
+.fsum .kbar.over i{background:#ffe08a}
+.kline{margin-top:12px;font-size:16px;font-weight:600}
+.kline b{font-size:26px;font-weight:800}
+.kline .k2{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;opacity:.9}
+.gprog{background:var(--bg);border-radius:14px;padding:8px 12px 10px;margin:6px 0 4px}
+.gprog .gl{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
+.gprog .gl b{color:var(--ink)}
+.hist .hv small{display:block;font-size:11px;color:var(--muted);font-weight:700}
+.hist .hv{flex:0 0 70px}
+.eimg{flex:0 0 44px;width:44px;height:44px;border-radius:10px;object-fit:cover}
+.esttag{font-size:10px;font-weight:800;color:#8a5a00;background:#fff1cf;border-radius:6px;padding:1px 6px;vertical-align:1px}
+.photorow{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+.photobtn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:64px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);font-weight:800;font-size:16px;cursor:pointer}
+.photobtn input{display:none}
+.plthumb{flex:0 0 64px;width:64px;height:64px;border-radius:14px;object-fit:cover;box-shadow:var(--shadow);display:none}
+.field textarea{width:100%;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:#fff;font:inherit;font-size:17px;color:var(--ink);resize:vertical;min-height:64px}
+.field textarea:focus{outline:none;border-color:var(--accent2)}
+.pli{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:14px;padding:10px 10px 10px 12px;box-shadow:var(--shadow);margin-bottom:8px}
+.pli .pm{flex:1;min-width:0}
+.pli .pn{font-weight:700;font-size:15px;line-height:1.2}
+.pli .pd{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
+.step{display:flex;align-items:center;gap:4px}
+.step button{width:36px;height:40px;border-radius:10px;background:var(--accent-soft);color:#a8432b;font-weight:800;font-size:18px}
+.step span{min-width:30px;text-align:center;font-weight:800;font-size:15px}
+.pli .x{width:34px;height:40px;border-radius:10px;color:#b04a3a;font-weight:800}
+.fres{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}
+.fres button{padding:10px 12px;border-radius:12px;background:var(--card);box-shadow:var(--shadow);font-weight:700;font-size:14px}
+.handguide{font-size:12px;color:var(--muted);background:var(--card);border-radius:12px;padding:8px 10px;margin-bottom:12px;line-height:1.5}
+.ptot{background:#2b1d18;color:#fff;border-radius:16px;padding:12px 14px;text-align:center;margin-bottom:12px}
+.ptot b{font-size:22px}
+.ptot small{display:block;font-size:12px;opacity:.75;margin-top:2px}
+.aibox{background:var(--bg);border-radius:14px;padding:12px;margin-top:4px}
+.toggle{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;margin-bottom:10px}
+.toggle input{width:22px;height:22px;accent-color:var(--accent)}
 /* swap */
 .exhead{display:flex;align-items:center;gap:10px}
 .exhead .exname{flex:1;min-width:0}
@@ -574,7 +614,10 @@ function render(){
 function goalsHtml(){
   var g = load("mw_goals_" + ymd(), {});
   var n = GOALS.filter(function(x){ return g[x.k]; }).length;
-  return '<div class="goals"><div class="h"><b>Daily goals</b><span>'+n+'/'+GOALS.length+' today</span></div>' +
+  var fs = fset(), ft = totals(getLog());
+  var prog = '<div class="gprog"><div class="gl"><span>Protein</span><b>'+Math.round(ft.p)+' / '+fs.p+' g</b></div><div class="pbar thin'+(ft.p >= fs.p ? ' full' : '')+'"><i style="width:'+Math.min(100, ft.p / fs.p * 100)+'%"></i></div>' +
+    (fs.k ? '<div class="gl"><span>Calories</span><b>'+Math.round(ft.k)+' / '+fs.k+'</b></div>'+kcalBar(ft, fs, 'thin') : '') + '</div>';
+  return '<div class="goals"><div class="h"><b>Daily goals</b><span>'+n+'/'+GOALS.length+' today</span></div>' + prog +
     GOALS.map(function(x){ return '<button class="goal'+(g[x.k]?' on':'')+'" data-goal="'+x.k+'"><span class="box">'+(g[x.k]?'✓':'')+'</span><span class="gt">'+esc(x.t)+'</span></button>'; }).join("") + '</div>';
 }
 function bindGoals(){
@@ -838,16 +881,28 @@ var QUICK = [
   {name:"Bagged salad kit", p:3, k:150, i:"🥗"},
   {name:"Potatoes (1 cup)", p:3, k:130, i:"🥔"}
 ];
-function fset(){ var s = load("mw_food_settings", {}) || {}; return {p: +s.p > 0 ? +s.p : 100, k: +s.k > 0 ? +s.k : null}; }
+// Default calorie goal 1600: ~116 lb active woman, BMR ~1,200 (Mifflin, est. 5'3", early 30s) x ~1.55 activity = ~1,850/day;
+// a gentle ~15% deficit keeps muscle while getting leaner. (Breastfeeding: add ~300-400.) She can turn it off (kOff).
+var KCAL_DEFAULT = 1600;
+function fset(){ var s = load("mw_food_settings", {}) || {}; return {p: +s.p > 0 ? +s.p : 100, k: +s.k > 0 ? +s.k : (s.kOff ? null : KCAL_DEFAULT)}; }
+function kcalBar(t, s, cls){
+  if(!s.k) return '';
+  var over = t.k > s.k;
+  return '<div class="pbar kbar'+(over ? ' over' : '')+(cls ? ' '+cls : '')+'"><i style="width:'+Math.min(100, t.k / s.k * 100)+'%"></i></div>';
+}
+function kcalLeft(t, s){ if(!s.k) return Math.round(t.k)+' kcal'; var d = Math.round(s.k - t.k); return Math.round(t.k)+' / '+s.k+' kcal · '+(d >= 0 ? d+' left' : Math.abs(d)+' over'); }
 function logKey(d){ return "mw_log_" + (d || ymd()); }
 function getLog(d){ var l = load(logKey(d), []); return Array.isArray(l) ? l : []; }
 function totals(l){ return l.reduce(function(a, e){ a.p += +e.p || 0; a.k += +e.k || 0; return a; }, {p:0, k:0}); }
 function r1(x){ x = +x; return isFinite(x) ? Math.round(x*10)/10 : 0; }
 function num(x){ if(x === null || x === undefined || x === "") return null; x = parseFloat(x); return isFinite(x) ? x : null; }
-function addEntry(name, p, k, src){
+function addEntry(name, p, k, src, extra){
   var l = getLog();
   var e = {id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), t: Date.now(), name: String(name).slice(0,80), p: Math.max(0, r1(p)), k: Math.max(0, Math.round(+k || 0)), src: src || "quick"};
-  l.push(e); save(logKey(), l); return e;
+  if(extra){ if(extra.est) e.est = 1; if(extra.img) e.img = extra.img; }
+  l.push(e);
+  if(e.img){ try{ localStorage.setItem(logKey(), JSON.stringify(l)); mem[logKey()] = l; return e; }catch(err){ delete e.img; } } // phone storage full: keep entry, drop photo
+  save(logKey(), l); return e;
 }
 function removeEntry(id){ var l = getLog(); var i = l.findIndex(function(e){ return e.id === id; }); if(i < 0) return null; var e = l.splice(i,1)[0]; save(logKey(), l); return e; }
 function addRecent(name, p, k){
@@ -859,7 +914,7 @@ function protLine(t, s){ return '<b>'+Math.round(t.p)+' / '+s.p+' g</b> protein 
 function trackCardHtml(){
   var s = fset(), t = totals(getLog()), pct = Math.min(100, t.p / s.p * 100);
   return '<button class="track" id="track"><div class="trackic">🍽️</div><div class="trackm"><div class="trackt">Track food</div>' +
-    '<div class="trackv">'+protLine(t, s)+'</div><div class="pbar'+(t.p >= s.p ? ' full' : '')+'"><i style="width:'+pct+'%"></i></div></div><div class="chev">›</div></button>';
+    '<div class="trackv">'+protLine(t, s)+'</div><div class="pbar'+(t.p >= s.p ? ' full' : '')+'"><i style="width:'+pct+'%"></i></div>'+kcalBar(t, s, 'thin')+'</div><div class="chev">›</div></button>';
 }
 
 // ---- toast ----
@@ -899,8 +954,10 @@ function renderFoodLog(){
   var recent = load("mw_recent", []) || [];
   var html = '<div class="topbar"><button class="iconbtn" id="home" aria-label="Back">‹</button><div class="ftitle">Food log</div><div style="width:44px"></div></div>';
   html += '<div class="fsum"><div class="k">Today’s protein</div><div class="big"><b>'+Math.round(t.p)+'</b> / '+s.p+' g</div>' +
-    '<div class="pbar"><i style="width:'+pct+'%"></i></div><div class="fsub">'+(left > 0 ? Math.ceil(left)+' g to go' : 'Goal reached! 🎉')+' · '+Math.round(t.k)+(s.k ? ' / '+s.k : '')+' kcal</div></div>';
-  html += '<div class="btns2"><button class="cta" id="scan">📷 Scan barcode</button><button class="cta ghost small" id="typecode">⌨️ Type barcode number</button></div>';
+    '<div class="pbar"><i style="width:'+pct+'%"></i></div><div class="fsub">'+(left > 0 ? Math.ceil(left)+' g to go' : 'Protein goal reached! 🎉')+'</div>' +
+    '<div class="kline"><span class="k2">Calories</span><b>'+Math.round(t.k)+'</b>'+(s.k ? ' / '+s.k+' kcal' : ' kcal')+'</div>' +
+    (s.k ? kcalBar(t, s) + '<div class="fsub">'+(t.k <= s.k ? Math.round(s.k - t.k)+' kcal left' : Math.round(t.k - s.k)+' kcal over, no stress, tomorrow is new')+'</div>' : '') + '</div>';
+  html += '<div class="btns2"><button class="cta" id="plate">📸 Snap / describe my plate</button><div class="two"><button class="cta ghost small" id="scan">📷 Scan barcode</button><button class="cta ghost small" id="typecode">⌨️ Type barcode</button></div></div>';
   if(recent.length){
     html += '<div class="section"><div class="h"><b>Recent</b><button class="linkbtn" id="editRecent">'+(foodEdit ? 'Done' : 'Edit')+'</button></div><div class="qgrid">' +
       recent.map(function(f, i){ return '<button class="qbtn" data-recent="'+i+'">'+(foodEdit ? '<span class="qx">✕</span>' : '')+'<span class="qi">⭐</span><span class="qn">'+esc(f.name)+'</span><span class="qd">'+r1(f.p)+' g · '+f.k+' kcal</span></button>'; }).join("") + '</div></div>';
@@ -910,34 +967,37 @@ function renderFoodLog(){
     '</div></div>';
   html += '<button class="cta ghost small" id="custom" style="margin-bottom:12px">＋ Add custom food</button>';
   html += '<div class="section"><div class="h"><b>Today’s log</b><span>'+l.length+' item'+(l.length === 1 ? '' : 's')+'</span></div>';
-  if(!l.length) html += '<div class="empty">Nothing yet. Scan a barcode or tap a food above.</div>';
+  if(!l.length) html += '<div class="empty">Nothing yet. Snap your plate, scan a barcode or tap a food above.</div>';
   else {
     l.slice().sort(function(a, b){ return a.t - b.t; }).forEach(function(e){
       var tm = new Date(e.t).toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
-      html += '<div class="ent"><div class="et">'+esc(tm)+'</div><div class="em"><div class="en">'+esc(e.name)+'</div><div class="ed"><b>'+r1(e.p)+' g protein</b> · '+e.k+' kcal</div></div><button class="del" data-del="'+esc(e.id)+'" aria-label="Delete">✕</button></div>';
+      html += '<div class="ent"><div class="et">'+esc(tm)+'</div>'+(e.img && /^data:image\//.test(e.img) ? '<img class="eimg" src="'+e.img+'" alt="">' : '')+'<div class="em"><div class="en">'+esc(e.name)+'</div><div class="ed"><b>'+r1(e.p)+' g protein</b> · '+(e.est ? '≈' : '')+e.k+' kcal'+(e.est ? ' <span class="esttag">rough estimate</span>' : '')+'</div></div><button class="del" data-del="'+esc(e.id)+'" aria-label="Delete">✕</button></div>';
     });
     html += '<div class="ftot"><span>Total</span><span>'+r1(t.p)+' g protein · '+Math.round(t.k)+' kcal</span></div>';
   }
   html += '</div>';
   // 7-day history
-  html += '<div class="section" style="padding-bottom:12px"><div class="h"><b>Last 7 days</b><span>Goal '+s.p+' g</span></div>';
+  html += '<div class="section" style="padding-bottom:12px"><div class="h"><b>Last 7 days</b><span>Goal '+s.p+' g'+(s.k ? ' · '+s.k+' kcal' : '')+'</span></div>';
   for(var i = 0; i < 7; i++){
     var d = new Date(); d.setHours(12,0,0,0); d.setDate(d.getDate() - i);
     var tt = totals(getLog(ymd(d)));
     var lab = i === 0 ? "Today" : d.toLocaleDateString([], {weekday:"short"}) + " " + d.getDate();
-    html += '<div class="hist"><div class="hd'+(i === 0 ? ' today' : '')+'">'+esc(lab)+'</div><div class="pbar'+(tt.p >= s.p ? ' full' : '')+'"><i style="width:'+Math.min(100, tt.p / s.p * 100)+'%"></i></div><div class="hv">'+Math.round(tt.p)+' g'+(tt.p >= s.p ? ' ✓' : '')+'</div></div>';
+    html += '<div class="hist"><div class="hd'+(i === 0 ? ' today' : '')+'">'+esc(lab)+'</div><div class="pbar'+(tt.p >= s.p ? ' full' : '')+'"><i style="width:'+Math.min(100, tt.p / s.p * 100)+'%"></i></div><div class="hv">'+Math.round(tt.p)+' g'+(tt.p >= s.p ? ' ✓' : '')+'<small>'+Math.round(tt.k)+' kcal</small></div></div>';
   }
   html += '</div>';
   // settings
   html += '<div class="section" style="padding-bottom:16px"><div class="h"><b>My goals</b><span id="savedMsg"></span></div>' +
     '<div class="two"><label class="field"><span>Protein goal (g)</span><input id="setP" type="number" inputmode="numeric" min="1" value="'+s.p+'"></label>' +
-    '<label class="field"><span>Calorie goal (optional)</span><input id="setK" type="number" inputmode="numeric" min="0" placeholder="None" value="'+(s.k || '')+'"></label></div>' +
-    '<button class="cta ghost small" id="saveSet">Save goals</button></div>';
+    '<label class="field"><span>Calorie goal (kcal)</span><input id="setK" type="number" inputmode="numeric" min="0" placeholder="Off" value="'+(s.k || '')+'"></label></div>' +
+    '<p class="sub" style="font-size:13px;margin:-4px 0 12px">Suggested '+KCAL_DEFAULT+' kcal: a gentle deficit to get leaner while keeping muscle. Breastfeeding? Add about 300–400. Leave blank to turn calories off.</p>' +
+    '<button class="cta ghost small" id="saveSet">Save goals</button></div>' + aiSettingsHtml();
   html += '<div class="footer">Food info from Open Food Facts · numbers are estimates</div>';
   app.innerHTML = html;
 
   $m("home").onclick = function(){ go("#"); };
   $m("scan").onclick = startScan;
+  $m("plate").onclick = function(){ openPlate(); };
+  bindAiSettings();
   $m("typecode").onclick = function(){ typeCode(); };
   $m("custom").onclick = function(){ manualForm({title:"Add custom food"}); };
   app.querySelectorAll("[data-quick]").forEach(function(b){ b.onclick = function(){ var f = QUICK[+b.dataset.quick]; quickAdd(f.name, f.p, f.k, "quick"); }; });
@@ -953,7 +1013,7 @@ function renderFoodLog(){
   }; });
   $m("saveSet").onclick = function(){
     var p = num($m("setP").value), k = num($m("setK").value);
-    save("mw_food_settings", {p: p && p > 0 ? Math.round(p) : 100, k: k && k > 0 ? Math.round(k) : null});
+    save("mw_food_settings", {p: p && p > 0 ? Math.round(p) : 100, k: k && k > 0 ? Math.round(k) : null, kOff: !(k && k > 0)});
     renderFoodLog(); var m = $m("savedMsg"); if(m){ m.innerHTML = '<span class="saved">Saved ✓</span>'; }
   };
 }
@@ -1350,6 +1410,215 @@ function refreshAfterBody(){
   var y = window.scrollY; closeModal();
   if(!location.hash || location.hash === "#"){ renderHome(); window.scrollTo(0, y); }
   openBodyWeight();
+}
+// =================== PLATE ESTIMATE (snap + describe) ===================
+// Hand portions: palm ≈ 4 oz cooked meat/fish, fist ≈ 1 cup, cupped hand ≈ 1/2 cup, thumb ≈ 1 tbsp. Values are rough averages.
+var UNITS = {palm:"🤚 palm", cup:"🤲 cupped hand", fist:"✊ fist", thumb:"👍 thumb", slice:"slice", piece:"piece", egg:"egg", serving:"serving", glass:"glass", handful:"handful"};
+var FOODDB = [
+  // protein (per palm, cooked)
+  {n:"Chicken breast", u:"palm", k:185, p:35, w:["chicken breast","grilled chicken","chicken","rotisserie"]},
+  {n:"Chicken thigh", u:"palm", k:230, p:28, w:["chicken thigh","thigh"]},
+  {n:"Steak / beef", u:"palm", k:250, p:30, w:["steak","beef","sirloin","brisket"]},
+  {n:"Ground beef", u:"palm", k:280, p:28, w:["ground beef","hamburger meat","meatball","meatballs","taco meat"]},
+  {n:"Ground turkey / turkey", u:"palm", k:180, p:30, w:["turkey","ground turkey"]},
+  {n:"Pork", u:"palm", k:220, p:30, w:["pork","pork chop","ham","carnitas"]},
+  {n:"Salmon", u:"palm", k:230, p:25, w:["salmon"]},
+  {n:"White fish", u:"palm", k:120, p:26, w:["fish","tilapia","cod","tuna steak","halibut"]},
+  {n:"Shrimp", u:"palm", k:120, p:24, w:["shrimp","prawns"]},
+  {n:"Tofu", u:"palm", k:100, p:11, w:["tofu"]},
+  {n:"Eggs", u:"egg", k:72, p:6, w:["eggs","egg","omelet","omelette","scrambled"]},
+  {n:"Bacon (2 strips)", u:"serving", k:90, p:6, w:["bacon"]},
+  // carbs (per cupped hand ≈ 1/2 cup cooked)
+  {n:"White rice", u:"cup", k:105, p:2, w:["white rice","rice","fried rice"]},
+  {n:"Brown rice / quinoa", u:"cup", k:110, p:3, w:["brown rice","quinoa"]},
+  {n:"Pasta / noodles", u:"cup", k:110, p:4, w:["pasta","spaghetti","noodles","macaroni","penne","ramen"]},
+  {n:"Potatoes", u:"cup", k:70, p:2, w:["potato","potatoes","mashed","roasted potatoes"]},
+  {n:"Sweet potato", u:"cup", k:90, p:2, w:["sweet potato","yam"]},
+  {n:"French fries", u:"fist", k:230, p:3, w:["fries","french fries","chips"]},
+  {n:"Beans / lentils", u:"cup", k:115, p:8, w:["beans","black beans","lentils","chickpeas","refried"]},
+  {n:"Bread / toast", u:"slice", k:80, p:3, w:["bread","toast","bun","roll"]},
+  {n:"Tortilla", u:"piece", k:140, p:4, w:["tortilla","wrap"]},
+  {n:"Oatmeal", u:"cup", k:80, p:3, w:["oatmeal","oats","porridge"]},
+  // veggies & fruit (per fist ≈ 1 cup)
+  {n:"Salad greens", u:"fist", k:10, p:1, w:["salad","lettuce","greens","spinach","arugula"]},
+  {n:"Cooked veggies", u:"fist", k:60, p:3, w:["veggies","vegetables","broccoli","green beans","carrots","zucchini","asparagus","peppers"]},
+  {n:"Corn", u:"cup", k:70, p:2, w:["corn"]},
+  {n:"Fruit", u:"piece", k:80, p:1, w:["fruit","apple","banana","orange","pear"]},
+  {n:"Berries", u:"fist", k:70, p:1, w:["berries","strawberries","blueberries","raspberries"]},
+  // fats & extras (per thumb ≈ 1 tbsp)
+  {n:"Oil / butter", u:"thumb", k:110, p:0, w:["oil","butter","olive oil","fried"]},
+  {n:"Dressing / mayo / creamy sauce", u:"thumb", k:75, p:0, w:["dressing","ranch","mayo","caesar","aioli","alfredo","creamy"]},
+  {n:"Tomato sauce / salsa", u:"cup", k:40, p:1, w:["tomato sauce","marinara","salsa","sauce"]},
+  {n:"Cheese", u:"thumb", k:55, p:3.5, w:["cheese","parmesan","cheddar","mozzarella","feta"]},
+  {n:"Avocado / guacamole", u:"thumb", k:50, p:1, w:["avocado","guacamole","guac"]},
+  {n:"Nuts", u:"handful", k:170, p:6, w:["nuts","almonds","peanuts","cashews","walnuts"]},
+  {n:"Peanut butter", u:"thumb", k:95, p:4, w:["peanut butter","almond butter"]},
+  // mixed dishes
+  {n:"Pizza", u:"slice", k:285, p:12, w:["pizza"]},
+  {n:"Burger with bun", u:"piece", k:520, p:28, w:["burger","cheeseburger"]},
+  {n:"Sandwich", u:"piece", k:420, p:22, w:["sandwich","sub","panini"]},
+  {n:"Burrito", u:"piece", k:650, p:28, w:["burrito"]},
+  {n:"Taco", u:"piece", k:200, p:10, w:["taco","tacos"]},
+  {n:"Sushi roll (6–8 pcs)", u:"serving", k:300, p:10, w:["sushi","roll"]},
+  {n:"Stir-fry", u:"fist", k:250, p:15, w:["stir fry","stir-fry"]},
+  {n:"Curry (no rice)", u:"fist", k:300, p:18, w:["curry","tikka","masala"]},
+  {n:"Soup / chili", u:"fist", k:180, p:10, w:["soup","chili","stew"]},
+  {n:"Pasta with sauce", u:"fist", k:300, p:10, w:["lasagna","mac and cheese","spaghetti and meatballs"]},
+  // snacks, sweets, drinks
+  {n:"Cookie", u:"piece", k:150, p:2, w:["cookie","cookies"]},
+  {n:"Cake / dessert slice", u:"slice", k:350, p:4, w:["cake","pie","brownie","dessert"]},
+  {n:"Ice cream", u:"cup", k:140, p:2, w:["ice cream","gelato"]},
+  {n:"Chips (snack bag)", u:"handful", k:150, p:2, w:["potato chips","tortilla chips","crackers"]},
+  {n:"Wine", u:"glass", k:125, p:0, w:["wine"]},
+  {n:"Beer", u:"glass", k:150, p:1, w:["beer"]},
+  {n:"Soda / juice", u:"glass", k:140, p:0, w:["soda","coke","juice","lemonade"]},
+  {n:"Latte (12 oz, milk)", u:"glass", k:150, p:9, w:["latte","cappuccino","coffee with milk"]}
+];
+function matchFoods(text){
+  var t = " " + String(text || "").toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ") + " ";
+  var pairs = [];
+  FOODDB.forEach(function(f, i){ f.w.forEach(function(w){ pairs.push([w, i]); }); });
+  pairs.sort(function(a, b){ return b[0].length - a[0].length; });
+  var found = [];
+  pairs.forEach(function(pr){
+    var w = " " + pr[0] + " ";
+    if(t.indexOf(w) >= 0){ t = t.split(w).join(" | "); if(found.indexOf(pr[1]) < 0) found.push(pr[1]); }
+  });
+  return found;
+}
+var plate = null;
+function plateTotals(){ return plate.items.reduce(function(a, it){ a.k += it.k * it.amt; a.p += it.p * it.amt; return a; }, {k:0, p:0}); }
+function openPlate(){
+  plate = {items: [], img: null, aiImg: null};
+  var ai = aiCfg();
+  var html = mhead("Snap & describe my plate") +
+    '<div class="notice">📏 This is a <b>rough estimate</b>. Restaurant and home-cooked plates can be off by 20–30% (oil and sauces add up). Good enough to stay on track.</div>' +
+    '<div class="photorow"><label class="photobtn"><input id="plPhoto" type="file" accept="image/*" capture="environment">📷 <span id="plPhotoLbl">Add a photo (optional)</span></label><img id="plThumb" class="plthumb" alt=""></div>' +
+    '<label class="field"><span>Describe what’s on the plate</span><textarea id="plDesc" rows="2" placeholder="e.g. grilled chicken, rice and broccoli with ranch"></textarea></label>' +
+    (ai.on && ai.key ? '<div class="mstack" style="margin-bottom:12px"><button class="cta" id="plAI">✨ AI estimate (photo + description)</button><p class="sub" id="plAIMsg" style="font-size:13px;text-align:center;margin:0"></p></div>' : '') +
+    '<button class="cta ghost small" id="plFind" style="width:100%;margin-bottom:12px">🔎 Find foods from my description</button>' +
+    '<div class="lbl">On your plate <span style="font-weight:600">(tap − / + for portions)</span></div><div id="plItems"></div>' +
+    '<label class="field"><span>Add a food</span><input id="plSearch" type="text" autocomplete="off" placeholder="Search: rice, steak, pizza, dressing…"></label><div class="fres" id="plRes"></div>' +
+    '<div class="handguide">🤚 Palm (size + thickness) ≈ 4 oz cooked meat or fish · ✊ Fist ≈ 1 cup · 🤲 Cupped hand ≈ ½ cup rice/pasta/potato · 👍 Thumb ≈ 1 tbsp oil, butter, dressing, cheese</div>' +
+    '<div class="ptot" id="plTot"></div>' +
+    '<button class="cta" id="plAdd">Add to today</button>';
+  openModal(html);
+  renderPlateItems(); renderPlateSearch("");
+  $m("plPhoto").onchange = function(){ var f = this.files && this.files[0]; if(f) loadPlatePhoto(f); };
+  $m("plFind").onclick = function(){
+    var idx = matchFoods($m("plDesc").value), added = 0;
+    idx.forEach(function(i){ var f = FOODDB[i]; if(!plate.items.some(function(it){ return it.n === f.n; })){ plate.items.push({n:f.n, u:f.u, k:f.k, p:f.p, amt:1}); added++; } });
+    renderPlateItems();
+    toast(added ? "Found " + added + " food" + (added > 1 ? "s" : "") + ", adjust the portions" : (idx.length ? "Already on your plate" : "No match. Search below to add foods"));
+  };
+  $m("plSearch").oninput = function(){ renderPlateSearch(this.value); };
+  var aib = $m("plAI"); if(aib) aib.onclick = runAiEstimate;
+  $m("plAdd").onclick = function(){
+    if(!plate.items.length){ toast("Add at least one food first"); return; }
+    var t = plateTotals(), desc = $m("plDesc").value.trim();
+    var name = desc ? desc.charAt(0).toUpperCase() + desc.slice(1) : plate.items.map(function(it){ return it.n; }).join(", ");
+    name = "🍽️ " + (name.length > 60 ? name.slice(0, 59) + "…" : name);
+    addEntry(name, t.p, t.k, plate.ai ? "plate-ai" : "plate", {est: true, img: plate.img});
+    afterAdd(name, t.p, t.k);
+  };
+}
+function renderPlateItems(){
+  var box = $m("plItems"); if(!box) return;
+  if(!plate.items.length) box.innerHTML = '<div class="empty" style="padding:0 0 10px">Nothing yet. Describe your plate and tap “Find foods”, or search below.</div>';
+  else box.innerHTML = plate.items.map(function(it, i){
+    return '<div class="pli"><div class="pm"><div class="pn">'+esc(it.n)+'</div><div class="pd">'+r1(it.amt)+' × '+esc(UNITS[it.u] || it.u)+' · '+Math.round(it.k*it.amt)+' kcal · '+r1(it.p*it.amt)+' g protein</div></div>' +
+      '<div class="step"><button data-pdec="'+i+'" aria-label="Less">−</button><span>'+r1(it.amt)+'</span><button data-pinc="'+i+'" aria-label="More">+</button></div><button class="x" data-prm="'+i+'" aria-label="Remove">✕</button></div>';
+  }).join("");
+  box.querySelectorAll("[data-pinc]").forEach(function(b){ b.onclick = function(){ var it = plate.items[+b.dataset.pinc]; it.amt = Math.min(10, it.amt + 0.5); renderPlateItems(); }; });
+  box.querySelectorAll("[data-pdec]").forEach(function(b){ b.onclick = function(){ var it = plate.items[+b.dataset.pdec]; it.amt = Math.max(0.5, it.amt - 0.5); renderPlateItems(); }; });
+  box.querySelectorAll("[data-prm]").forEach(function(b){ b.onclick = function(){ plate.items.splice(+b.dataset.prm, 1); renderPlateItems(); }; });
+  var t = plateTotals(), tot = $m("plTot");
+  if(tot) tot.innerHTML = '<b>≈ '+Math.round(t.k)+' kcal · '+Math.round(t.p)+' g protein</b><small>Rough estimate'+(plate.ai ? ' from AI, check the portions' : '')+'</small>';
+}
+function renderPlateSearch(q){
+  var box = $m("plRes"); if(!box) return;
+  q = String(q || "").toLowerCase().trim();
+  var list = FOODDB.map(function(f, i){ return i; }).filter(function(i){ var f = FOODDB[i]; return !q || f.n.toLowerCase().indexOf(q) >= 0 || f.w.some(function(w){ return w.indexOf(q) >= 0; }); });
+  if(!q) list = [0, 6, 12, 14, 15, 22, 23, 28, 30, 34];
+  box.innerHTML = list.slice(0, 12).map(function(i){ return '<button data-padd="'+i+'">＋ '+esc(FOODDB[i].n)+'</button>'; }).join("") || '<span class="sub" style="font-size:13px">No match. Use “Add custom food” for anything else.</span>';
+  box.querySelectorAll("[data-padd]").forEach(function(b){ b.onclick = function(){ var f = FOODDB[+b.dataset.padd]; plate.items.push({n:f.n, u:f.u, k:f.k, p:f.p, amt:1}); renderPlateItems(); }; });
+}
+function shrinkImage(file, max, q){
+  return new Promise(function(res, rej){
+    var url = URL.createObjectURL(file), im = new Image();
+    im.onload = function(){
+      var sc = Math.min(1, max / Math.max(im.width, im.height)), c = document.createElement("canvas");
+      c.width = Math.max(1, Math.round(im.width*sc)); c.height = Math.max(1, Math.round(im.height*sc));
+      c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+      res(c.toDataURL("image/jpeg", q));
+    };
+    im.onerror = function(){ URL.revokeObjectURL(url); rej(new Error("bad image")); };
+    im.src = url;
+  });
+}
+function loadPlatePhoto(file){
+  Promise.all([shrinkImage(file, 160, 0.6), shrinkImage(file, 768, 0.7)]).then(function(r){
+    if(!plate) return; plate.img = r[0]; plate.aiImg = r[1];
+    var th = $m("plThumb"); if(th){ th.src = r[0]; th.style.display = "block"; }
+    var l = $m("plPhotoLbl"); if(l) l.textContent = "Change photo";
+  }).catch(function(){ toast("Couldn’t read that photo, try another"); });
+}
+
+// ---- optional AI photo estimate (Google Gemini API, called straight from the phone with HER key) ----
+function aiCfg(){ var a = load("mw_ai", {}) || {}; return {on: !!a.on, key: String(a.key || ""), model: String(a.model || "gemini-flash-latest")}; }
+function aiSettingsHtml(){
+  var a = aiCfg();
+  return '<div class="section" style="padding-bottom:16px"><div class="h"><b>AI photo estimate</b><span>optional</span></div>' +
+    '<p class="sub" style="font-size:13px;margin:0 0 10px">Works without this. Turn it on to let AI guess calories from your plate photo + description. Needs your own free Google Gemini API key (from aistudio.google.com). The key stays only on this phone. Free-tier photos may be used by Google to improve its products.</p>' +
+    '<label class="toggle"><input type="checkbox" id="aiOn"'+(a.on ? ' checked' : '')+'> Use AI photo estimate</label>' +
+    '<div class="aibox" id="aiBox" style="'+(a.on ? '' : 'display:none')+'"><label class="field"><span>Gemini API key</span><input id="aiKey" type="password" autocomplete="off" placeholder="Paste key (starts with AIza…)" value="'+esc(a.key)+'"></label>' +
+    '<label class="field"><span>Model</span><input id="aiModel" type="text" autocomplete="off" value="'+esc(a.model)+'"></label>' +
+    '<div class="two"><button class="cta ghost small" id="aiSave">Save</button><button class="cta ghost small" id="aiTest">Test key</button></div><p class="sub" id="aiMsg" style="font-size:13px;margin:10px 0 0"></p></div></div>';
+}
+function bindAiSettings(){
+  var on = $m("aiOn"); if(!on) return;
+  var store = function(){ save("mw_ai", {on: on.checked, key: ($m("aiKey").value || "").trim(), model: ($m("aiModel").value || "").trim() || "gemini-flash-latest"}); };
+  on.onchange = function(){ $m("aiBox").style.display = on.checked ? "" : "none"; store(); };
+  $m("aiSave").onclick = function(){ store(); $m("aiMsg").textContent = "Saved ✓"; };
+  $m("aiTest").onclick = function(){
+    store(); var m = $m("aiMsg"); m.textContent = "Testing…";
+    geminiCall([{text: 'Reply with JSON {"ok":true}'}]).then(function(){ m.textContent = "Key works ✓"; }, function(e){ m.textContent = "❌ " + e.message; });
+  };
+}
+function geminiCall(parts){
+  var a = aiCfg();
+  if(!a.key) return Promise.reject(new Error("Add your API key in Food log › AI photo estimate."));
+  var url = "https://generativelanguage.googleapis.com/v1beta/models/" + encodeURIComponent(a.model) + ":generateContent?key=" + encodeURIComponent(a.key);
+  var ctl = window.AbortController ? new AbortController() : null, to = setTimeout(function(){ if(ctl) ctl.abort(); }, 45000);
+  return fetch(url, {method: "POST", headers: {"Content-Type": "application/json"}, signal: ctl ? ctl.signal : undefined,
+    body: JSON.stringify({contents: [{role: "user", parts: parts}], generationConfig: {temperature: 0.2, responseMimeType: "application/json"}})})
+  .then(function(r){ clearTimeout(to); return r.json().catch(function(){ return {}; }).then(function(j){
+      if(!r.ok){ var msg = (j.error && j.error.message) || ("HTTP " + r.status);
+        if(r.status === 400 && /key/i.test(msg)) msg = "That API key isn’t valid."; else if(r.status === 429) msg = "Free limit reached for now, try again later."; else if(r.status === 404) msg = "Model not found, check the model name.";
+        throw new Error(msg); }
+      var txt = ((((j.candidates || [])[0] || {}).content || {}).parts || []).map(function(p){ return p.text || ""; }).join("");
+      try{ return JSON.parse(txt.replace(/^```(json)?|```$/g, "").trim()); }catch(e){ throw new Error("AI reply wasn’t readable, try again."); }
+    }); }, function(e){ clearTimeout(to); throw new Error(e && e.name === "AbortError" ? "Timed out, check your connection." : "Couldn’t reach the AI service."); });
+}
+function runAiEstimate(){
+  var desc = $m("plDesc").value.trim(), msg = $m("plAIMsg"), btn = $m("plAI");
+  if(!plate.aiImg && !desc){ msg.textContent = "Add a photo or a description first."; return; }
+  msg.textContent = "Estimating… (a few seconds)"; btn.disabled = true;
+  var prompt = "You estimate nutrition for a food log. Look at the meal photo (if given) and this description: \"" + desc.replace(/"/g, "'") + "\". " +
+    "List each food with a realistic portion and estimate calories and protein. Be honest when unsure; include cooking oil/sauces you can see or that are typical. " +
+    'Return only JSON: {"items":[{"name":string,"portion":string,"kcal":number,"protein_g":number}],"confidence":"low"|"medium"|"high","note":string}';
+  var parts = [{text: prompt}];
+  if(plate.aiImg) parts.push({inline_data: {mime_type: "image/jpeg", data: plate.aiImg.split(",")[1]}});
+  geminiCall(parts).then(function(j){
+    btn.disabled = false;
+    var items = (j && Array.isArray(j.items)) ? j.items : [];
+    if(!items.length){ msg.textContent = "AI couldn’t tell. Add foods below instead."; return; }
+    plate.ai = true;
+    items.slice(0, 12).forEach(function(it){ var k = Math.max(0, +it.kcal || 0), p = Math.max(0, +it.protein_g || 0);
+      plate.items.push({n: String(it.name || "Food").slice(0, 50), u: String(it.portion || "AI portion").slice(0, 40), k: k, p: p, amt: 1}); });
+    renderPlateItems();
+    msg.textContent = "AI guess (" + (j.confidence || "low") + " confidence). Fix anything that looks off." + (j.note ? " " + String(j.note).slice(0, 140) : "");
+  }, function(e){ btn.disabled = false; msg.textContent = "❌ " + e.message + " You can still add foods below."; });
 }
 
 // one-time move of old position-based swap keys ("tue:2:1") to exercise-based keys ("tue|pulldown|0")
