@@ -561,111 +561,122 @@ var DAYS = [
   warmup:{text:"5 min easy bike or walk, then 10 bodyweight squats.", mins:5},
   blocks:[
    {label:"Block 1", rest:90, items:[P("hipThrust",4,{reps:10})]},
-   {label:"Block 2", rest:75, items:[P("bss",3,{reps:8,each:"leg"})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("legExt",3,{reps:12}), P("legCurl",3,{reps:12})]},
-   {label:"Block 4", rest:60, superset:true, items:[P("rdl",3,{reps:10}), P("kickMachine",3,{reps:12,each:"side"})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("abduction",2,{reps:20}), P("bridge",2,{hold:30,variant:"hold"})]}
+   {label:"Block 2", rest:75, items:[P("bss",3,{reps:8, each:"leg"})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("rdl",4,{reps:10}), P("legCurl",4,{reps:12})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("kickMachine",3,{reps:12, each:"side"}), P("abduction",3,{reps:20})]}
   ]},
  {key:"tue", short:"Tue", day:"Tuesday", title:"Upper Push/Pull", mins:"40–45 min", focus:"Chest · Back · Arms",
   warmup:{text:"Arm circles (forward & back), then 15 light band pull-aparts."},
   blocks:[
-   {label:"Block 1", rest:75, items:[P("machineChest",4,{reps:10})]},
-   {label:"Block 2", rest:75, items:[P("machineRow",4,{reps:10})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("machineShoulder",3,{reps:12}), P("pulldown",3,{reps:12})]},
-   {label:"Block 4", rest:45, superset:true, items:[P("preacherCurl",3,{reps:12}), P("dipMachine",3,{reps:12})]},
-   {label:"Finisher", rest:45, finisher:true, items:[P("reversePecDeck",2,{reps:15}), P("farmer",2,{hold:40,holdWord:"carry"})]}
+   {label:"Block 1", rest:60, items:[P("machineChest",4,{reps:10})]},
+   {label:"Block 2", rest:60, items:[P("machineRow",4,{reps:10})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("machineShoulder",4,{reps:12}), P("pulldown",4,{reps:12})]},
+   {label:"Finisher", rest:45, finisher:true, items:[P("preacherCurl",4,{reps:12}), P("dipMachine",4,{reps:12})]}
   ]},
  {key:"wed", short:"Wed", day:"Wednesday", title:"Glute Hypertrophy", mins:"40–45 min", focus:"Glutes",
   warmup:{text:"Banded lateral walks — 20 steps each way.", ex:"bandwalk"},
   blocks:[
-   {label:"Block 1", rest:75, items:[P("hipThrust",4,{reps:12})]},
-   {label:"Block 2", rest:75, items:[P("legPress",3,{reps:12})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("kickMachine",3,{reps:12,each:"side"}), P("abduction",3,{reps:15})]},
-   {label:"Block 4", rest:60, items:[P("lunge",2,{reps:12,each:"leg"})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("legExt",2,{reps:15}), P("bridge",2,{reps:20,variant:"pulses"})]}
+   {label:"Block 1", rest:60, items:[P("hipThrust",4,{reps:12})]},
+   {label:"Block 2", rest:60, items:[P("legPress",4,{reps:12})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("kickMachine",3,{reps:12, each:"side"}), P("abduction",3,{reps:15})]},
+   {label:"Block 4", rest:60, items:[P("lunge",2,{reps:12, each:"leg"})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("bridge",3,{reps:20, variant:"pulses"})]}
   ]},
  {key:"thu", short:"Thu", day:"Thursday", title:"Upper + Core", mins:"40–45 min", focus:"Arms · Back · Core",
   warmup:{text:"Light rowing (machine or band) for 3 min + 10 slow shoulder-blade squeezes."},
   blocks:[
-   {label:"Block 1", rest:75, items:[P("incline",3,{reps:10})]},
-   {label:"Block 2", rest:60, items:[P("sarow",3,{reps:10,each:"side"})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("machineLateral",3,{reps:12}), P("pullup",3,{reps:10})]},
-   {label:"Block 4", rest:45, superset:true, items:[P("hammerCurl",3,{reps:12}), P("tricepMachine",3,{reps:12})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("plank",3,{hold:30}), P("deadbug",3,{reps:8,each:"side"})]}
+   {label:"Block 1", rest:90, items:[P("incline",4,{reps:10})]},
+   {label:"Block 2", rest:60, items:[P("sarow",4,{reps:10, each:"side"})]},
+   {label:"Block 3", rest:45, superset:true, items:[P("hammerCurl",4,{reps:12}), P("tricepMachine",4,{reps:12})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("plank",3,{hold:40}), P("deadbug",3,{reps:8, each:"side"})]}
   ]},
  {key:"fri", short:"Fri", day:"Friday", title:"Full Body", mins:"40–45 min", focus:"Total body",
   warmup:{text:"5 min easy cardio + hip hinge practice (hands on hips, push hips back ×10).", mins:5},
   blocks:[
-   {label:"Block 1", rest:120, items:[P("deadlift",3,{reps:6})]},
-   {label:"Block 2", rest:75, superset:true, items:[P("hackSquat",3,{reps:10}), P("pushup",3,{reps:10})]},
-   {label:"Block 3", rest:60, items:[P("machineRow",3,{reps:10})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("bridge",2,{hold:40,variant:"hold"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
+   {label:"Block 1", rest:90, items:[P("deadlift",4,{reps:6})]},
+   {label:"Block 2", rest:75, superset:true, items:[P("hackSquat",4,{reps:10}), P("pushup",4,{reps:10})]},
+   {label:"Block 3", rest:60, items:[P("machineRow",4,{reps:10})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("bridge",3,{hold:40, variant:"hold"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
   ]}
 ];
 
 // ---- weekly variety: Week A (the original plan) / B / C rotate by ISO week; plus a 15-min version of each day ----
 var VARIANTS = {
  mon:{
-  B:[{label:"Block 1", rest:90, items:[P("smithHipThrust",4,{reps:8})]},
-     {label:"Block 2", rest:75, items:[P("hackSquat",3,{reps:10})]},
-     {label:"Block 3", rest:60, superset:true, items:[P("lyingLegCurl",3,{reps:12}), P("stepUp",3,{reps:10,each:"leg"})]},
-     {label:"Block 4", rest:60, superset:true, items:[P("goodMorning",3,{reps:10}), P("donkeyKick",3,{reps:12,each:"side"})]},
-     {label:"Finisher", rest:30, finisher:true, items:[P("clamshell",2,{reps:15,each:"side"}), P("slGluteBridge",2,{reps:12,each:"leg"})]}],
-  C:[{label:"Block 1", rest:90, items:[P("trapBar",4,{reps:8})]},
-     {label:"Block 2", rest:75, items:[P("splitSquat",3,{reps:10,each:"leg"})]},
-     {label:"Block 3", rest:60, superset:true, items:[P("legPress",3,{reps:12}), P("ballCurl",3,{reps:12})]},
-     {label:"Block 4", rest:60, superset:true, items:[P("kbDeadlift",3,{reps:12}), P("kickMachine",3,{reps:12,each:"side"})]},
-     {label:"Finisher", rest:30, finisher:true, items:[P("bandwalk",2,{reps:20}), P("bridge",2,{reps:20,variant:"pulses"})]}],
+  B:[
+   {label:"Block 1", rest:90, items:[P("smithHipThrust",4,{reps:8})]},
+   {label:"Block 2", rest:75, items:[P("hackSquat",4,{reps:10})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("goodMorning",3,{reps:10}), P("lyingLegCurl",3,{reps:12})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("stepUp",3,{reps:10, each:"leg"}), P("donkeyKick",3,{reps:12, each:"side"})]}
+  ],
+  C:[
+   {label:"Block 1", rest:90, items:[P("trapBar",4,{reps:8})]},
+   {label:"Block 2", rest:75, items:[P("splitSquat",3,{reps:10, each:"leg"})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("legPress",4,{reps:12}), P("ballCurl",4,{reps:12})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("kickMachine",3,{reps:12, each:"side"}), P("bridge",3,{reps:20, variant:"pulses"})]}
+  ],
   Q:[{label:"Round 1", rest:45, superset:true, items:[P("hipThrust",3,{reps:12}), P("legPress",3,{reps:12})]},
      {label:"Round 2", rest:30, superset:true, items:[P("rdl",2,{reps:10}), P("abduction",2,{reps:20})]}]},
  tue:{
-  B:[{label:"Block 1", rest:75, items:[P("dbBench",4,{reps:10})]},
-     {label:"Block 2", rest:75, items:[P("chestRow",4,{reps:10})]},
-     {label:"Block 3", rest:60, superset:true, items:[P("dbShoulderPress",3,{reps:10}), P("pullup",3,{reps:8})]},
-     {label:"Block 4", rest:45, superset:true, items:[P("dbCurl",3,{reps:12}), P("benchDip",3,{reps:12})]},
-     {label:"Finisher", rest:45, finisher:true, items:[P("bandPullApart",2,{reps:15}), P("suitcaseCarry",2,{hold:30,holdWord:"carry",each:"side"})]}],
-  C:[{label:"Block 1", rest:75, items:[P("incline",4,{reps:10})]},
-     {label:"Block 2", rest:75, items:[P("sarow",4,{reps:10,each:"side"})]},
-     {label:"Block 3", rest:60, superset:true, items:[P("ohp",3,{reps:10}), P("pulldown",3,{reps:12})]},
-     {label:"Block 4", rest:45, superset:true, items:[P("hammerCurl",3,{reps:12}), P("tricepMachine",3,{reps:12})]},
-     {label:"Finisher", rest:45, finisher:true, items:[P("reversePecDeck",2,{reps:15}), P("trapCarry",2,{hold:40,holdWord:"carry"})]}],
+  B:[
+   {label:"Block 1", rest:60, items:[P("dbBench",4,{reps:10})]},
+   {label:"Block 2", rest:60, items:[P("chestRow",4,{reps:10})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("dbShoulderPress",4,{reps:10}), P("pullup",4,{reps:8})]},
+   {label:"Finisher", rest:45, finisher:true, items:[P("dbCurl",4,{reps:12}), P("benchDip",4,{reps:12})]}
+  ],
+  C:[
+   {label:"Block 1", rest:60, items:[P("incline",4,{reps:10})]},
+   {label:"Block 2", rest:60, items:[P("sarow",4,{reps:10, each:"side"})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("ohp",4,{reps:10}), P("pulldown",4,{reps:12})]},
+   {label:"Finisher", rest:45, finisher:true, items:[P("hammerCurl",4,{reps:12}), P("tricepMachine",4,{reps:12})]}
+  ],
   Q:[{label:"Round 1", rest:45, superset:true, items:[P("machineChest",3,{reps:10}), P("machineRow",3,{reps:10})]},
      {label:"Round 2", rest:30, superset:true, items:[P("machineShoulder",2,{reps:12}), P("pulldown",2,{reps:12})]}]},
  wed:{
-  B:[{label:"Block 1", rest:75, items:[P("smithHipThrust",4,{reps:12})]},
-     {label:"Block 2", rest:75, items:[P("bss",3,{reps:10,each:"leg"})]},
-     {label:"Block 3", rest:60, superset:true, items:[P("donkeyKick",3,{reps:15,each:"side"}), P("clamshell",3,{reps:15,each:"side"})]},
-     {label:"Block 4", rest:60, items:[P("stepUp",2,{reps:12,each:"leg"})]},
-     {label:"Finisher", rest:30, finisher:true, items:[P("abduction",2,{reps:20}), P("slGluteBridge",2,{reps:12,each:"leg"})]}],
-  C:[{label:"Block 1", rest:75, items:[P("sumoSquat",4,{reps:12})]},
-     {label:"Block 2", rest:75, items:[P("slRdl",3,{reps:10,each:"leg"})]},
-     {label:"Block 3", rest:60, superset:true, items:[P("kickMachine",3,{reps:12,each:"side"}), P("bandwalk",3,{reps:20})]},
-     {label:"Block 4", rest:60, items:[P("reverseLunge",2,{reps:12,each:"leg"})]},
-     {label:"Finisher", rest:30, finisher:true, items:[P("abduction",2,{reps:25}), P("bridge",2,{hold:40,variant:"hold"})]}],
+  B:[
+   {label:"Block 1", rest:60, items:[P("smithHipThrust",4,{reps:12})]},
+   {label:"Block 2", rest:60, items:[P("bss",3,{reps:10, each:"leg"})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("donkeyKick",3,{reps:15, each:"side"}), P("abduction",3,{reps:20})]},
+   {label:"Block 4", rest:60, items:[P("stepUp",2,{reps:12, each:"leg"})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("slGluteBridge",3,{reps:12, each:"leg"})]}
+  ],
+  C:[
+   {label:"Block 1", rest:60, items:[P("sumoSquat",4,{reps:12})]},
+   {label:"Block 2", rest:60, items:[P("slRdl",3,{reps:10, each:"leg"})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("kickMachine",3,{reps:12, each:"side"}), P("abduction",3,{reps:20})]},
+   {label:"Block 4", rest:60, items:[P("reverseLunge",2,{reps:12, each:"leg"})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("bridge",3,{hold:40, variant:"hold"})]}
+  ],
   Q:[{label:"Round 1", rest:45, superset:true, items:[P("hipThrust",3,{reps:15}), P("kickMachine",3,{reps:12,each:"side"})]},
      {label:"Finisher", rest:20, finisher:true, items:[P("abduction",2,{reps:20}), P("bridge",2,{reps:20,variant:"pulses"})]}]},
  thu:{
-  B:[{label:"Block 1", rest:75, items:[P("machineChest",3,{reps:12})]},
-     {label:"Block 2", rest:60, items:[P("machineRow",3,{reps:12})]},
-     {label:"Block 3", rest:60, superset:true, items:[P("lateral",3,{reps:12}), P("pulldown",3,{reps:10})]},
-     {label:"Block 4", rest:45, superset:true, items:[P("preacherCurl",3,{reps:12}), P("dbOverheadExt",3,{reps:12})]},
-     {label:"Finisher", rest:30, finisher:true, items:[P("sidePlank",3,{hold:20,each:"side"}), P("birdDog",3,{reps:8,each:"side"})]}],
-  C:[{label:"Block 1", rest:75, items:[P("dbBench",3,{reps:10})]},
-     {label:"Block 2", rest:60, items:[P("chestRow",3,{reps:10})]},
-     {label:"Block 3", rest:60, superset:true, items:[P("dbShoulderPress",3,{reps:10}), P("pullup",3,{reps:8})]},
-     {label:"Block 4", rest:45, superset:true, items:[P("dbCurl",3,{reps:12}), P("dipMachine",3,{reps:12})]},
-     {label:"Finisher", rest:30, finisher:true, items:[P("bearHold",3,{hold:20}), P("toeTap",3,{reps:10,each:"side"})]}],
+  B:[
+   {label:"Block 1", rest:75, items:[P("machineChest",4,{reps:12})]},
+   {label:"Block 2", rest:75, items:[P("machineRow",4,{reps:12})]},
+   {label:"Block 3", rest:45, superset:true, items:[P("preacherCurl",4,{reps:12}), P("dbOverheadExt",4,{reps:12})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("sidePlank",3,{hold:30, each:"side"}), P("birdDog",3,{reps:8, each:"side"})]}
+  ],
+  C:[
+   {label:"Block 1", rest:90, items:[P("dbBench",4,{reps:10})]},
+   {label:"Block 2", rest:75, items:[P("chestRow",4,{reps:10})]},
+   {label:"Block 3", rest:45, superset:true, items:[P("dbCurl",4,{reps:12}), P("dipMachine",4,{reps:12})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("bearHold",3,{hold:30}), P("toeTap",3,{reps:10, each:"side"})]}
+  ],
   Q:[{label:"Round 1", rest:45, superset:true, items:[P("incline",3,{reps:10}), P("sarow",3,{reps:10,each:"side"})]},
      {label:"Finisher", rest:20, finisher:true, items:[P("plank",2,{hold:30}), P("deadbug",2,{reps:8,each:"side"})]}]},
  fri:{
-  B:[{label:"Block 1", rest:120, items:[P("trapBar",3,{reps:8})]},
-     {label:"Block 2", rest:75, superset:true, items:[P("legPress",3,{reps:12}), P("dbShoulderPress",3,{reps:10})]},
-     {label:"Block 3", rest:60, items:[P("sarow",3,{reps:10,each:"side"})]},
-     {label:"Finisher", rest:30, finisher:true, items:[P("farmer",2,{hold:40,holdWord:"carry"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}],
-  C:[{label:"Block 1", rest:90, items:[P("kbDeadlift",3,{reps:12})]},
-     {label:"Block 2", rest:75, superset:true, items:[P("splitSquat",3,{reps:8,each:"leg"}), P("machineChest",3,{reps:10})]},
-     {label:"Block 3", rest:60, items:[P("chestRow",3,{reps:10})]},
-     {label:"Finisher", rest:30, finisher:true, items:[P("plank",2,{hold:40}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}],
+  B:[
+   {label:"Block 1", rest:90, items:[P("trapBar",4,{reps:8})]},
+   {label:"Block 2", rest:75, superset:true, items:[P("legPress",4,{reps:12}), P("dbShoulderPress",4,{reps:10})]},
+   {label:"Block 3", rest:60, items:[P("sarow",4,{reps:10, each:"side"})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("farmer",3,{hold:40, holdWord:"carry"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
+  ],
+  C:[
+   {label:"Block 1", rest:90, items:[P("kbDeadlift",4,{reps:12})]},
+   {label:"Block 2", rest:75, superset:true, items:[P("splitSquat",4,{reps:8, each:"leg"}), P("machineChest",4,{reps:10})]},
+   {label:"Block 3", rest:60, items:[P("chestRow",4,{reps:10})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("plank",3,{hold:40}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
+  ],
   Q:[{label:"Round 1", rest:45, superset:true, items:[P("goblet",3,{reps:12}), P("pushup",3,{reps:10})]},
      {label:"Round 2", rest:30, superset:true, items:[P("kbDeadlift",2,{reps:12}), P("machineRow",2,{reps:10})]}]}
 };
@@ -899,7 +910,7 @@ function renderOverview(){
   var nEx = d.blocks.reduce(function(a,b){ return a + b.items.length; }, 0);
   var html = '<div class="topbar"><button class="iconbtn" id="home" aria-label="Back">‹</button><div></div><div style="width:44px"></div></div>' +
     '<div class="hero"><div class="k">'+d.day+' · '+verLabel(d.ver)+(doneThisWeek(d.base)?' · ✓ Done this week':'')+'</div><h1>'+d.title+'</h1>' +
-    '<div class="pills"><span class="pill">⏱ '+d.mins+'</span><span class="pill">'+nEx+' exercises</span><span class="pill">'+d.focus+'</span></div></div>' +
+    '<div class="pills"><span class="pill">⏱ '+d.mins+'</span><span class="pill">'+nEx+' exercises + warm-up</span><span class="pill">'+d.focus+'</span></div></div>' +
     verSwitchHtml(d) + '<div class="tip">💡 Leave 1–2 reps in the tank.</div>';
   var w = d.warmup;
   html += '<div class="section"><div class="h"><b>Warm-up</b><span>'+(w.mins? w.mins+' min':'~5 min')+'</span></div><div class="row">' +
