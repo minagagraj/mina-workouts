@@ -367,6 +367,7 @@ body.noscroll{overflow:hidden}
 .aicard p,.aicard ol{font-size:14px;margin:8px 0}
 .aicard ol{padding-left:20px}.aicard li{margin:4px 0}
 .aikey{display:flex;gap:8px}.aikey input{flex:1;min-width:0;font-size:16px;padding:10px;border-radius:12px;border:1.5px solid #d9ccff}
+.daycard.bonus{border:1.5px dashed #c9b8f5;background:#faf7ff}.daycard.bonus .dayicon{background:#ece4ff;color:#5b44a8}.badge.opt{background:#ece4ff;color:#5b44a8}
 </style>
 </head>
 <body>
@@ -690,6 +691,17 @@ DAYS.forEach(function(d){
       warmup: v === "Q" ? {text:"2 min: 10 bodyweight squats + arm circles, then go.", mins:2} : d.warmup, blocks:bl});
   });
 });
+// optional weekend bonus day: not part of the Mon–Fri plan or the "x of 5" count
+var BONUS = {key:"sat", base:"sat", ver:"A", bonus:true, short:"Sat", day:"Saturday (optional)", title:"Bonus Glute Day", mins:"40–45 min", focus:"Glutes",
+  warmup:{text:"5 min easy bike or incline walk, then 15 bodyweight glute bridges + 10 squats.", mins:5},
+  blocks:[
+   {label:"Block 1", rest:90, items:[P("hipThrust",4,{reps:10})]},
+   {label:"Block 2", rest:75, items:[P("bss",3,{reps:10,each:"leg"})]},
+   {label:"Block 3", rest:75, items:[P("legPress",4,{reps:12,note:"Feet high and wide on the platform to bias the glutes."})]},
+   {label:"Block 4", rest:60, superset:true, items:[P("rdl",3,{reps:10}), P("kickMachine",3,{reps:12,each:"side"})]},
+   {label:"Finisher", rest:30, finisher:true, items:[P("abduction",3,{reps:20,note:"Last round: 10 slow reps, then pulse to failure."})]}
+  ]};
+ALLDAYS.push(BONUS);
 function isoWeek(dt){ var d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate())); var n = d.getUTCDay() || 7; d.setUTCDate(d.getUTCDate() + 4 - n); var y = new Date(Date.UTC(d.getUTCFullYear(), 0, 1)); return Math.ceil(((d - y) / 86400000 + 1) / 7); }
 function weekVer(dt){ return "ABC"[isoWeek(dt || new Date()) % 3]; }
 function dayByKey(k){ return ALLDAYS.find(function(x){ return x.key === k; }); }
@@ -738,7 +750,7 @@ function explainRx(p, fin){
   if(p.walkMins) return "Easy pace for " + p.walkText + ". No sets — just breathe and cool down.";
   var setW = fin ? (p.sets===1?"round":"rounds") : (p.sets===1?"set":"sets");
   if(p.hold){ var w = p.holdWord || "hold"; return p.sets + " " + setW + " of a " + p.hold + "-second " + w + (p.each ? " on each " + p.each : "") + "."; }
-  return p.sets + " " + setW + " of " + p.reps + " reps" + (p.each ? " on each " + p.each : "") + ".";
+  return p.sets + " " + setW + " of " + p.reps + " reps" + (p.each ? " on each " + p.each : "") + "." + (p.note ? " " + p.note : "");
 }
 function picHtml(ex, cls){
   var e = EX[ex];
@@ -889,7 +901,11 @@ function renderHome(){
       '<div class="dayname">'+d.day+(i===t?' <span class="badge">TODAY</span>':'')+(done?' <span class="badge good">DONE</span>':'')+'</div>' +
       '<div class="daytitle">'+d.title+' <span class="wver">'+verLabel(wd.ver)+'</span></div><div class="daytime">⏱ '+d.mins+' · '+d.focus+'</div></div><div class="chev">›</div></button>';
   });
-  html += '</div><div style="height:14px"></div>' + foodHtml() + '<div class="footer">Mon–Fri plan · tap a day to start</div>';
+  var wk = new Date().getDay(), isWknd = wk === 0 || wk === 6, bd = doneThisWeek("sat");
+  html += '</div><div class="lbl" style="margin:16px 4px 8px">Optional weekend</div><button class="daycard bonus'+(isWknd ? ' today' : '')+(bd ? ' done' : '')+'" data-day="sat">' +
+    '<div class="dayicon">'+(bd ? '✓' : '⭐')+'</div><div class="daymeta"><div class="dayname">Saturday or Sunday <span class="badge opt">OPTIONAL</span>'+(isWknd ? ' <span class="badge">THIS WEEKEND</span>' : '')+(bd ? ' <span class="badge good">DONE</span>' : '')+'</div>' +
+    '<div class="daytitle">Bonus Glute Day</div><div class="daytime">⏱ 40–45 min · 6 exercises · Glutes</div></div><div class="chev">›</div></button>';
+  html += '<div style="height:14px"></div>' + foodHtml() + '<div class="footer">Mon–Fri plan + optional weekend glute day · tap a day to start</div>';
   app.innerHTML = html;
   bindFood();
   bindGoals();
@@ -911,7 +927,7 @@ function renderOverview(){
   var html = '<div class="topbar"><button class="iconbtn" id="home" aria-label="Back">‹</button><div></div><div style="width:44px"></div></div>' +
     '<div class="hero"><div class="k">'+d.day+' · '+verLabel(d.ver)+(doneThisWeek(d.base)?' · ✓ Done this week':'')+'</div><h1>'+d.title+'</h1>' +
     '<div class="pills"><span class="pill">⏱ '+d.mins+'</span><span class="pill">'+nEx+' exercises + warm-up</span><span class="pill">'+d.focus+'</span></div></div>' +
-    verSwitchHtml(d) + '<div class="tip">💡 Leave 1–2 reps in the tank.</div>';
+    (d.bonus ? '<div class="tip" style="background:#f4efff;color:#5b44a8">⭐ Optional bonus day. It doesn’t change your Mon–Fri plan or weekly count.</div>' : verSwitchHtml(d)) + '<div class="tip">💡 Leave 1–2 reps in the tank.</div>';
   var w = d.warmup;
   html += '<div class="section"><div class="h"><b>Warm-up</b><span>'+(w.mins? w.mins+' min':'~5 min')+'</span></div><div class="row">' +
     (w.ex ? picHtml(w.ex, "thumb") : '<div class="thumb">🔥</div>') + '<div><div class="n">'+(w.ex?EX[w.ex].name:'Warm-up')+'</div><div class="d">'+esc(w.text)+'</div></div></div></div>';
