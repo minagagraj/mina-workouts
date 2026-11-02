@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -368,6 +371,12 @@ body.noscroll{overflow:hidden}
 .aicard ol{padding-left:20px}.aicard li{margin:4px 0}
 .aikey{display:flex;gap:8px}.aikey input{flex:1;min-width:0;font-size:16px;padding:10px;border-radius:12px;border:1.5px solid #d9ccff}
 .daycard.bonus{border:1.5px dashed #c9b8f5;background:#faf7ff}.daycard.bonus .dayicon{background:#ece4ff;color:#5b44a8}.badge.opt{background:#ece4ff;color:#5b44a8}
+.wkhead{display:inline-block;font-weight:800;font-size:15px;color:#a8432b;background:var(--accent-soft);border-radius:99px;padding:5px 12px;margin:2px 0 6px}
+.nextwk{font-size:14px;margin-top:4px}
+.ddate{font-weight:700;color:var(--muted);text-transform:none;letter-spacing:0}
+.datetag{display:inline-block;font-size:13px;font-weight:800;color:#a8432b;background:var(--accent-soft);border-radius:99px;padding:4px 10px;margin:2px 0 2px}
+.appver{font-size:12px;opacity:.8}
+.updbar{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 8px);z-index:99;background:#2b1d18;color:#fff;border-radius:14px;padding:12px;font-weight:700;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
 </style>
 </head>
 <body>
@@ -728,6 +737,14 @@ var mem = {};
 function load(k, d){ try{ var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; }catch(e){ return mem[k] !== undefined ? mem[k] : d; } }
 function save(k, v){ mem[k] = v; try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 function ymd(d){ d = d || new Date(); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0") + "-" + String(d.getDate()).padStart(2,"0"); }
+// ---- dates: this week's real calendar dates (phone's local time; weeks run Mon–Sun) ----
+var MON3 = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], DOW3 = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+function md(d){ return MON3[d.getMonth()] + " " + d.getDate(); }
+function dayDate(base){ var i = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}[base]; var d = weekStart(new Date()); d.setDate(d.getDate() + (i || 0)); return d; }
+function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
+function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
+function workoutTag(d){ return (d.ver === "Q" ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver) + " · " + (d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.base)); }
+var BUILD = "Nov 1, 2026 9:50 PM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -890,22 +907,23 @@ function renderHome(){
   var hr = new Date().getHours();
   var greet = hr < 12 ? "Good morning" : hr < 18 ? "Good afternoon" : "Good evening";
   var doneCount = DAYS.filter(function(d){ return doneThisWeek(d.key); }).length;
-  var html = '<p class="sub" style="margin-top:6px">'+greet+', Mina</p><h1>Your week</h1>' +
+  var html = '<p class="sub" style="margin-top:6px">'+greet+', Mina</p><h1>Your week</h1><div class="wkhead">Week '+weekVer()+' · '+weekRange()+'</div>' +
     '<p class="sub">'+doneCount+' of 5 workouts done this week · <b>Week '+weekVer()+'</b> moves' + (t<0 ? ' · Weekend = rest or an easy walk 🌿' : '') + '</p>' +
+    (t<0 && new Date().getDay() === 0 ? (function(){ var n = new Date(); n.setDate(n.getDate() + 1); return '<p class="sub nextwk">Tomorrow starts <b>Week '+weekVer(n)+'</b> (Mon '+md(n)+').</p>'; })() : '') +
     '<div class="tip">💡 Leave 1–2 reps in the tank.</div>' + trackCardHtml() + goalsHtml() + bodyCardHtml() + '<div class="cards">';
   DAYS.forEach(function(d, i){
     var done = doneThisWeek(d.key);
     var wd = weekDay(d.key);
     html += '<button class="daycard'+(i===t?' today':'')+(done?' done':'')+'" data-day="'+wd.key+'">' +
       '<div class="dayicon">'+(done?'✓':d.short)+'</div><div class="daymeta">' +
-      '<div class="dayname">'+d.day+(i===t?' <span class="badge">TODAY</span>':'')+(done?' <span class="badge good">DONE</span>':'')+'</div>' +
+      '<div class="dayname">'+d.day+' <span class="ddate">'+md(dayDate(d.key))+'</span>'+(i===t?' <span class="badge">TODAY</span>':'')+(done?' <span class="badge good">DONE</span>':'')+'</div>' +
       '<div class="daytitle">'+d.title+' <span class="wver">'+verLabel(wd.ver)+'</span></div><div class="daytime">⏱ '+d.mins+' · '+d.focus+'</div></div><div class="chev">›</div></button>';
   });
   var wk = new Date().getDay(), isWknd = wk === 0 || wk === 6, bd = doneThisWeek("sat");
   html += '</div><div class="lbl" style="margin:16px 4px 8px">Optional weekend</div><button class="daycard bonus'+(isWknd ? ' today' : '')+(bd ? ' done' : '')+'" data-day="sat">' +
-    '<div class="dayicon">'+(bd ? '✓' : '⭐')+'</div><div class="daymeta"><div class="dayname">Saturday or Sunday <span class="badge opt">OPTIONAL</span>'+(isWknd ? ' <span class="badge">THIS WEEKEND</span>' : '')+(bd ? ' <span class="badge good">DONE</span>' : '')+'</div>' +
+    '<div class="dayicon">'+(bd ? '✓' : '⭐')+'</div><div class="daymeta"><div class="dayname">Sat '+md(dayDate("sat"))+' or Sun '+md(dayDate("sun"))+' <span class="badge opt">OPTIONAL</span>'+(isWknd ? ' <span class="badge">THIS WEEKEND</span>' : '')+(bd ? ' <span class="badge good">DONE</span>' : '')+'</div>' +
     '<div class="daytitle">Bonus Glute Day</div><div class="daytime">⏱ 40–45 min · 6 exercises · Glutes</div></div><div class="chev">›</div></button>';
-  html += '<div style="height:14px"></div>' + foodHtml() + '<div class="footer">Mon–Fri plan + optional weekend glute day · tap a day to start</div>';
+  html += '<div style="height:14px"></div>' + foodHtml() + '<div class="footer">Mon–Fri plan + optional weekend glute day · tap a day to start<br><span class="appver">App version: '+esc(BUILD)+'</span></div>';
   app.innerHTML = html;
   bindFood();
   bindGoals();
@@ -925,7 +943,7 @@ function renderOverview(){
   var d = ALLDAYS[state.day];
   var nEx = d.blocks.reduce(function(a,b){ return a + b.items.length; }, 0);
   var html = '<div class="topbar"><button class="iconbtn" id="home" aria-label="Back">‹</button><div></div><div style="width:44px"></div></div>' +
-    '<div class="hero"><div class="k">'+d.day+' · '+verLabel(d.ver)+(doneThisWeek(d.base)?' · ✓ Done this week':'')+'</div><h1>'+d.title+'</h1>' +
+    '<div class="hero"><div class="k">'+workoutTag(d)+(doneThisWeek(d.base)?' · ✓ Done this week':'')+'</div><h1>'+d.title+'</h1>' +
     '<div class="pills"><span class="pill">⏱ '+d.mins+'</span><span class="pill">'+nEx+' exercises + warm-up</span><span class="pill">'+d.focus+'</span></div></div>' +
     (d.bonus ? '<div class="tip" style="background:#f4efff;color:#5b44a8">⭐ Optional bonus day. It doesn’t change your Mon–Fri plan or weekly count.</div>' : verSwitchHtml(d)) + '<div class="tip">💡 Leave 1–2 reps in the tank.</div>';
   var w = d.warmup;
@@ -962,14 +980,14 @@ function renderStep(){
   var isLast = state.step === steps.length - 1;
   if(st.type === "warmup"){
     var w = st.w;
-    html += '<div class="exlabel">Warm-up</div>' +
+    html += '<div class="datetag">'+esc(workoutTag(d))+'</div><div class="exlabel">Warm-up</div>' +
       '<h2 class="exname">'+(w.ex?EX[w.ex].name:'Warm-up')+'</h2><p class="explain" style="margin-top:8px">'+esc(w.text)+'</p>';
     if(w.ex) html += '<p class="note">'+esc(EX[w.ex].cue)+'</p>';
     if(w.mins) html += '<button class="holdbtn" id="holdbtn" data-secs="'+(w.mins*60)+'">⏱ Start '+w.mins+'-min timer</button>';
   } else {
     var p = st.p, b = st.block, e = EX[p.ex], fin = !!b.finisher;
     var key = state.step; var done = state.sets[key] || 0;
-    html += '<div class="exlabel">'+esc(st.label)+'</div>' +
+    html += '<div class="datetag">'+esc(workoutTag(d))+'</div><div class="exlabel">'+esc(st.label)+'</div>' +
       '<div class="exhead"><h2 class="exname">'+esc(exName(p))+'</h2>' + (SWAPS[st.base.ex] ? '<button class="swapbtn" id="swap">⇄ Swap</button>' : '') + '</div>' +
       (p.orig ? '<div class="swapped" style="margin-top:4px">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '');
     var main = p.walkMins ? p.walkText : (p.hold ? p.hold + " sec" : p.reps) + (p.each && !p.walkMins ? "/" + p.each : "");
@@ -2122,6 +2140,20 @@ function runAiEstimate(){
     setTimeout(function(){ toast("🚶‍♀️ Walk logged from Apple Watch" + (min > 0 ? " · " + min + " min" : "")); }, 400);
   }catch(e){}
 })();
+// ---- newer version check: compare this build stamp with the live file (bypassing cache) ----
+function checkUpdate(){
+  if(!/^https?:/.test(location.protocol) || !window.fetch) return;
+  fetch(location.pathname + "?v=" + Date.now(), {cache: "no-store"}).then(function(r){ return r.ok ? r.text() : ""; }).then(function(t){
+    var m = /var BUILD = "([^"]+)"/.exec(t);
+    if(m && m[1] !== BUILD && m[1].indexOf("__BUILD__") < 0 && !document.getElementById("updbar")){
+      var b = document.createElement("button"); b.id = "updbar"; b.className = "updbar"; b.textContent = "✨ New version of the app is ready · tap to update";
+      b.onclick = function(){ location.replace(location.pathname + "?v=" + Date.now() + location.hash); };
+      document.body.appendChild(b);
+    }
+  }).catch(function(){});
+}
+setTimeout(checkUpdate, 1500);
+document.addEventListener("visibilitychange", function(){ if(document.visibilityState === "visible") checkUpdate(); });
 render();
 </script>
 </body>
