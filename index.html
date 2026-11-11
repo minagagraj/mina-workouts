@@ -462,6 +462,36 @@ body.noscroll{overflow:hidden}
 .pcb.pp svg{margin-left:0}
 .pcb.pp.paused svg{transform:translateX(2px)}
 
+/* ---- Ladder-style home: day picker + one workout card ---- */
+.hhead{display:flex;justify-content:space-between;align-items:flex-end;margin:4px 0 10px}
+.hhead .wkhead{margin:4px 0 0}
+.hcount{text-align:right}.hcount b{display:block;font-size:22px;font-weight:800}.hcount span{font-size:12px;color:var(--muted);font-weight:700}
+.dpick{display:flex;gap:6px;margin:0 0 12px}
+.dchip2{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px;padding:9px 0 8px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);border:2px solid transparent}
+.dchip2 .dw{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.dchip2 .dn{font-size:18px;font-weight:800;line-height:1.1}
+.dchip2.today{border-color:var(--accent-soft)}
+.dchip2.done .dn{color:var(--good)}
+.dchip2.on{background:var(--accent);border-color:var(--accent);box-shadow:0 8px 18px rgba(232,102,74,.35)}
+.dchip2.on .dw,.dchip2.on .dn{color:#fff}
+.dchip2.bonus{flex:0 0 44px;padding:6px 0 5px;align-self:center;border:1.5px dashed #c9b8f5;background:#faf7ff}
+.dchip2.bonus .dw{font-size:10px;color:#5b44a8}.dchip2.bonus .dn{font-size:14px}
+.dchip2.bonus.on{background:#5b44a8;border-color:#5b44a8;border-style:solid}
+.tcard{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:14px}
+.thero{padding:18px 18px 16px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2))}
+.tcard.done .thero{background:linear-gradient(135deg,#3fa66b,#6cc08d)}
+.thero .k{font-size:13px;font-weight:700;opacity:.95;text-transform:uppercase;letter-spacing:.5px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.thero .badge{background:rgba(255,255,255,.25)}
+.ttitle{font-size:28px;font-weight:800;color:#fff;margin:6px 0 2px;letter-spacing:-.5px}
+.thero .pills{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.tmoves{padding:6px 16px 4px}
+.tmove{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line)}
+.tmove:first-child{border-top:0}
+.tmove .thumb{flex:0 0 64px;height:44px;border-radius:10px}
+.tm{min-width:0}.tn{font-weight:700;font-size:15px;line-height:1.2}.td{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
+.tcard .cta.play{width:calc(100% - 32px);margin:8px 16px 4px}
+.tlinks{display:flex;justify-content:space-between;padding:4px 14px 10px}
+
 </style>
 </head>
 <body>
@@ -829,7 +859,7 @@ function dayDate(base){ var i = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}[base
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ return (d.ver === "Q" ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver) + " · " + (d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.base)); }
-var BUILD = "Nov 10, 2026 9:08 PM ET";
+var BUILD = "Nov 10, 2026 9:37 PM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -989,35 +1019,75 @@ function bindFood(){
 }
 
 // ---- HOME ----
+// ---- HOME (Ladder-style: day picker on top, one workout card, everything else below) ----
+var homeSel = null;
+function homeDefault(){ var t = todayIdx(); return t >= 0 ? DAYS[t].key : "mon"; }
+function dayChipsHtml(sel){
+  var t = todayIdx();
+  var chips = DAYS.map(function(d, i){
+    var done = doneThisWeek(d.key);
+    return '<button class="dchip2'+(d.key === sel ? ' on' : '')+(done ? ' done' : '')+(i === t ? ' today' : '')+'" data-pick="'+d.key+'" aria-pressed="'+(d.key === sel)+'">' +
+      '<span class="dw">'+d.short+'</span><span class="dn">'+(done ? '✓' : dayDate(d.key).getDate())+'</span></button>';
+  }).join("");
+  var bd = doneThisWeek("sat");
+  chips += '<button class="dchip2 bonus'+(sel === "sat" ? ' on' : '')+(bd ? ' done' : '')+'" data-pick="sat" aria-pressed="'+(sel === "sat")+'"><span class="dw">Sat</span><span class="dn">'+(bd ? '✓' : '⭐')+'</span></button>';
+  return '<div class="dpick" id="dpick" role="tablist">'+chips+'</div>';
+}
+function todayCardHtml(sel){
+  var wd = sel === "sat" ? BONUS : weekDay(sel), base = sel === "sat" ? BONUS : DAYS.filter(function(d){ return d.key === sel; })[0];
+  var done = doneThisWeek(sel), isToday = sel !== "sat" && DAYS[todayIdx()] && DAYS[todayIdx()].key === sel;
+  var moves = [];
+  circuitPlan(wd).forEach(function(g){
+    if(!g.items) return;
+    g.items.forEach(function(x){ moves.push({x:x, g:g}); });
+  });
+  var cool = circuitPlan(wd).filter(function(g){ return g.k === "cool"; })[0];
+  if(cool && cool.walk) moves.push({x:cool.walk, g:cool});
+  var list = moves.map(function(m){
+    var p = m.x.p, g = m.g;
+    var what = g.k === "cool" ? p.walkText + ' walk' : g.k === "strength" ? g.rounds + ' sets × ' + (p.hold ? p.hold + 's' : p.reps) : g.rounds + ' rounds · ' + (p.hold ? p.hold + 's ' + (p.holdWord || 'hold') : p.reps + ' reps') + (p.each ? '/' + p.each : '');
+    return '<div class="tmove">'+picHtml(p.ex, "thumb")+'<div class="tm"><div class="tn">'+esc(exName(p))+'</div><div class="td">'+esc((g.k === "cool" ? "Cool-down" : g.title) + ' · ' + what)+'</div></div></div>';
+  }).join("");
+  var tag = sel === "sat" ? 'Bonus · Sat '+md(dayDate("sat"))+' or Sun '+md(dayDate("sun")) : verLabel(wd.ver) + ' · ' + dayDateLabel(sel);
+  return '<div class="tcard'+(done ? ' done' : '')+'" id="tcard">' +
+    '<div class="thero"><div class="k">'+esc(tag)+(isToday ? ' <span class="badge">TODAY</span>' : '')+(sel === "sat" ? ' <span class="badge opt">OPTIONAL</span>' : '')+(done ? ' <span class="badge good">DONE ✓</span>' : '')+'</div>' +
+    '<h2 class="ttitle">'+esc(base.title)+'</h2><div class="pills"><span class="pill">⏱ ~'+planMinutes(wd)+' min</span><span class="pill">'+moves.length+' exercises</span><span class="pill">'+esc(base.focus)+'</span></div></div>' +
+    '<div class="tmoves">'+list+'</div>' +
+    '<button class="cta play" id="tplay">▶ '+(done ? 'Do it again · Press play' : 'Start · Press play')+'</button>' +
+    '<div class="tlinks"><button class="linkbtn" id="tdetail">Details &amp; swaps ›</button>' + (sel !== "sat" ? '<button class="linkbtn" id="tshort">⚡ 15-min version</button>' : '') + '</div></div>';
+}
+function bindTodayCard(sel){
+  var wd = sel === "sat" ? BONUS : weekDay(sel);
+  document.getElementById("tplay").onclick = function(){ primeAudio(); PL = null; go("#day=" + wd.key + "&play=1"); };
+  document.getElementById("tdetail").onclick = function(){ go("#day=" + wd.key); };
+  var sh = document.getElementById("tshort"); if(sh) sh.onclick = function(){ go("#day=" + weekDay(sel, "Q").key); };
+  app.querySelectorAll("[data-pick]").forEach(function(b){ b.onclick = function(){
+    if(homeSel === b.dataset.pick) return;
+    homeSel = b.dataset.pick;
+    var a = document.createElement("div"); a.innerHTML = dayChipsHtml(homeSel); document.getElementById("dpick").replaceWith(a.firstChild);
+    var c = document.createElement("div"); c.innerHTML = todayCardHtml(homeSel); document.getElementById("tcard").replaceWith(c.firstChild);
+    bindTodayCard(homeSel);
+  }; });
+}
 function renderHome(){
   var t = todayIdx();
+  if(!homeSel) homeSel = homeDefault();
   var hr = new Date().getHours();
   var greet = hr < 12 ? "Good morning" : hr < 18 ? "Good afternoon" : "Good evening";
   var doneCount = DAYS.filter(function(d){ return doneThisWeek(d.key); }).length;
-  var html = '<p class="sub" style="margin-top:6px">'+greet+', Mina</p><h1>Your week</h1><div class="wkhead">Week '+weekVer()+' · '+weekRange()+'</div>' +
-    '<p class="sub">'+doneCount+' of 5 workouts done this week · <b>Week '+weekVer()+'</b> moves' + (t<0 ? ' · Weekend = rest or an easy walk 🌿' : '') + '</p>' +
-    (t<0 && new Date().getDay() === 0 ? (function(){ var n = new Date(); n.setDate(n.getDate() + 1); return '<p class="sub nextwk">Tomorrow starts <b>Week '+weekVer(n)+'</b> (Mon '+md(n)+').</p>'; })() : '') +
-    streakHtml() + chalCardHtml() + trackCardHtml() + goalsHtml() + bodyCardHtml() + '<div class="cards">';
-  DAYS.forEach(function(d, i){
-    var done = doneThisWeek(d.key);
-    var wd = weekDay(d.key);
-    html += '<button class="daycard'+(i===t?' today':'')+(done?' done':'')+'" data-day="'+wd.key+'">' +
-      '<div class="dayicon">'+(done?'✓':d.short)+'</div><div class="daymeta">' +
-      '<div class="dayname">'+d.day+' <span class="ddate">'+md(dayDate(d.key))+'</span>'+(i===t?' <span class="badge">TODAY</span>':'')+(done?' <span class="badge good">DONE</span>':'')+'</div>' +
-      '<div class="daytitle">'+d.title+' <span class="wver">'+verLabel(wd.ver)+'</span></div><div class="daytime">⏱ ~'+planMinutes(wd)+' min · circuits · '+d.focus+'</div></div><div class="chev">›</div></button>';
-  });
-  var wk = new Date().getDay(), isWknd = wk === 0 || wk === 6, bd = doneThisWeek("sat");
-  html += '</div><div class="lbl" style="margin:16px 4px 8px">Optional weekend</div><button class="daycard bonus'+(isWknd ? ' today' : '')+(bd ? ' done' : '')+'" data-day="sat">' +
-    '<div class="dayicon">'+(bd ? '✓' : '⭐')+'</div><div class="daymeta"><div class="dayname">Sat '+md(dayDate("sat"))+' or Sun '+md(dayDate("sun"))+' <span class="badge opt">OPTIONAL</span>'+(isWknd ? ' <span class="badge">THIS WEEKEND</span>' : '')+(bd ? ' <span class="badge good">DONE</span>' : '')+'</div>' +
-    '<div class="daytitle">Bonus Glute Day</div><div class="daytime">⏱ ~'+planMinutes(BONUS)+' min · circuits · Glutes</div></div><div class="chev">›</div></button>';
-  html += '<div style="height:14px"></div>' + foodHtml() + '<div class="footer">Mon–Fri plan + optional weekend glute day · tap a day to start<br><span class="appver">App version: '+esc(APPVER)+' · '+esc(BUILD)+'</span></div>';
+  var html = '<div class="hhead"><div><p class="sub">'+greet+', Mina</p><div class="wkhead">Week '+weekVer()+' · '+weekRange()+'</div></div><div class="hcount"><b>'+doneCount+'/5</b><span>this week</span></div></div>' +
+    dayChipsHtml(homeSel) + todayCardHtml(homeSel) +
+    (t<0 ? '<p class="sub" style="margin:4px 4px 10px">Weekend = rest, an easy walk, or the optional Saturday bonus 🌿</p>' : '') +
+    (t<0 && new Date().getDay() === 0 ? (function(){ var n = new Date(); n.setDate(n.getDate() + 1); return '<p class="sub nextwk" style="margin:0 4px 10px">Tomorrow starts <b>Week '+weekVer(n)+'</b> (Mon '+md(n)+').</p>'; })() : '') +
+    streakHtml() + chalCardHtml() + trackCardHtml() + goalsHtml() + bodyCardHtml() + foodHtml() +
+    '<div class="footer">Pick a day up top · Mon–Fri plan + optional Saturday glute day<br><span class="appver">App version: '+esc(APPVER)+' · '+esc(BUILD)+'</span></div>';
   app.innerHTML = html;
+  bindTodayCard(homeSel);
   bindFood();
   bindGoals();
   document.getElementById("track").onclick = function(){ go("#food"); };
   document.getElementById("bodyw").onclick = openBodyWeight;
   bindChal(renderHome);
-  app.querySelectorAll("[data-day]").forEach(function(b){ b.onclick = function(){ go("#day=" + b.dataset.day); }; });
 }
 
 // ---- OVERVIEW ----
@@ -2213,7 +2283,7 @@ function runAiEstimate(){
 }
 
 // =================== LADDER-STYLE CIRCUITS · PRESS PLAY · WEEKLY CHALLENGE (Nov 10, 2026) ===================
-var APPVER = "6.0 Circuits + Press play";
+var APPVER = "6.1 Day picker";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
