@@ -377,6 +377,91 @@ body.noscroll{overflow:hidden}
 .datetag{display:inline-block;font-size:13px;font-weight:800;color:#a8432b;background:var(--accent-soft);border-radius:99px;padding:4px 10px;margin:2px 0 2px}
 .appver{font-size:12px;opacity:.8}
 .updbar{position:fixed;left:12px;right:12px;top:calc(env(safe-area-inset-top) + 8px);z-index:99;background:#2b1d18;color:#fff;border-radius:14px;padding:12px;font-weight:700;font-size:14px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+/* ---- circuits · press play · weekly challenge ---- */
+.cta.play{font-size:19px;padding:19px}
+.manual{display:block;width:100%;margin-top:8px;padding:10px;font-size:14px;font-weight:700;color:var(--muted);background:rgba(255,247,241,.92);border-radius:14px}
+.hero.play{background:linear-gradient(135deg,#2b1d18,#5a3326)}
+.plan{padding:12px 16px}
+.pgl{padding:9px 0;border-top:1px solid var(--line)}
+.pgl:first-child{border-top:0}
+.pgt{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.pgt b{font-size:15px}.pgt span{font-size:12px;color:var(--muted);font-weight:700;text-align:right}
+.pgn{font-size:13px;color:var(--muted);margin-top:2px;line-height:1.35}
+.bigplay{display:grid;place-items:center;width:132px;height:132px;border-radius:50%;margin:18px auto 4px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:54px;box-shadow:0 14px 34px rgba(232,102,74,.45);animation:breathe 2.2s ease-in-out infinite}
+.bigplay span{transform:translateX(5px)}
+.bigplay:active{transform:scale(.95)}
+@keyframes breathe{0%,100%{box-shadow:0 14px 34px rgba(232,102,74,.45)}50%{box-shadow:0 14px 44px rgba(232,102,74,.7),0 0 0 10px rgba(232,102,74,.12)}}
+.bigplayl{text-align:center;font-weight:800;font-size:18px}
+.sub.small{font-size:13px}
+.ptoggles{display:flex;gap:8px;justify-content:center;margin:12px 0 4px}
+.ptog{padding:9px 14px;border-radius:99px;background:var(--card);box-shadow:var(--shadow);font-size:13px;font-weight:800}
+.ptog.off{opacity:.55}
+.demo{--dh:clamp(300px,58vh,560px)}
+#pdemo .demo{--dh:clamp(230px,38vh,400px);margin-bottom:10px}
+.demo.wu .dposter.ph{display:flex;flex-direction:column;background:linear-gradient(135deg,#fde6dc,#fff1e6)}
+.demo.wu .dposter.ph .e{font-size:84px}
+.demo.wu .dposter.ph .t{font-size:18px;color:#a8432b}
+.pltop .progress{margin:0 10px}
+.pleft{color:#fff;font-weight:800;font-size:13px;min-width:70px;text-align:right;font-variant-numeric:tabular-nums;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.pmeta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:2px 0 8px}
+.pkind{font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:#fff;background:var(--accent);border-radius:99px;padding:4px 10px}
+.pkind.k-rest,.pkind.k-trans,.pkind.k-ready{background:#4f8fc4}
+.pkind.k-warm,.pkind.k-cool{background:var(--good)}
+.pgrp{font-size:13px;font-weight:800;color:#a8432b}
+.pmain{display:flex;gap:14px;align-items:center}
+.ring{position:relative;flex:0 0 128px;height:128px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:10}
+.ring .bg{stroke:#f3e3da}
+.ring .fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .2s linear}
+.ring.k-rest .fg,.ring.k-trans .fg,.ring.k-ready .fg{stroke:#4f8fc4}
+.ring.k-warm .fg,.ring.k-cool .fg{stroke:var(--good)}
+.ring.paused{opacity:.6}
+.ring .rt{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring .rt b{display:block;font-size:34px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
+.ring .rt small{display:block;font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:3px}
+.pinfo{flex:1;min-width:0}
+.pnx{font-size:11px;font-weight:800;color:#4f8fc4;text-transform:uppercase;letter-spacing:.6px}
+.pname{font-size:24px;font-weight:800;letter-spacing:-.4px;line-height:1.1}
+.paim{font-size:14px;color:var(--muted);font-weight:600;margin-top:4px;line-height:1.3}
+.pctl{display:flex;gap:22px;justify-content:center;align-items:center;margin:14px 0 10px}
+.pcb{width:62px;height:62px;border-radius:50%;background:var(--card);box-shadow:var(--shadow);font-size:22px;display:grid;place-items:center}
+.pcb.pp{width:84px;height:84px;font-size:32px;background:var(--accent);color:#fff;box-shadow:0 10px 24px rgba(232,102,74,.4)}
+.pcb.pp.paused{background:var(--good);box-shadow:0 10px 24px rgba(63,166,107,.4)}
+.pcb:active{transform:scale(.94)}
+.padd{display:block;margin:0 auto 12px;padding:9px 16px;border-radius:99px;background:var(--accent-soft);color:#a8432b;font-weight:800;font-size:14px}
+.pmsg{text-align:center;font-size:14px;font-weight:700;color:#24774a;background:var(--good-soft);border-radius:12px;padding:9px 12px;margin-top:12px}
+.streak{font-size:14px;color:var(--ink);background:#fff3e0;border-radius:14px;padding:10px 14px;margin:12px 0}
+.chal{background:var(--card);border-radius:var(--radius);padding:14px 16px;box-shadow:var(--shadow);margin-bottom:12px;border:2px solid #ffd9a8}
+.chal.won{border-color:var(--good);background:linear-gradient(135deg,#fff,#eefaf2)}
+.chal .ch{display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:#b86a00;text-transform:uppercase;letter-spacing:.5px}
+.chal.won .ch{color:#24774a}
+.chal .ct{display:flex;gap:12px;align-items:flex-start;margin:8px 0 8px}
+.chal .ci{flex:0 0 46px;height:46px;border-radius:14px;background:#fff3e0;display:grid;place-items:center;font-size:24px}
+.chal .ct b{font-size:17px}
+.chal .cd{font-size:13px;color:var(--muted);margin-top:2px;line-height:1.35}
+.chal .cg{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:14px;margin-bottom:4px;flex-wrap:wrap}
+.chal .cg small{color:var(--muted);font-weight:600;font-size:12px}
+.chal .cv{font-size:14px;color:var(--muted);margin-bottom:6px}
+.chal .cv b{font-size:24px;color:var(--ink)}
+.chal .cs{font-size:13px;font-weight:700;color:var(--ink);margin:8px 0 10px}
+.chal.mini{text-align:left;margin:14px 0 0}
+.chal.mini .cs{margin-bottom:0}
+.tbig{font-size:72px;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;letter-spacing:-2px;margin:4px 0 0}
+.tlbl{text-align:center;font-size:14px;color:var(--muted);font-weight:600;margin-bottom:14px}
+.fstats{display:flex;gap:10px;margin:16px 0 6px}
+.fstats div{flex:1;background:var(--card);border-radius:16px;padding:12px 6px;box-shadow:var(--shadow)}
+.fstats b{display:block;font-size:24px;font-weight:800}
+.fstats span{font-size:12px;color:var(--muted);font-weight:700}
+.cheer{font-size:16px;font-weight:700;margin:12px 6px 0;line-height:1.4}
+
+.upnext .un{color:var(--ink)}
+.pcb svg{display:block}
+.pcb{color:var(--ink)}
+.pcb.pp{color:#fff}
+.pcb.pp svg{margin-left:0}
+.pcb.pp.paused svg{transform:translateX(2px)}
+
 </style>
 </head>
 <body>
@@ -744,7 +829,7 @@ function dayDate(base){ var i = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}[base
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ return (d.ver === "Q" ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver) + " · " + (d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.base)); }
-var BUILD = "Nov 1, 2026 9:50 PM ET";
+var BUILD = "Nov 10, 2026 9:08 PM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -838,15 +923,17 @@ function parseHash(){
 window.addEventListener("hashchange", render);
 
 function render(){
-  stopHold(); hideRest(); closeModal(); window.scrollTo(0,0);
+  stopHold(); hideRest(); closeModal(); stopPlayer(); window.scrollTo(0,0);
   document.querySelectorAll(".confetti").forEach(function(c){ c.remove(); });
   var q = parseHash();
+  if(!q.play) PL = null;
   if("food" in q) return renderFoodLog();
   var di = ALLDAYS.findIndex(function(d){ return d.key === q.day; });
   if(di < 0){ hideRest(); return renderHome(); }
   if(state.day !== di){ state.sets = {}; }
   state.day = di;
   if(q.done){ hideRest(); return renderFinish(); }
+  if(q.play){ return renderPlayer(); }
   if(q.step !== undefined){
     var s = Math.max(0, Math.min(buildSteps(ALLDAYS[di]).length-1, parseInt(q.step,10)||0));
     state.step = s; return renderStep();
@@ -910,25 +997,26 @@ function renderHome(){
   var html = '<p class="sub" style="margin-top:6px">'+greet+', Mina</p><h1>Your week</h1><div class="wkhead">Week '+weekVer()+' · '+weekRange()+'</div>' +
     '<p class="sub">'+doneCount+' of 5 workouts done this week · <b>Week '+weekVer()+'</b> moves' + (t<0 ? ' · Weekend = rest or an easy walk 🌿' : '') + '</p>' +
     (t<0 && new Date().getDay() === 0 ? (function(){ var n = new Date(); n.setDate(n.getDate() + 1); return '<p class="sub nextwk">Tomorrow starts <b>Week '+weekVer(n)+'</b> (Mon '+md(n)+').</p>'; })() : '') +
-    '<div class="tip">💡 Leave 1–2 reps in the tank.</div>' + trackCardHtml() + goalsHtml() + bodyCardHtml() + '<div class="cards">';
+    streakHtml() + chalCardHtml() + trackCardHtml() + goalsHtml() + bodyCardHtml() + '<div class="cards">';
   DAYS.forEach(function(d, i){
     var done = doneThisWeek(d.key);
     var wd = weekDay(d.key);
     html += '<button class="daycard'+(i===t?' today':'')+(done?' done':'')+'" data-day="'+wd.key+'">' +
       '<div class="dayicon">'+(done?'✓':d.short)+'</div><div class="daymeta">' +
       '<div class="dayname">'+d.day+' <span class="ddate">'+md(dayDate(d.key))+'</span>'+(i===t?' <span class="badge">TODAY</span>':'')+(done?' <span class="badge good">DONE</span>':'')+'</div>' +
-      '<div class="daytitle">'+d.title+' <span class="wver">'+verLabel(wd.ver)+'</span></div><div class="daytime">⏱ '+d.mins+' · '+d.focus+'</div></div><div class="chev">›</div></button>';
+      '<div class="daytitle">'+d.title+' <span class="wver">'+verLabel(wd.ver)+'</span></div><div class="daytime">⏱ ~'+planMinutes(wd)+' min · circuits · '+d.focus+'</div></div><div class="chev">›</div></button>';
   });
   var wk = new Date().getDay(), isWknd = wk === 0 || wk === 6, bd = doneThisWeek("sat");
   html += '</div><div class="lbl" style="margin:16px 4px 8px">Optional weekend</div><button class="daycard bonus'+(isWknd ? ' today' : '')+(bd ? ' done' : '')+'" data-day="sat">' +
     '<div class="dayicon">'+(bd ? '✓' : '⭐')+'</div><div class="daymeta"><div class="dayname">Sat '+md(dayDate("sat"))+' or Sun '+md(dayDate("sun"))+' <span class="badge opt">OPTIONAL</span>'+(isWknd ? ' <span class="badge">THIS WEEKEND</span>' : '')+(bd ? ' <span class="badge good">DONE</span>' : '')+'</div>' +
-    '<div class="daytitle">Bonus Glute Day</div><div class="daytime">⏱ 40–45 min · 6 exercises · Glutes</div></div><div class="chev">›</div></button>';
-  html += '<div style="height:14px"></div>' + foodHtml() + '<div class="footer">Mon–Fri plan + optional weekend glute day · tap a day to start<br><span class="appver">App version: '+esc(BUILD)+'</span></div>';
+    '<div class="daytitle">Bonus Glute Day</div><div class="daytime">⏱ ~'+planMinutes(BONUS)+' min · circuits · Glutes</div></div><div class="chev">›</div></button>';
+  html += '<div style="height:14px"></div>' + foodHtml() + '<div class="footer">Mon–Fri plan + optional weekend glute day · tap a day to start<br><span class="appver">App version: '+esc(APPVER)+' · '+esc(BUILD)+'</span></div>';
   app.innerHTML = html;
   bindFood();
   bindGoals();
   document.getElementById("track").onclick = function(){ go("#food"); };
   document.getElementById("bodyw").onclick = openBodyWeight;
+  bindChal(renderHome);
   app.querySelectorAll("[data-day]").forEach(function(b){ b.onclick = function(){ go("#day=" + b.dataset.day); }; });
 }
 
@@ -944,26 +1032,33 @@ function renderOverview(){
   var nEx = d.blocks.reduce(function(a,b){ return a + b.items.length; }, 0);
   var html = '<div class="topbar"><button class="iconbtn" id="home" aria-label="Back">‹</button><div></div><div style="width:44px"></div></div>' +
     '<div class="hero"><div class="k">'+workoutTag(d)+(doneThisWeek(d.base)?' · ✓ Done this week':'')+'</div><h1>'+d.title+'</h1>' +
-    '<div class="pills"><span class="pill">⏱ '+d.mins+'</span><span class="pill">'+nEx+' exercises + warm-up</span><span class="pill">'+d.focus+'</span></div></div>' +
+    '<div class="pills"><span class="pill">⏱ ~'+planMinutes(d)+' min</span><span class="pill">'+nEx+' exercises · circuits</span><span class="pill">'+d.focus+'</span></div></div>' +
     (d.bonus ? '<div class="tip" style="background:#f4efff;color:#5b44a8">⭐ Optional bonus day. It doesn’t change your Mon–Fri plan or weekly count.</div>' : verSwitchHtml(d)) + '<div class="tip">💡 Leave 1–2 reps in the tank.</div>';
   var w = d.warmup;
-  html += '<div class="section"><div class="h"><b>Warm-up</b><span>'+(w.mins? w.mins+' min':'~5 min')+'</span></div><div class="row">' +
-    (w.ex ? picHtml(w.ex, "thumb") : '<div class="thumb">🔥</div>') + '<div><div class="n">'+(w.ex?EX[w.ex].name:'Warm-up')+'</div><div class="d">'+esc(w.text)+'</div></div></div></div>';
-  d.blocks.forEach(function(b, bi){
-    var right = b.superset ? 'Superset · rest '+b.rest+'s' : b.finisher ? (b.items[0].sets)+' rounds' : 'Rest '+b.rest+'s';
-    html += '<div class="section"><div class="h"><b>'+b.label+'</b><span>'+right+'</span></div>';
-    b.items.forEach(function(p0, i){
-      var p = effP(d.key, bi, i, p0), lw = showWeight(p) ? lastLift(p.ex) : null;
-      html += '<div class="row">'+picHtml(p.ex, "thumb")+'<div style="flex:1;min-width:0"><div class="n">'+(b.superset?'<span class="ss">'+"AB"[i]+'</span>':'')+esc(exName(p))+'</div><div class="d">'+esc(b.finisher ? (p.walkMins ? p.walkText : (p.hold ? p.hold+' sec' : p.reps)+(p.each?'/'+p.each:'')+' per round') : shortRx(p,false))+(lw ? ' · last '+lw.w+' lbs' : '')+'</div>'+(p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '')+'</div>' +
-        (SWAPS[p0.ex] ? '<button class="swapmini" data-swap="'+bi+':'+i+'" aria-label="Swap exercise">⇄</button>' : '') + '</div>';
+  var wg = circuitPlan(d)[0];
+  html += '<div class="section"><div class="h"><b>Warm-up</b><span>'+Math.round(wg.list.reduce(function(a, x){ return a + x.s; }, 0)/30)/2+' min · timed</span></div><div class="row">' +
+    '<div class="thumb">🔥</div><div><div class="n">'+esc(wg.list.map(function(x){ return x.ex ? EX[x.ex].name : WU[x.wu].name; }).join(' · '))+'</div><div class="d">'+esc(w.text)+' (Tap-through mode)</div></div></div></div>';
+  circuitPlan(d).forEach(function(g){
+    if(g.k === "warm" || g.k === "cool") return;
+    var right = g.k === "strength" ? g.rounds + ' sets · ' + setSecs(g.items[0].p) + 's on / ' + g.rest + 's rest' : g.rounds + ' rounds · back to back · ' + g.rest + 's rest';
+    html += '<div class="section"><div class="h"><b>'+esc(g.title)+'</b><span>'+right+'</span></div>';
+    g.items.forEach(function(x, j){
+      var p = x.p, p0 = x.p0, lw = showWeight(p) ? lastLift(p.ex) : null;
+      var secs = g.k === "strength" ? setSecs(p) : workSecs(p, g.fin, g.q);
+      var what = p.hold ? p.hold + ' sec hold' + (p.each ? ' / ' + p.each : '') : 'aim ' + p.reps + ' reps' + (p.each ? ' / ' + p.each : '');
+      html += '<div class="row">'+picHtml(p.ex, "thumb")+'<div style="flex:1;min-width:0"><div class="n">'+(g.items.length > 1 ? '<span class="ss">'+"ABC"[j]+'</span>' : '')+esc(exName(p))+'</div><div class="d">'+secs+'s · '+esc(what)+(lw ? ' · last '+lw.w+' lbs' : '')+'</div>'+(p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '')+'</div>' +
+        (SWAPS[p0.ex] ? '<button class="swapmini" data-swap="'+x.bi+':'+x.i+'" aria-label="Swap exercise">⇄</button>' : '') + '</div>';
     });
     html += '</div>';
   });
+  var cg = circuitPlan(d).filter(function(g){ return g.k === "cool"; })[0];
+  html += '<div class="section"><div class="h"><b>Cool-down</b><span>'+(cg.walk ? cg.walk.p.walkMins + ' min' : coolMins(cg) + ' min')+'</span></div><div class="row"><div class="thumb">🧘‍♀️</div><div><div class="n">'+(cg.walk ? 'Easy walk' : cg.list.map(function(w){ return WU[w.wu].name; }).join(' + '))+'</div><div class="d">Timed and guided, like the warm-up.</div></div></div></div>';
   html += goalsHtml() + foodHtml();
-  html += '<div class="sticky"><button class="cta" id="start">Start workout ▶</button></div>';
+  html += '<div class="sticky"><button class="cta play" id="play">▶ Press play · follow along</button><button class="manual" id="start">or tap through sets at my own pace</button></div>';
   app.innerHTML = html;
   document.getElementById("home").onclick = function(){ go("#"); };
   document.getElementById("start").onclick = function(){ state.sets = {}; unlockAudio(); requestWake(); go("#day="+d.key+"&step=0"); };
+  document.getElementById("play").onclick = function(){ primeAudio(); PL = null; go("#day="+d.key+"&play=1"); };
   bindGoals(); bindFood();
   app.querySelectorAll("[data-ver]").forEach(function(b){ b.onclick = function(){ go("#day=" + b.dataset.ver); }; });
   app.querySelectorAll("[data-swap]").forEach(function(b){ b.onclick = function(){ var a = b.dataset.swap.split(":"); openSwap(d.key, +a[0], +a[1], renderOverview); }; });
@@ -1107,24 +1202,30 @@ function alertEnd(){
 }
 var wake = null;
 function requestWake(){ try{ if(navigator.wakeLock && !wake) navigator.wakeLock.request("screen").then(function(w){ wake = w; w.addEventListener("release", function(){ wake = null; }); }).catch(function(){}); }catch(e){} }
-document.addEventListener("visibilitychange", function(){ if(document.visibilityState==="visible" && parseHash().step !== undefined) requestWake(); });
+document.addEventListener("visibilitychange", function(){ if(document.visibilityState==="visible" && (parseHash().step !== undefined || parseHash().play)) requestWake(); });
 
 // ---- FINISH ----
 function renderFinish(){
   var d = ALLDAYS[state.day]; markDone(d.base);
   try{ if(wake){ wake.release(); wake = null; } }catch(e){}
+  var sess = load("mw_last_session", null);
+  if(!sess || sess.key !== d.key || sess.date !== ymd() || Date.now() - (sess.at || 0) > 6*3600e3) sess = null;
   var strip = DAYS.map(function(x){ return '<span class="'+(doneThisWeek(x.key)?'on':'')+'">'+(doneThisWeek(x.key)?'✓':x.short)+'</span>'; }).join("");
   var n = DAYS.filter(function(x){ return doneThisWeek(x.key); }).length;
-  var html = '<div class="finish"><div class="trophy">🏆</div><h1>Workout complete!</h1><p class="sub">'+d.day+' · '+d.title+'</p>' +
-    '<div class="weekstrip">'+strip+'</div><p class="sub" style="margin-bottom:18px">'+n+' of 5 this week — so proud of you, Mina 💛</p></div>' +
+  var nEx = d.blocks.reduce(function(a,b){ return a + b.items.length; }, 0);
+  var st = workoutStreak(), ch = chalNow();
+  var cheer = CHEERS[(new Date().getDate() + d.base.length) % CHEERS.length];
+  var stats = '<div class="fstats"><div><b>'+(sess ? fmt(sess.secs) : '✓')+'</b><span>'+(sess ? 'time' : 'done')+'</span></div><div><b>'+(sess ? sess.moves : nEx)+'</b><span>moves done</span></div><div><b>🔥 '+st.weeks+'</b><span>week streak</span></div></div>';
+  var chal = '<div class="chal mini'+(ch.beat ? ' won' : '')+'"><div class="ch"><span>🏅 '+esc(ch.c.t)+'</span><span>'+ch.v+' / '+ch.g.target+' '+ch.c.unit+'</span></div><div class="pbar'+(ch.beat ? ' full' : '')+'"><i style="width:'+Math.min(100, ch.v/ch.g.target*100)+'%"></i></div>' +
+    '<div class="cs">'+(ch.beat ? '🎉 You beat this week’s challenge!' : (ch.c.auto ? 'Challenge update: '+Math.max(0, ch.g.target - ch.v)+' more '+unitN(ch.c.unit, Math.max(0, ch.g.target - ch.v))+' to beat it. You’re getting there.' : 'Try the challenge from the home screen whenever you have a minute.'))+'</div></div>';
+  var html = '<div class="finish"><div class="trophy">🏆</div><h1>'+(sess && sess.partial ? 'Nice work, that counts!' : 'Workout complete!')+'</h1><p class="sub">'+d.day+' · '+d.title+'</p>' + stats +
+    '<p class="cheer">'+esc(cheer)+'</p>' + chal +
+    '<div class="weekstrip">'+strip+'</div><p class="sub" style="margin-bottom:18px">'+n+' of 5 this week · so proud of you, Mina 💛</p></div>' +
     goalsHtml() + '<div style="margin-top:14px"><button class="cta" id="home">Back to my week</button></div>';
   app.innerHTML = html;
   document.getElementById("home").onclick = function(){ go("#"); };
   bindGoals();
-  var c = document.createElement("div"); c.className = "confetti";
-  var cols = ["#e8664a","#f29a5c","#3fa66b","#ffd166","#f7b2a0"];
-  for(var i=0;i<60;i++){ var p = document.createElement("i"); p.style.left = Math.random()*100+"%"; p.style.background = cols[i%cols.length]; p.style.animationDuration = (2+Math.random()*2.5)+"s"; p.style.animationDelay = (Math.random()*0.8)+"s"; c.appendChild(p); }
-  document.body.appendChild(c); setTimeout(function(){ c.remove(); }, 5000);
+  if(!chalCelebrate()) confettiBurst();
 }
 
 // =================== FOOD LOG ===================
@@ -1194,7 +1295,7 @@ function openModal(html){
   modal.innerHTML = '<div class="mbox" role="dialog">'+html+'</div>'; modal.classList.add("show"); document.body.classList.add("noscroll");
   var x = modal.querySelector(".mx"); if(x) x.onclick = closeModal;
 }
-function closeModal(){ stopScan(); modal.classList.remove("show"); modal.innerHTML = ""; document.body.classList.remove("noscroll"); }
+function closeModal(){ stopScan(); stopChalTimer(); modal.classList.remove("show"); modal.innerHTML = ""; document.body.classList.remove("noscroll"); }
 function mhead(title){ return '<div class="mh"><b>'+title+'</b><button class="mx" aria-label="Close">✕</button></div>'; }
 function $m(id){ return document.getElementById(id); }
 // focus a field after the sheet slides up, unless she already tapped into another field
@@ -2110,6 +2211,535 @@ function runAiEstimate(){
     msg.textContent = "AI guess (" + (j.confidence || "low") + " confidence). Fix anything that looks off." + (j.note ? " " + String(j.note).slice(0, 140) : "");
   }, function(e){ btn.disabled = false; msg.textContent = "❌ " + e.message + " You can still add foods below."; });
 }
+
+// =================== LADDER-STYLE CIRCUITS · PRESS PLAY · WEEKLY CHALLENGE (Nov 10, 2026) ===================
+var APPVER = "6.0 Circuits + Press play";
+// warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
+var WU = {
+  march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
+  squat:{name:"Bodyweight squats", icon:"🏋️‍♀️", cue:"Slow and easy. Sit back and down, chest tall, stand all the way up."},
+  hinge:{name:"Hip hinge", icon:"🙇‍♀️", cue:"Hands on hips, soft knees. Push your hips back, then squeeze your glutes to stand."},
+  arms:{name:"Arm circles", icon:"🙆‍♀️", cue:"Small to big circles, forward then back. Relax your shoulders."},
+  fig4:{name:"Figure-4 glute stretch", icon:"🧘‍♀️", cue:"On your back, ankle over the other knee, pull gently toward you. Switch sides halfway."},
+  child:{name:"Child’s pose", icon:"🧘‍♀️", cue:"Knees wide, sit back toward your heels, arms long. Slow breaths."},
+  ham:{name:"Hamstring stretch", icon:"🦵", cue:"Sit or lie down, one leg long, reach gently toward your toes. Switch legs halfway."},
+  cat:{name:"Cat-cow", icon:"🐈", cue:"On hands and knees, slowly round then arch your back with your breath."},
+  chest:{name:"Doorway chest stretch", icon:"🙆‍♀️", cue:"Forearm on a wall or doorway, step through gently. Switch sides halfway."}
+};
+var WARM = {
+  lower:[{wu:"march",s:60},{wu:"squat",s:45},{ex:"bridge",s:45},{wu:"hinge",s:45},{ex:"bandwalk",s:45},{ex:"birdDog",s:60,half:1}],
+  upper:[{wu:"march",s:60},{wu:"arms",s:45},{ex:"bandPullApart",s:45},{ex:"inclinePushup",s:45},{wu:"squat",s:45},{ex:"birdDog",s:60,half:1}],
+  full:[{wu:"march",s:60},{wu:"squat",s:45},{ex:"bridge",s:45},{wu:"hinge",s:45},{wu:"arms",s:45},{ex:"bandPullApart",s:45}]
+};
+var WARMQ = {
+  lower:[{wu:"march",s:40},{wu:"squat",s:30},{ex:"bridge",s:30}],
+  upper:[{wu:"march",s:40},{wu:"arms",s:30},{ex:"bandPullApart",s:30}],
+  full:[{wu:"march",s:40},{wu:"squat",s:30},{wu:"arms",s:30}]
+};
+var COOL = { lower:[{wu:"fig4",s:60,half:1},{wu:"ham",s:60,half:1},{wu:"child",s:45}], upper:[{wu:"chest",s:60,half:1},{wu:"cat",s:45},{wu:"child",s:45}], full:[{wu:"fig4",s:60,half:1},{wu:"chest",s:60,half:1},{wu:"child",s:45}] };
+function dayKind(d){ return (d.base === "tue" || d.base === "thu") ? "upper" : d.base === "fri" ? "full" : "lower"; }
+function r5(x){ return Math.round(x/5)*5; }
+// seconds for one interval of a move. Uni moves ("each leg/side") get double time with a "switch sides" cue halfway.
+function workSecs(p, fin, q){
+  if(p.hold) return p.hold * (p.each ? 2 : 1);
+  var base = q ? (fin ? 30 : 40) : fin ? 35 : (p.reps >= 15 ? 50 : 45);
+  return p.each ? base * 2 - 10 : base;
+}
+function setSecs(p){
+  if(p.hold) return p.hold * (p.each ? 2 : 1);
+  var s = Math.max(45, Math.min(60, r5(p.reps * 4 + 10)));
+  return p.each ? Math.min(90, s * 2 - 10) : s;
+}
+function chunkSizes(n){ return n <= 3 ? [n] : n === 4 ? [2,2] : n === 5 ? [3,2] : [3,3].concat(n > 6 ? chunkSizes(n - 6) : []); }
+function maxSets(items){ return items.reduce(function(a, x){ return Math.max(a, x.p.sets || 1); }, 1); }
+// turn the day's 6 moves into: warm-up → main lift (sets on a timer) → 2–3 move circuits → finisher → cool-down
+function circuitPlan(d){
+  var G = [], kind = dayKind(d), q = d.ver === "Q";
+  G.push({k:"warm", title:"Warm-up", list:(q ? WARMQ : WARM)[kind]});
+  var items = [];
+  d.blocks.forEach(function(b, bi){ b.items.forEach(function(p0, i){ items.push({p:effP(d.key, bi, i, p0), p0:p0, b:b, bi:bi, i:i}); }); });
+  var walk = items.filter(function(x){ return x.p.walkMins; })[0];
+  items = items.filter(function(x){ return !x.p.walkMins; });
+  if(q){
+    var n = 0;
+    d.blocks.forEach(function(b, bi){
+      var its = items.filter(function(x){ return x.bi === bi; }); if(!its.length) return;
+      if(b.finisher) G.push({k:"finisher", title:"Finisher", items:its, rounds:Math.min(3, maxSets(its)), rest:b.rest, trans:15, fin:1, q:1});
+      else G.push({k:"circuit", title:"Circuit " + (++n), items:its, rounds:Math.min(3, maxSets(its)), rest:b.rest, trans:15, q:1});
+    });
+  } else {
+    var fin = items.filter(function(x){ return x.b.finisher; }), mid = items.filter(function(x){ return !x.b.finisher; });
+    var b0 = d.blocks[0];
+    if(mid.length && !b0.superset && !b0.finisher && b0.items.length === 1 && mid[0].bi === 0){
+      var m = mid.shift();
+      G.push({k:"strength", title:"Main lift", items:[m], rounds:m.p.sets, rest:b0.rest});
+    }
+    var at = 0;
+    chunkSizes(mid.length).forEach(function(sz, ci){
+      if(!sz) return;
+      var its = mid.slice(at, at + sz); at += sz;
+      G.push({k:"circuit", title:"Circuit " + (ci + 1), items:its, rounds:Math.min(3, maxSets(its)), rest:90, trans:30});
+    });
+    if(fin.length) G.push({k:"finisher", title:"Finisher", items:fin, rounds:Math.min(3, maxSets(fin)), rest:45, trans:15, fin:1});
+  }
+  G.push({k:"cool", title:"Cool-down", walk:walk, list: walk ? [] : q ? [{wu:"child",s:45}] : COOL[kind]});
+  return G;
+}
+function coolMins(g){ return Math.round(g.list.reduce(function(a, w){ return a + w.s; }, 0)/30)/2; }
+function moveName(x){ if(x.ex && EX[x.ex]) return x.p ? exName(x.p) : EX[x.ex].name; return x.wu ? WU[x.wu].name : "Move"; }
+function aimText(s){
+  if(s.k === "warm" || s.k === "cool"){ return s.half ? "Easy pace · switch sides halfway" : "Easy pace · just keep moving"; }
+  var p = s.p; if(!p) return "";
+  if(p.hold) return "Hold " + p.hold + " sec" + (p.each ? " each " + p.each + " · switch halfway" : "");
+  var t = (s.g.k === "strength" ? p.reps + " strong reps" : "Aim for " + p.reps + " reps") + (p.each ? " each " + p.each + " · switch halfway" : "");
+  if(s.g.k === "strength") t += " · rest " + s.g.rest + "s after";
+  else if(!p.each) t += " · steady pace";
+  return t;
+}
+function buildTimeline(d){
+  var G = circuitPlan(d), S = [];
+  var push = function(o){ S.push(o); };
+  G.forEach(function(g, gi){
+    if(gi > 0 && g.k !== "cool" && G[gi-1].k !== "warm") push({k:"trans", g:g, gi:gi, secs: g.k === "finisher" ? 45 : 60, groupStart:1});
+    else if(gi > 0 && G[gi-1].k === "warm") push({k:"trans", g:g, gi:gi, secs:30, groupStart:1});
+    else if(g.k === "cool") push({k:"trans", g:g, gi:gi, secs:15, groupStart:1});
+    if(g.k === "warm" || g.k === "cool"){
+      var list = g.list.slice();
+      if(g.walk) list.unshift({ex:"walk", s:g.walk.p.walkMins*60, walk:1});
+      list.forEach(function(w, j){ push({k:g.k, g:g, gi:gi, ex:w.ex, wu:w.wu, secs:w.s, half:w.half, round:j+1, rounds:list.length, walk:w.walk}); });
+      return;
+    }
+    if(g.k === "strength"){
+      var it = g.items[0];
+      for(var r = 1; r <= g.rounds; r++){
+        push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:setSecs(it.p), half:!!it.p.each, round:r, rounds:g.rounds});
+        if(r < g.rounds) push({k:"rest", g:g, gi:gi, secs:g.rest, round:r, rounds:g.rounds, setRest:1});
+      }
+      return;
+    }
+    for(var rr = 1; rr <= g.rounds; rr++){
+      g.items.forEach(function(it, j){
+        push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:workSecs(it.p, g.fin, g.q), half:!!it.p.each, round:rr, rounds:g.rounds, pos:j});
+        if(j < g.items.length - 1) push({k:"trans", g:g, gi:gi, secs:g.trans, round:rr, rounds:g.rounds});
+      });
+      if(rr < g.rounds) push({k:"rest", g:g, gi:gi, secs:g.rest, round:rr, rounds:g.rounds, roundRest:1});
+    }
+  });
+  S.unshift({k:"ready", g:G[0], gi:0, secs:10});
+  // every rest/transition points at the move that comes next (Ladder shows it during the break)
+  for(var i = S.length - 1, nx = null; i >= 0; i--){ S[i].nx = nx; if(S[i].k === "work" || S[i].k === "warm" || S[i].k === "cool") nx = i; }
+  return S;
+}
+function tlSecs(S){ return S.reduce(function(a, s){ return a + s.secs; }, 0); }
+function planMinutes(d){ return Math.round(tlSecs(buildTimeline(d)) / 60); }
+
+// ---- sound + voice ----
+function beepsOn(){ return !!load("mw_beeps", 1); }
+function voiceOn(){ return !!load("mw_voice", 1); }
+function tone(freq, dur, vol, delay){
+  try{
+    if(!actx || !beepsOn()) return;
+    if(actx.state === "suspended") actx.resume();
+    var o = actx.createOscillator(), g = actx.createGain(), s = actx.currentTime + (delay || 0);
+    o.type = "sine"; o.frequency.value = freq; o.connect(g); g.connect(actx.destination);
+    g.gain.setValueAtTime(0.0001, s); g.gain.exponentialRampToValueAtTime(vol || 0.35, s + 0.015); g.gain.exponentialRampToValueAtTime(0.0001, s + dur);
+    o.start(s); o.stop(s + dur + 0.02);
+  }catch(e){}
+}
+function beepTick(){ tone(880, 0.13, 0.32); }
+function beepGo(){ tone(1175, 0.35, 0.4); try{ if(navigator.vibrate) navigator.vibrate(120); }catch(e){} }
+function primeAudio(){
+  unlockAudio();
+  try{ if(actx){ var b = actx.createBuffer(1, 1, 22050), s = actx.createBufferSource(); s.buffer = b; s.connect(actx.destination); s.start(0); } }catch(e){}
+}
+var voiceObj = null;
+function pickVoice(){
+  try{
+    if(voiceObj) return voiceObj;
+    var vs = window.speechSynthesis.getVoices() || [];
+    var pref = ["Samantha","Ava","Allison","Susan","Victoria","Karen","Google US English","Microsoft Aria","Microsoft Jenny"];
+    for(var i = 0; i < pref.length; i++){ var v = vs.filter(function(x){ return x.name.indexOf(pref[i]) === 0; })[0]; if(v) return (voiceObj = v); }
+    return (voiceObj = vs.filter(function(x){ return /^en(-|_)US/i.test(x.lang); })[0] || vs.filter(function(x){ return /^en/i.test(x.lang); })[0] || null);
+  }catch(e){ return null; }
+}
+function say(t, force){
+  if(!voiceOn() && !force) return;
+  try{
+    var ss = window.speechSynthesis; if(!ss || !window.SpeechSynthesisUtterance) return;
+    ss.cancel();
+    var u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 1.03; u.pitch = 1.05; u.volume = 1;
+    var v = pickVoice(); if(v) u.voice = v;
+    ss.speak(u);
+  }catch(e){}
+}
+function secWords(s){ return s >= 120 && s % 60 === 0 ? (s/60) + " minutes" : s >= 60 && s % 60 === 0 ? "1 minute" : s + " seconds"; }
+
+// ---- player ----
+var PL = null;
+var ICO = {"prev": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\"><path d=\"M6 5h2.5v14H6zM20 5v14L9.5 12z\" fill=\"currentColor\"/></svg>", "next": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\"><path d=\"M15.5 5H18v14h-2.5zM4 5v14l10.5-7z\" fill=\"currentColor\"/></svg>", "pause": "<svg viewBox=\"0 0 24 24\" width=\"34\" height=\"34\"><path d=\"M6 4h4.5v16H6zM13.5 4H18v16h-4.5z\" fill=\"currentColor\"/></svg>", "play": "<svg viewBox=\"0 0 24 24\" width=\"36\" height=\"36\"><path d=\"M7 4v16l13-8z\" fill=\"currentColor\"/></svg>"};
+function stopPlayer(){ if(PL && PL.iv){ clearInterval(PL.iv); PL.iv = null; } }
+function plNew(d){
+  var S = buildTimeline(d);
+  return {key:d.key, d:d, S:S, i:0, started:false, paused:true, left:S[0].secs, segTotal:S[0].secs, endAt:0, lastT:0, active:0, moves:0, done:{}, exDone:{}, demoKey:null, lastWhole:null, halfDone:false, extra:0};
+}
+function renderPlayer(){
+  var d = ALLDAYS[state.day];
+  if(!PL || PL.key !== d.key) PL = plNew(d);
+  if(!PL.started) return renderPlayReady();
+  PL.demoKey = null; app.innerHTML = '<div id="pdemo"></div><div id="pbody"></div>';
+  plSegRender(); plUpdate();
+  if(!PL.paused) plRun();
+}
+function togglesHtml(){
+  return '<div class="ptoggles"><button class="ptog'+(beepsOn() ? '' : ' off')+'" id="tgBeep">'+(beepsOn() ? '🔔 Beeps on' : '🔕 Beeps off')+'</button>' +
+    '<button class="ptog'+(voiceOn() ? '' : ' off')+'" id="tgVoice">'+(voiceOn() ? '🗣 Voice on' : '🤫 Voice off')+'</button></div>';
+}
+function bindToggles(){
+  var b = document.getElementById("tgBeep"), v = document.getElementById("tgVoice");
+  if(b) b.onclick = function(){ primeAudio(); save("mw_beeps", beepsOn() ? 0 : 1); b.className = "ptog" + (beepsOn() ? "" : " off"); b.textContent = beepsOn() ? "🔔 Beeps on" : "🔕 Beeps off"; if(beepsOn()) beepTick(); };
+  if(v) v.onclick = function(){ save("mw_voice", voiceOn() ? 0 : 1); v.className = "ptog" + (voiceOn() ? "" : " off"); v.textContent = voiceOn() ? "🗣 Voice on" : "🤫 Voice off"; if(voiceOn()) say("Voice on"); else try{ speechSynthesis.cancel(); }catch(e){} };
+}
+function planListHtml(d){
+  return circuitPlan(d).map(function(g){
+    var names, meta;
+    if(g.k === "warm" || g.k === "cool"){
+      var l = g.list.map(function(w){ return w.ex ? EX[w.ex].name : WU[w.wu].name; });
+      if(g.walk) l.unshift("Easy walk " + g.walk.p.walkText);
+      names = l.join(" · "); meta = g.k === "warm" ? Math.round(g.list.reduce(function(a, w){ return a + w.s; }, 0)/60*2)/2 + " min" : (g.walk ? g.walk.p.walkMins + " min" : coolMins(g) + " min");
+    } else {
+      names = g.items.map(function(x){ return exName(x.p); }).join(" → ");
+      meta = g.k === "strength" ? g.rounds + " sets · " + setSecs(g.items[0].p) + "s on / " + g.rest + "s rest" : g.rounds + " rounds · " + g.items.map(function(x){ return workSecs(x.p, g.fin, g.q); }).filter(function(v, i, a){ return a.indexOf(v) === i; }).join("/") + "s on · " + g.rest + "s rest";
+    }
+    return '<div class="pgl"><div class="pgt"><b>'+esc(g.title)+'</b><span>'+esc(meta)+'</span></div><div class="pgn">'+esc(names)+'</div></div>';
+  }).join("");
+}
+function renderPlayReady(){
+  var d = ALLDAYS[state.day], mins = Math.round(tlSecs(PL.S)/60);
+  var nEx = d.blocks.reduce(function(a,b){ return a + b.items.length; }, 0);
+  var html = '<div class="topbar"><button class="iconbtn" id="pback" aria-label="Back">‹</button><div class="ftitle">Press play</div><div style="width:44px"></div></div>' +
+    '<div class="hero play"><div class="k">'+esc(workoutTag(d))+'</div><h1>'+esc(d.title)+'</h1>' +
+    '<div class="pills"><span class="pill">⏱ '+mins+' min</span><span class="pill">'+nEx+' exercises</span><span class="pill">Hands-free</span></div></div>' +
+    '<p class="sub" style="margin:0 2px 10px">One tap and it runs the whole thing: warm-up, every move, rests and the cool-down. Just follow the video and the voice.</p>' +
+    '<div class="section plan">'+planListHtml(d)+'</div>' +
+    togglesHtml() +
+    '<button class="bigplay" id="pgo" aria-label="Start follow-along workout"><span>▶</span></button><div class="bigplayl">Start</div>' +
+    '<p class="sub small" style="text-align:center;margin:8px 0 0">🔈 Turn your ringer on for beeps. The screen stays awake while it runs.</p>' +
+    '<button class="linkbtn" id="pmanual" style="display:block;margin:10px auto 0">Rather tap through sets at your own pace ›</button>';
+  app.innerHTML = html;
+  document.getElementById("pback").onclick = function(){ PL = null; go("#day=" + d.key); };
+  document.getElementById("pmanual").onclick = function(){ PL = null; state.sets = {}; unlockAudio(); requestWake(); go("#day=" + d.key + "&step=0"); };
+  bindToggles();
+  document.getElementById("pgo").onclick = function(){
+    primeAudio(); say("Let's go, Mina! " + d.title + ". Get ready.", false); requestWake();
+    PL.started = true; PL.paused = false; PL.startedAt = Date.now();
+    plSetSeg(0, false, true);
+    PL.demoKey = null; app.innerHTML = '<div id="pdemo"></div><div id="pbody"></div>'; window.scrollTo(0,0);
+    plSegRender(); plUpdate(); plRun();
+  };
+}
+function plRun(){ stopPlayer(); PL.lastT = Date.now(); PL.iv = setInterval(plTick, 200); }
+function plSetSeg(i, carry, quiet){
+  var s = PL.S[i], now = Date.now();
+  PL.i = i; PL.segTotal = s.secs; PL.extra = 0; PL.halfDone = false; PL.lastWhole = null;
+  PL.endAt = (carry && PL.endAt && now - PL.endAt < 1500 ? PL.endAt : now) + s.secs * 1000;
+  PL.left = s.secs;
+  if(!quiet) plCue(s);
+}
+function plCue(s){
+  var nx = s.nx != null ? PL.S[s.nx] : null;
+  if(s.k === "ready"){ return; }
+  if(s.k === "work"){ say(PL.S[PL.i-1] && (PL.S[PL.i-1].k === "trans" || PL.S[PL.i-1].k === "rest" || PL.S[PL.i-1].k === "ready") ? "Go!" : moveName(s) + ". Go!"); return; }
+  if(s.k === "warm" || s.k === "cool"){
+    var first = s.round === 1 && (!PL.S[PL.i-1] || PL.S[PL.i-1].k !== s.k);
+    say((first && s.k === "warm" ? "Warm-up. " : "") + (first && s.k === "cool" ? "Cool-down. " : "") + moveName(s) + ", " + secWords(s.secs) + (s.half ? ". Switch sides halfway." : "."));
+    return;
+  }
+  if(!nx) return;
+  var nxt = "Next: " + moveName(nx) + ", " + secWords(nx.secs) + ".";
+  if(s.groupStart) say((s.g.k === "cool" ? "Nice work! " : "") + s.g.title + ". " + nxt);
+  else if(s.roundRest) say("Rest. Round " + (s.round + 1) + " of " + s.rounds + " is next. " + nxt);
+  else if(s.setRest) say("Rest. Set " + (s.round + 1) + " of " + s.rounds + " next.");
+  else say(nxt);
+}
+function plTick(){
+  if(!PL || PL.paused) return;
+  var now = Date.now(), s = PL.S[PL.i];
+  PL.active += Math.min(2000, now - PL.lastT); PL.lastT = now;
+  var left = (PL.endAt - now) / 1000, whole = Math.ceil(left);
+  if(whole !== PL.lastWhole){
+    PL.lastWhole = whole;
+    if(whole >= 1 && whole <= 3 && PL.segTotal >= 6) beepTick();
+    if(s.half && !PL.halfDone && left <= PL.segTotal / 2 && left > 3){ PL.halfDone = true; tone(660, 0.18, 0.35); tone(990, 0.22, 0.35, 0.2); say("Switch sides."); }
+  }
+  if(left <= 0){ plAdvance(true); return; }
+  PL.left = left; plUpdate();
+}
+function plMarkWork(natural){
+  var s = PL.S[PL.i]; if(!s || s.k !== "work" || PL.done[PL.i]) return;
+  var ran = PL.segTotal - Math.max(0, PL.left);
+  if(natural || ran >= PL.segTotal * 0.5){
+    PL.done[PL.i] = 1; PL.moves++; PL.exDone[s.ex] = 1;
+    if(showWeight(s.p)){ var inp = document.getElementById("wIn"); var w = inp ? num(inp.value) : null; if(w > 0) saveLift(s.p, w); }
+  }
+}
+function plAdvance(natural){
+  plMarkWork(natural);
+  if(PL.i >= PL.S.length - 1){ beepGo(); return plFinish(false); }
+  if(natural) beepGo();
+  plSetSeg(PL.i + 1, natural);
+  plSegRender(); plUpdate();
+}
+function plBack(){
+  var s = PL.S[PL.i], ran = PL.segTotal - PL.left;
+  var target = ran > 3 || PL.i === 0 ? PL.i : PL.i - 1;
+  plSetSeg(target, false); if(PL.paused){ PL.left = PL.S[target].secs; }
+  plSegRender(); plUpdate();
+}
+function plPause(){
+  if(!PL || PL.paused) return;
+  PL.left = Math.max(0, (PL.endAt - Date.now()) / 1000); PL.paused = true; stopPlayer();
+  try{ speechSynthesis.cancel(); }catch(e){}
+  plUpdate(true);
+}
+function plResume(){
+  if(!PL || !PL.paused) return;
+  primeAudio(); requestWake();
+  PL.paused = false; PL.endAt = Date.now() + PL.left * 1000; PL.autoPaused = false;
+  var m = document.getElementById("pmsg"); if(m) m.remove();
+  plRun(); plUpdate(true);
+}
+function plSegKind(s){ return {ready:"Get ready", warm:"Warm-up", work:"Work", rest:"Rest", trans:"Next up", cool:"Cool-down"}[s.k]; }
+function plDisplaySeg(){ var s = PL.S[PL.i]; return (s.k === "rest" || s.k === "trans" || s.k === "ready") && s.nx != null ? PL.S[s.nx] : s; }
+function plTopHtml(){
+  return '<div class="topbar pltop"><button class="iconbtn" id="pclose" aria-label="End workout">✕</button>' +
+    '<div class="progress"><i id="plProg" style="width:0%"></i></div><div class="pleft" id="plLeft">0:00</div></div>';
+}
+function plDemo(x){
+  var top = plTopHtml();
+  if(x.ex && EX[x.ex]) return demoHtml(x.ex, top);
+  var w = WU[x.wu] || {icon:"🔥", name:"Warm-up"};
+  return '<div class="demo wu" id="demo"><div class="dposter ph"><div class="e">'+w.icon+'</div><div class="t">'+esc(w.name)+'</div></div><div class="dshade"></div><div class="dtop">'+top+'</div></div>';
+}
+function plSegRender(){
+  var s = PL.S[PL.i], x = plDisplaySeg(), isBreak = x !== s;
+  // keep the looping demo playing if the move didn't change (rest → same move, or next set)
+  var dk = (x.ex || "") + "|" + (x.wu || "");
+  var act = document.activeElement; if(act && act.id === "wIn") act.blur();
+  if(dk !== PL.demoKey){ PL.demoKey = dk; document.getElementById("pdemo").innerHTML = plDemo(x); bindDemo(); document.getElementById("pclose").onclick = plClose; }
+  var g = s.g, grp = g.title + (s.rounds && g.k !== "warm" && g.k !== "cool" ? " · " + (g.k === "strength" ? "Set " : "Round ") + (s.k === "rest" ? Math.min(s.rounds, s.round + 1) : s.round) + " of " + s.rounds : "");
+  if(s.k === "ready") grp = "Starting with: " + g.title;
+  if(s.groupStart) grp = "Next: " + g.title + (g.rounds ? " · " + g.rounds + (g.k === "strength" ? " sets" : " rounds") : "");
+  var cue = x.ex && EX[x.ex] ? EX[x.ex].cue : (WU[x.wu] || {}).cue || "";
+  var aim = aimText(x);
+  var html = '<div class="pmeta"><span class="pkind k-'+s.k+'">'+plSegKind(s)+'</span><span class="pgrp">'+esc(grp)+'</span></div>' +
+    '<div class="pmain"><div class="ring k-'+s.k+'" id="ring"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="ringFg" cx="60" cy="60" r="52"/></svg>' +
+    '<div class="rt"><div><b id="ringT">0:00</b><small id="ringL">'+(isBreak ? "rest" : "left")+'</small></div></div></div>' +
+    '<div class="pinfo">'+(isBreak ? '<div class="pnx">Up next</div>' : '')+'<h2 class="pname">'+esc(moveName(x))+'</h2><div class="paim">'+esc(aim)+'</div>' +
+    (x.p && x.p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[x.p.orig].name)+'</div>' : '') + '</div></div>' +
+    '<div class="pctl"><button class="pcb" id="pprev" aria-label="Back">'+ICO.prev+'</button><button class="pcb pp" id="ppause" aria-label="Pause">'+ICO.pause+'</button><button class="pcb" id="pskip" aria-label="Skip">'+ICO.next+'</button></div>' +
+    ((s.k === "rest" || s.k === "trans") ? '<button class="padd" id="padd">+15 sec</button>' : '') +
+    (cue ? '<p class="note">'+esc(cue)+'</p>' : '');
+  // Ladder-style "up next" (what comes after the move on screen)
+  var after = null;
+  for(var j = (isBreak ? s.nx : PL.i) + 1; j < PL.S.length; j++){ var k = PL.S[j].k; if(k === "work" || k === "warm" || k === "cool"){ after = PL.S[j]; break; } }
+  html += after ? '<div class="upnext">' + (after.ex && EX[after.ex] ? picHtml(after.ex, "thumb") : '<div class="thumb ph"><div class="e">'+((WU[after.wu]||{}).icon||"🔥")+'</div></div>') +
+      '<div class="um"><div class="uk">'+(isBreak ? 'After that' : 'Up next')+'</div><div class="un">'+esc(moveName(after))+'</div><div class="ud">'+esc(after.g.title + (after.k === "work" ? " · " + (after.g.k === "strength" ? "set " : "round ") + after.round + " of " + after.rounds : "") + " · " + secWords(after.secs))+'</div></div></div>'
+    : '<div class="upnext"><div class="thumb ph"><div class="e">🏁</div></div><div class="um"><div class="uk">Up next</div><div class="un">Finish 🎉</div></div></div>';
+  if(x.p && showWeight(x.p) && x.k === "work") html += '<div style="height:10px"></div>' + weightHtml(x.p);
+  html += togglesHtml() + '<div style="height:18px"></div>';
+  document.getElementById("pbody").innerHTML = html;
+  if(x.p && showWeight(x.p) && x.k === "work") bindWeight(x.p);
+  document.getElementById("ppause").onclick = function(){ if(PL.paused) plResume(); else plPause(); };
+  document.getElementById("pskip").onclick = function(){ primeAudio(); var wasP = PL.paused; plAdvance(false); if(wasP){ PL.left = PL.S[PL.i].secs; plUpdate(true); } };
+  document.getElementById("pprev").onclick = function(){ primeAudio(); plBack(); };
+  var add = document.getElementById("padd"); if(add) add.onclick = function(){ PL.endAt += 15000; PL.segTotal += 15; PL.extra += 15; if(PL.paused) PL.left += 15; plUpdate(true); };
+  bindToggles();
+  if(PL.paused && PL.autoPaused) plPausedMsg();
+}
+function plPausedMsg(){
+  if(document.getElementById("pmsg")) return;
+  var m = document.createElement("div"); m.id = "pmsg"; m.className = "pmsg"; m.textContent = "Paused while you were away. Tap ▶ when you’re ready.";
+  var c = document.querySelector(".pctl"); if(c) c.parentNode.insertBefore(m, c);
+}
+function plUpdate(full){
+  if(!PL) return;
+  var s = PL.S[PL.i], left = PL.paused ? PL.left : Math.max(0, (PL.endAt - Date.now()) / 1000);
+  var before = 0; for(var i = 0; i < PL.i; i++) before += PL.S[i].secs;
+  var total = tlSecs(PL.S) + PL.extra, el = before + (PL.segTotal - left);
+  var t = document.getElementById("ringT"); if(t) t.textContent = fmt(left);
+  var fg = document.getElementById("ringFg"); if(fg){ var C = 2 * Math.PI * 52; fg.style.strokeDasharray = C; fg.style.strokeDashoffset = C * (1 - Math.max(0, Math.min(1, left / PL.segTotal))); }
+  var pr = document.getElementById("plProg"); if(pr) pr.style.width = Math.min(100, el / total * 100) + "%";
+  var pl = document.getElementById("plLeft"); if(pl) pl.textContent = fmt(Math.max(0, total - el)) + " left";
+  var pp = document.getElementById("ppause"); if(pp && (full || pp.dataset.p !== String(PL.paused))){ pp.dataset.p = String(PL.paused); pp.innerHTML = PL.paused ? ICO.play : ICO.pause; pp.setAttribute("aria-label", PL.paused ? "Play" : "Pause"); pp.classList.toggle("paused", PL.paused); var r = document.getElementById("ring"); if(r) r.classList.toggle("paused", PL.paused); var rl = document.getElementById("ringL"); if(rl) rl.textContent = PL.paused ? "paused" : (plDisplaySeg() !== s ? "rest" : "left"); }
+}
+function plClose(){
+  if(!PL) return;
+  var wasRunning = !PL.paused; plPause();
+  if(PL.moves > 0){
+    if(confirm("End here? Everything you did still counts 💛")) return plFinish(true);
+  } else if(confirm("Leave this workout?")){ var k = PL.key; PL = null; return go("#day=" + k); }
+  if(wasRunning) plResume();
+}
+function plFinish(partial){
+  var d = PL.d, works = PL.S.filter(function(s){ return s.k === "work"; }).length;
+  var sess = {date:ymd(), day:d.base, key:d.key, title:d.title, secs:Math.round(PL.active/1000), moves:PL.moves, of:works, ex:Object.keys(PL.exDone).length, partial:!!partial, at:Date.now()};
+  var l = load("mw_sessions", []); if(!Array.isArray(l)) l = []; l.push(sess); save("mw_sessions", l.slice(-150)); save("mw_last_session", sess);
+  stopPlayer(); PL = null;
+  say(partial ? "Nice work, Mina. That counts." : "Workout complete! Amazing job, Mina.");
+  go("#day=" + d.key + "&done=1");
+}
+document.addEventListener("visibilitychange", function(){
+  if(!PL || !PL.started) return;
+  if(document.visibilityState === "hidden"){ if(!PL.paused){ plPause(); PL.autoPaused = true; } }
+  else { requestWake(); if(PL.autoPaused) plPausedMsg(); }
+});
+
+// =================== WEEKLY CHALLENGE + STREAK ===================
+// one challenge a week, rotating. The goal to beat = last week's result (or her last try), never a guilt trip.
+var CHALLENGES = [
+  {id:"moves", icon:"⚡", t:"Press-play moves", d:"Every move you finish in a Press-play workout counts. 15-min days count too.", unit:"moves", starter:30, step:5, auto:1},
+  {id:"workouts", icon:"🏆", t:"Finish your workouts", d:"Every workout you finish this week counts, and the 15-min versions count too.", unit:"workouts", starter:3, step:1, cap:5, auto:1},
+  {id:"bridge60", icon:"🍑", t:"60-second glute bridge blitz", d:"How many bodyweight glute bridges can you do in 60 seconds? Try it on the living-room floor, as often as you like.", unit:"reps", starter:25, step:1, test:"count", secs:60},
+  {id:"walk", icon:"🚶‍♀️", t:"Walk-minute total", d:"Add up your walk minutes this week. Stroller walks and school-run walks count.", unit:"min", starter:120, step:10, auto:1},
+  {id:"plank", icon:"🧘‍♀️", t:"Longest plank hold", d:"Hold a plank as long as you can with good form (knees down is fine). Try as often as you like.", unit:"sec", starter:30, step:5, test:"hold"}
+];
+function unitN(u, n){ return n === 1 ? u.replace(/s$/, "") : u; }
+function wkKey(ws){ return ymd(ws); }
+function addDays(d, n){ var x = new Date(d); x.setDate(x.getDate() + n); return x; }
+function chalFor(ws){ return CHALLENGES[isoWeek(ws) % CHALLENGES.length]; }
+function inWeek(dateStr, ws){ var p = dateStr.split("-"), t = new Date(+p[0], +p[1]-1, +p[2]).getTime(), a = ws.getTime(); return t >= a && t < addDays(ws, 7).getTime(); }
+function weekWorkouts(ws){ return (load("mw_done", []) || []).filter(function(r){ return r && r.date && inWeek(r.date, ws); }).length; }
+function weekMoves(ws){ return (load("mw_sessions", []) || []).filter(function(s){ return s && s.date && inWeek(s.date, ws); }).reduce(function(a, s){ return a + (+s.moves || 0); }, 0); }
+function dayWalk(dk){ var w = (load("mw_walks", {}) || {})[dk] || 0, g = load("mw_goals_" + dk, {}) || {}; return Math.max(w, g.walk ? 30 : 0); }
+function weekWalk(ws){ var t = 0; for(var i = 0; i < 7; i++) t += dayWalk(ymd(addDays(ws, i))); return t; }
+function chalStore(){ var m = load("mw_chal", {}); return m && typeof m === "object" ? m : {}; }
+function chalValue(c, ws){
+  if(c.id === "workouts") return weekWorkouts(ws);
+  if(c.id === "moves") return weekMoves(ws);
+  if(c.id === "walk") return weekWalk(ws);
+  var r = chalStore()[wkKey(ws)]; return r && r.id === c.id ? (+r.best || 0) : 0;
+}
+function chalGoal(c, ws){
+  var last = 0, lbl = "";
+  if(c.auto){ last = chalValue(c, addDays(ws, -7)); lbl = "Last week"; }
+  else {
+    var m = chalStore(), ks = Object.keys(m).filter(function(k){ return k < wkKey(ws) && m[k] && m[k].id === c.id && m[k].best > 0; }).sort();
+    if(ks.length){ last = +m[ks[ks.length-1]].best; var p = ks[ks.length-1].split("-"); lbl = "Your last try (week of " + md(new Date(+p[0], +p[1]-1, +p[2])) + ")"; }
+  }
+  if(last > 0){ var tg = last + c.step; if(c.cap) tg = Math.min(c.cap, tg); return {last:last, target:tg, label:lbl + ": " + last + " " + c.unit}; }
+  return {last:0, target:c.starter, label:"Starter goal"};
+}
+function chalNow(){
+  var ws = weekStart(), c = chalFor(ws), v = chalValue(c, ws), g = chalGoal(c, ws);
+  return {c:c, ws:ws, v:v, g:g, beat:v >= g.target};
+}
+function workoutStreak(){
+  // weeks in a row with at least one workout. This week only adds to it — it never "breaks" mid-week.
+  var log = load("mw_done", []) || [], ws = weekStart(), n = 0;
+  var has = function(w){ return log.some(function(r){ return r && r.date && inWeek(r.date, w); }); };
+  if(has(ws)) n = 1;
+  for(var w = addDays(ws, -7), guard = 0; guard < 120 && has(w); w = addDays(w, -7), guard++) n++;
+  return {weeks:n, total:log.length};
+}
+function streakHtml(){
+  var s = workoutStreak();
+  if(!s.weeks && !s.total) return '<div class="streak">🔥 <b>Start your streak</b> · one workout this week starts it. Even 15 minutes counts.</div>';
+  return '<div class="streak">🔥 <b>'+s.weeks+'-week streak</b> · '+s.total+' workout'+(s.total === 1 ? '' : 's')+' done so far'+(s.weeks ? '' : ' · one workout this week starts a new streak')+'</div>';
+}
+function chalCardHtml(){
+  var n = chalNow(), c = n.c, pct = Math.min(100, n.v / n.g.target * 100), left = Math.max(0, n.g.target - n.v);
+  var status = n.beat ? '🎉 You beat it! Anything more is a bonus.' : (n.v > 0 ? left + ' ' + unitN(c.unit, left) + ' to go. You’ve got this.' : (c.auto ? 'It starts counting with your next one.' : 'Give it a try whenever you have a minute.'));
+  var acts = '';
+  if(c.test === "count") acts = '<button class="cta small" data-chal="test">▶ Try it now (60 sec)</button>';
+  else if(c.test === "hold") acts = '<button class="cta small" data-chal="test">⏱ Start plank timer</button>';
+  else if(c.id === "walk") acts = '<div class="two"><button class="cta small ghost" data-chal="w10">＋10 min walk</button><button class="cta small ghost" data-chal="w30">＋30 min walk</button></div>';
+  else { var t = todayIdx(); acts = '<button class="cta small" data-chal="go">▶ Press play on '+(t >= 0 ? 'today’s' : 'a')+' workout</button>'; }
+  return '<div class="chal'+(n.beat ? ' won' : '')+'" id="chal"><div class="ch"><span>🏅 This week’s challenge</span><span>'+md(n.ws)+' – '+md(addDays(n.ws, 6))+'</span></div>' +
+    '<div class="ct"><span class="ci">'+c.icon+'</span><div><b>'+esc(c.t)+'</b><div class="cd">'+esc(c.d)+'</div></div></div>' +
+    '<div class="cg"><span>Goal to beat: <b>'+n.g.target+' '+c.unit+'</b></span><small>'+esc(n.g.label)+'</small></div>' +
+    '<div class="cv"><b>'+n.v+'</b> / '+n.g.target+' '+c.unit+'</div><div class="pbar'+(n.beat ? ' full' : '')+'"><i style="width:'+pct+'%"></i></div>' +
+    '<div class="cs">'+esc(status)+'</div>' + acts + '</div>';
+}
+function bindChal(rerender){
+  rerender = rerender || renderHome;
+  app.querySelectorAll("[data-chal]").forEach(function(b){ b.onclick = function(){
+    var a = b.dataset.chal;
+    if(a === "test") return openChalTest(rerender);
+    if(a === "w10" || a === "w30"){
+      var add = a === "w10" ? 10 : 30, w = load("mw_walks", {}) || {}, t = ymd(); w[t] = (w[t] || 0) + add; save("mw_walks", w);
+      if(w[t] >= 30){ var gk = "mw_goals_" + t, g = load(gk, {}) || {}; g.walk = true; save(gk, g); }
+      rerender(); toast("🚶‍♀️ +" + add + " walk minutes"); return;
+    }
+    var t2 = todayIdx(), base = t2 >= 0 ? DAYS[t2].key : "mon";
+    go("#day=" + weekDay(base).key + "&play=1");
+  }; });
+  chalCelebrate();
+}
+function confettiBurst(){
+  var c = document.createElement("div"); c.className = "confetti";
+  var cols = ["#e8664a","#f29a5c","#3fa66b","#ffd166","#f7b2a0","#8fc1ff"];
+  for(var i = 0; i < 70; i++){ var p = document.createElement("i"); p.style.left = Math.random()*100 + "%"; p.style.background = cols[i % cols.length]; p.style.animationDuration = (2 + Math.random()*2.5) + "s"; p.style.animationDelay = (Math.random()*0.8) + "s"; c.appendChild(p); }
+  document.body.appendChild(c); setTimeout(function(){ c.remove(); }, 5200);
+}
+function chalCelebrate(){
+  var n = chalNow(); if(!n.beat) return false;
+  var m = chalStore(), k = wkKey(n.ws), r = m[k] || {id:n.c.id};
+  if(r.id !== n.c.id) r = {id:n.c.id};
+  if(r.celebrated) return false;
+  r.celebrated = Date.now(); m[k] = r; save("mw_chal", m);
+  confettiBurst(); try{ tone(784, .15, .3); tone(988, .15, .3, .15); tone(1175, .3, .35, .3); }catch(e){}
+  setTimeout(function(){ toast("🎉 You beat this week’s challenge, Mina!"); }, 300);
+  return true;
+}
+function saveChalTry(val){
+  var n = chalNow(), m = chalStore(), k = wkKey(n.ws), r = m[k] && m[k].id === n.c.id ? m[k] : {id:n.c.id};
+  r.tries = (r.tries || []).concat([{v:val, at:Date.now()}]).slice(-20); r.best = Math.max(+r.best || 0, val); m[k] = r; save("mw_chal", m);
+}
+var chalTimer = null;
+function stopChalTimer(){ if(chalTimer){ clearInterval(chalTimer); chalTimer = null; } }
+function openChalTest(rerender){
+  var c = chalNow().c, hold = c.test === "hold";
+  openModal(mhead(esc(c.icon + " " + c.t)) + '<p class="sub" style="margin:-4px 0 12px">'+esc(c.d)+'</p>' +
+    '<div class="tbig" id="tT">'+(hold ? '0:00' : fmt(c.secs))+'</div><div class="tlbl" id="tL">'+(hold ? 'Tap start, get into your plank, tap stop when you drop' : 'Count your reps out loud')+'</div>' +
+    '<button class="cta" id="tGo">▶ Start (3-2-1)</button>' +
+    '<label class="field" style="margin-top:14px"><span>'+(hold ? 'Seconds held' : 'Your reps')+'</span><input id="tIn" type="number" inputmode="numeric" min="0" step="1" placeholder="0"></label>' +
+    '<button class="cta ghost small" id="tSave" style="width:100%">Save my result</button>');
+  var T = $m("tT"), L = $m("tL"), G = $m("tGo"), phase = "idle", t0 = 0, lastW = null;
+  G.onclick = function(){
+    primeAudio();
+    if(phase === "run" && hold){ stopChalTimer(); phase = "idle"; var secs = Math.floor((Date.now() - t0)/1000); $m("tIn").value = secs; beepGo(); say("Nice! " + secs + " seconds."); G.textContent = "▶ Try again"; L.textContent = "Saved below? Tap Save my result."; return; }
+    if(phase !== "idle") return;
+    phase = "count"; var cEnd = Date.now() + 3000; lastW = null; G.textContent = hold ? "■ Stop" : "Get ready…";
+    stopChalTimer();
+    chalTimer = setInterval(function(){
+      var now = Date.now();
+      if(phase === "count"){
+        var w = Math.ceil((cEnd - now)/1000);
+        if(w !== lastW){ lastW = w; if(w >= 1){ T.textContent = w; beepTick(); } }
+        if(now >= cEnd){ phase = "run"; t0 = now; lastW = null; beepGo(); say("Go!"); L.textContent = hold ? "Hold it! Tap stop when you drop." : "Go go go! Count every rep."; }
+        return;
+      }
+      if(hold){ T.textContent = fmt((now - t0)/1000); return; }
+      var left = c.secs - (now - t0)/1000, wl = Math.ceil(left);
+      T.textContent = fmt(left);
+      if(wl !== lastW){ lastW = wl; if(wl >= 1 && wl <= 3) beepTick(); }
+      if(left <= 0){ stopChalTimer(); phase = "idle"; beepGo(); alertEnd(); say("Time! How many did you get?"); T.textContent = "0:00"; L.textContent = "Time! Type your reps below."; G.textContent = "▶ Try again"; try{ $m("tIn").focus(); }catch(e){} }
+    }, 100);
+  };
+  $m("tSave").onclick = function(){
+    var v = parseInt($m("tIn").value, 10); if(!(v > 0)){ $m("tIn").focus(); return; }
+    saveChalTry(v); stopChalTimer(); closeModal(); rerender();
+    if(!chalCelebrate()) toast("Saved: " + v + " " + c.unit + " 💪");
+  };
+}
+var CHEERS = [
+  "You showed up for yourself today. That’s the whole win. 💛",
+  "Strong mama energy. Your future self says thank you. 🍑",
+  "Done is better than perfect, and you got it done.",
+  "Every rep is building the strong, lean you. Proud of you, Mina.",
+  "A full day, four kids, and you still trained. That’s amazing.",
+  "That counts. Rest up and be proud of today."
+];
 
 // one-time move of old position-based swap keys ("tue:2:1") to exercise-based keys ("tue|pulldown|0")
 (function migrateSwaps(){
