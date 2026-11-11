@@ -600,7 +600,7 @@ var SWAPS = {
   rdl:["slRdl","backExt","pullThrough"],
   kickback:["kickMachine","donkeyKick","slGluteBridge"],
   legExt:["legPress","goblet","splitSquat"],
-  legCurl:["lyingLegCurl","ballCurl","slRdl"],
+  legCurl:["lyingLegCurl","backExt","slRdl"],
   kickMachine:["kickback","donkeyKick","slGluteBridge"],
   hackSquat:["legPress","goblet","sumoSquat"],
   machineChest:["bench","dbBench","pushup"],
@@ -623,7 +623,7 @@ var SWAPS = {
   pulldown:["pullup","saPulldown"],
   facepull:["reversePecDeck","bandPullApart"],
   farmer:["suitcaseCarry","trapCarry"],
-  abduction:["cableAbduction","bandwalk","clamshell"],
+  abduction:["kickMachine","slGluteBridge","cableAbduction"],
   incline:["dbBench","machineChest","inclinePushup"],
   sarow:["machineRow","chestRow","saCableRow"],
   lateral:["cableLateral","machineLateral"],
@@ -634,18 +634,18 @@ var SWAPS = {
 };
 Object.assign(SWAPS, {
   smithHipThrust:["hipThrust","bridge","slGluteBridge"],
-  lyingLegCurl:["legCurl","ballCurl","slRdl"],
+  lyingLegCurl:["legCurl","backExt","slRdl"],
   stepUp:["reverseLunge","splitSquat","bss"],
   goodMorning:["rdl","slRdl","kbDeadlift","backExt"],
   backExt:["slRdl","rdl","kbDeadlift"],
   donkeyKick:["kickMachine","slGluteBridge","kickback"],
-  clamshell:["abduction","bandwalk"],
+  clamshell:["abduction","kickMachine"],
   slGluteBridge:["bridge","hipThrust"],
   trapBar:["deadlift","kbDeadlift","rdl"],
   splitSquat:["bss","reverseLunge","stepUp"],
   ballCurl:["legCurl","lyingLegCurl","slRdl"],
   kbDeadlift:["rdl","trapBar","backExt"],
-  bandwalk:["abduction","clamshell"],
+  bandwalk:["abduction","kickMachine"],
   reverseLunge:["lunge","splitSquat","stepUp"],
   slRdl:["rdl","kbDeadlift","backExt"],
   sumoSquat:["goblet","legPress","hackSquat"],
@@ -694,7 +694,7 @@ var DAYS = [
    {label:"Finisher", rest:20, finisher:true, items:[P("kickMachine",3,{reps:15, each:"side"}), P("abduction",3,{reps:25})]}
   ]},
  {key:"tue", short:"Tue", day:"Tuesday", title:"Upper Push/Pull", mins:"40–45 min", focus:"Chest · Back · Arms",
-  warmup:{text:"Arm circles (forward & back), then 15 light band pull-aparts."},
+  warmup:{text:"Arm circles (forward & back), then 15 shoulder-blade squeezes."},
   blocks:[
    {label:"Block 1", rest:75, items:[P("machineChest",4,{reps:8, note:"Heavy: the last 2 reps should be a real fight."})]},
    {label:"Block 2", rest:60, items:[P("machineRow",4,{reps:10})]},
@@ -702,7 +702,7 @@ var DAYS = [
    {label:"Finisher", rest:20, finisher:true, items:[P("preacherCurl",3,{reps:12}), P("dipMachine",3,{reps:12})]}
   ]},
  {key:"wed", short:"Wed", day:"Wednesday", title:"Glute Hypertrophy", mins:"40–45 min", focus:"Glutes",
-  warmup:{text:"Banded lateral walks — 20 steps each way.", ex:"bandwalk"},
+  warmup:{text:"15 bodyweight glute bridges + 10 bodyweight squats.", ex:"bridge"},
   blocks:[
    {label:"Block 1", rest:75, items:[P("hipThrust",4,{reps:10, note:"Heavier than last week. 1-sec squeeze at the top of every rep."})]},
    {label:"Block 2", rest:60, items:[P("legPress",4,{reps:12, note:"Feet high and wide. 3-sec lowering."})]},
@@ -735,18 +735,18 @@ var VARIANTS = {
    {label:"Block 1", rest:90, items:[P("trapBar",4,{reps:6, note:"Heavy 6s. Last set: as many clean reps as you can."})]},
    {label:"Block 2", rest:75, items:[P("stepUp",4,{reps:10, each:"leg", note:"Hold dumbbells. Don't push off the back leg."})]},
    {label:"Block 3", rest:60, superset:true, items:[P("legPress",4,{reps:12, note:"Feet high and wide. 3-sec lowering."}), P("legCurl",4,{reps:12})]},
-   {label:"Finisher", rest:20, finisher:true, items:[P("donkeyKick",3,{reps:15, each:"side"}), P("clamshell",3,{reps:20, each:"side"})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("donkeyKick",3,{reps:15, each:"side"}), P("splitSquat",3,{reps:12, each:"leg", note:"Hold dumbbells."})]}
   ],
   C:[
    {label:"Block 1", rest:90, items:[P("hackSquat",4,{reps:8, note:"Heavy. 3-sec lowering. Last 2 reps should be a real fight."})]},
    {label:"Block 2", rest:75, items:[P("reverseLunge",4,{reps:10, each:"leg", note:"Hold dumbbells."})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("backExt",4,{reps:12, note:"Squeeze glutes at the top. Stop in a straight line, don't arch past neutral."}), P("ballCurl",4,{reps:12})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("backExt",4,{reps:12, note:"Squeeze glutes at the top. Stop in a straight line, don't arch past neutral."}), P("kbDeadlift",4,{reps:12, note:"Bell between your feet. Push hips back, stand by squeezing glutes."})]},
    {label:"Finisher", rest:20, finisher:true, items:[P("legExt",3,{reps:15}), P("slGluteBridge",3,{reps:12, each:"leg"})]}
   ],
   Q:[{label:"Round 1", rest:30, superset:true, items:[P("hipThrust",3,{reps:12}), P("bss",3,{reps:8, each:"leg"})]},
      {label:"Round 2", rest:20, superset:true, items:[P("rdl",3,{reps:10}), P("abduction",3,{reps:25})]}],
   QB:[{label:"Round 1", rest:30, superset:true, items:[P("trapBar",3,{reps:8}), P("stepUp",3,{reps:8, each:"leg"})]},
-      {label:"Round 2", rest:20, superset:true, items:[P("legPress",3,{reps:12}), P("clamshell",3,{reps:20, each:"side"})]}],
+      {label:"Round 2", rest:20, superset:true, items:[P("legPress",3,{reps:12}), P("splitSquat",3,{reps:10, each:"leg"})]}],
   QC:[{label:"Round 1", rest:30, superset:true, items:[P("hackSquat",3,{reps:10}), P("reverseLunge",3,{reps:8, each:"leg"})]},
       {label:"Round 2", rest:20, superset:true, items:[P("backExt",3,{reps:12}), P("slGluteBridge",3,{reps:12, each:"leg"})]}]},
  tue:{
@@ -772,21 +772,21 @@ var VARIANTS = {
   B:[
    {label:"Block 1", rest:75, items:[P("bss",4,{reps:10, each:"leg", note:"Hold dumbbells. 3-sec lowering."})]},
    {label:"Block 2", rest:60, items:[P("slRdl",4,{reps:10, each:"leg", note:"Light dumbbell. Hips square, soft standing knee. Hold something for balance if you need to."})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("goblet",4,{reps:12}), P("ballCurl",4,{reps:12})]},
-   {label:"Finisher", rest:20, finisher:true, items:[P("slGluteBridge",3,{reps:12, each:"leg"}), P("bandwalk",3,{reps:20, each:"side"})]}
+   {label:"Block 3", rest:60, superset:true, items:[P("goblet",4,{reps:12}), P("legCurl",4,{reps:12})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("slGluteBridge",3,{reps:12, each:"leg"}), P("sumoSquat",3,{reps:15, note:"One heavy dumbbell, nonstop reps."})]}
   ],
   C:[
    {label:"Block 1", rest:75, items:[P("rdl",4,{reps:8, note:"Barbell, heavy. Soft knees, push hips back. 3-sec lowering."})]},
    {label:"Block 2", rest:60, items:[P("smithHipThrust",4,{reps:10, note:"1-sec squeeze at the top of every rep."})]},
    {label:"Block 3", rest:60, superset:true, items:[P("stepUp",4,{reps:10, each:"leg", note:"Hold dumbbells. Don't push off the back leg."}), P("lyingLegCurl",4,{reps:12})]},
-   {label:"Finisher", rest:20, finisher:true, items:[P("donkeyKick",3,{reps:15, each:"side"}), P("clamshell",3,{reps:20, each:"side"})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("donkeyKick",3,{reps:15, each:"side"}), P("legExt",3,{reps:15})]}
   ],
   Q:[{label:"Round 1", rest:30, superset:true, items:[P("hipThrust",3,{reps:15}), P("kickMachine",3,{reps:12,each:"side"})]},
      {label:"Finisher", rest:15, finisher:true, items:[P("abduction",3,{reps:25}), P("lunge",3,{reps:10,each:"leg"})]}],
   QB:[{label:"Round 1", rest:30, superset:true, items:[P("bss",3,{reps:8, each:"leg"}), P("slRdl",3,{reps:8, each:"leg"})]},
-      {label:"Finisher", rest:15, finisher:true, items:[P("goblet",3,{reps:12}), P("bandwalk",3,{reps:20, each:"side"})]}],
+      {label:"Finisher", rest:15, finisher:true, items:[P("goblet",3,{reps:12}), P("legCurl",3,{reps:12})]}],
   QC:[{label:"Round 1", rest:30, superset:true, items:[P("rdl",3,{reps:10}), P("stepUp",3,{reps:8, each:"leg"})]},
-      {label:"Finisher", rest:15, finisher:true, items:[P("donkeyKick",3,{reps:15, each:"side"}), P("clamshell",3,{reps:20, each:"side"})]}]},
+      {label:"Finisher", rest:15, finisher:true, items:[P("donkeyKick",3,{reps:15, each:"side"}), P("legExt",3,{reps:15})]}]},
  thu:{
   B:[
    {label:"Block 1", rest:75, items:[P("machineRow",4,{reps:8, note:"Heavy: the last 2 reps should be a real fight."})]},
@@ -889,7 +889,7 @@ function dayDate(base){ var i = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}[base
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ return (isQ(d.ver) ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver) + " · " + (d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.base)); }
-var BUILD = "Nov 11, 2026 7:46 AM ET";
+var BUILD = "Nov 11, 2026 8:22 AM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -2313,7 +2313,7 @@ function runAiEstimate(){
 }
 
 // =================== LADDER-STYLE CIRCUITS · PRESS PLAY · WEEKLY CHALLENGE (Nov 10, 2026) ===================
-var APPVER = "6.4 No good mornings";
+var APPVER = "6.5 Gym moves";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
@@ -2327,7 +2327,7 @@ var WU = {
   chest:{name:"Doorway chest stretch", icon:"🙆‍♀️", cue:"Forearm on a wall or doorway, step through gently. Switch sides halfway."}
 };
 var WARM = {
-  lower:[{wu:"march",s:60},{wu:"squat",s:45},{ex:"bridge",s:45},{wu:"hinge",s:45},{ex:"bandwalk",s:45},{ex:"birdDog",s:60,half:1}],
+  lower:[{wu:"march",s:60},{wu:"squat",s:45},{ex:"bridge",s:45},{wu:"hinge",s:45},{ex:"lunge",s:45,half:1},{ex:"birdDog",s:60,half:1}],
   upper:[{wu:"march",s:60},{wu:"arms",s:45},{ex:"bandPullApart",s:45},{ex:"inclinePushup",s:45},{wu:"squat",s:45},{ex:"birdDog",s:60,half:1}],
   full:[{wu:"march",s:60},{wu:"squat",s:45},{ex:"bridge",s:45},{wu:"hinge",s:45},{wu:"arms",s:45},{ex:"bandPullApart",s:45}]
 };
