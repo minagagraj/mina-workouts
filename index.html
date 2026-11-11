@@ -492,6 +492,7 @@ body.noscroll{overflow:hidden}
 .tcard .cta.play{width:calc(100% - 32px);margin:8px 16px 4px}
 .tlinks{display:flex;justify-content:space-between;padding:4px 14px 10px}
 
+.note.effort{border-left-color:var(--accent);background:#fff4ef;font-weight:600}
 </style>
 </head>
 <body>
@@ -685,125 +686,125 @@ var DAYS = [
  {key:"mon", short:"Mon", day:"Monday", title:"Lower Strength", mins:"40–45 min", focus:"Glutes · Legs",
   warmup:{text:"5 min easy bike or walk, then 10 bodyweight squats.", mins:5},
   blocks:[
-   {label:"Block 1", rest:90, items:[P("hipThrust",4,{reps:8, note:"November: go a little heavier than October and keep every rep strong."})]},
-   {label:"Block 2", rest:75, items:[P("bss",3,{reps:10, each:"leg"})]},
+   {label:"Block 1", rest:90, items:[P("hipThrust",4,{reps:8, note:"Barbell or the heaviest machine you can control. 3-sec lowering, 1-sec squeeze at the top."})]},
+   {label:"Block 2", rest:75, items:[P("bss",4,{reps:10, each:"leg", note:"Hold dumbbells. 3-sec lowering."})]},
    {label:"Block 3", rest:60, superset:true, items:[P("rdl",4,{reps:10}), P("lyingLegCurl",4,{reps:12})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("kickMachine",3,{reps:12, each:"side"}), P("abduction",3,{reps:20})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("kickMachine",3,{reps:15, each:"side"}), P("abduction",3,{reps:25})]}
   ]},
  {key:"tue", short:"Tue", day:"Tuesday", title:"Upper Push/Pull", mins:"40–45 min", focus:"Chest · Back · Arms",
   warmup:{text:"Arm circles (forward & back), then 15 light band pull-aparts."},
   blocks:[
-   {label:"Block 1", rest:75, items:[P("machineChest",4,{reps:8, note:"November: heavier than last month, 8 solid reps."})]},
+   {label:"Block 1", rest:75, items:[P("machineChest",4,{reps:8, note:"Heavy: the last 2 reps should be a real fight."})]},
    {label:"Block 2", rest:60, items:[P("machineRow",4,{reps:10})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("dbShoulderPress",4,{reps:10}), P("pulldown",4,{reps:12})]},
-   {label:"Finisher", rest:45, finisher:true, items:[P("preacherCurl",4,{reps:12}), P("dipMachine",4,{reps:12})]}
+   {label:"Block 3", rest:60, superset:true, items:[P("dbShoulderPress",4,{reps:10}), P("pullup",4,{reps:8, note:"Use a little less assistance than last time."})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("preacherCurl",3,{reps:12}), P("dipMachine",3,{reps:12})]}
   ]},
  {key:"wed", short:"Wed", day:"Wednesday", title:"Glute Hypertrophy", mins:"40–45 min", focus:"Glutes",
   warmup:{text:"Banded lateral walks — 20 steps each way.", ex:"bandwalk"},
   blocks:[
-   {label:"Block 1", rest:60, items:[P("hipThrust",4,{reps:12})]},
-   {label:"Block 2", rest:60, items:[P("legPress",4,{reps:12})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("kickMachine",3,{reps:12, each:"side"}), P("abduction",3,{reps:20})]},
-   {label:"Block 4", rest:60, items:[P("reverseLunge",3,{reps:10, each:"leg"})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("bridge",3,{reps:25, variant:"pulses"})]}
+   {label:"Block 1", rest:75, items:[P("hipThrust",4,{reps:10, note:"Heavier than last week. 1-sec squeeze at the top of every rep."})]},
+   {label:"Block 2", rest:60, items:[P("legPress",4,{reps:12, note:"Feet high and wide. 3-sec lowering."})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("kickMachine",4,{reps:12, each:"side"}), P("abduction",4,{reps:20})]},
+   {label:"Block 4", rest:60, items:[P("lunge",4,{reps:10, each:"leg", note:"Walking lunges holding dumbbells."})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("bridge",4,{reps:25, variant:"pulses", note:"Dumbbell on your hips."})]}
   ]},
  {key:"thu", short:"Thu", day:"Thursday", title:"Upper + Core", mins:"40–45 min", focus:"Arms · Back · Core",
   warmup:{text:"Light rowing (machine or band) for 3 min + 10 slow shoulder-blade squeezes."},
   blocks:[
-   {label:"Block 1", rest:90, items:[P("incline",4,{reps:8})]},
+   {label:"Block 1", rest:75, items:[P("incline",4,{reps:8, note:"Heavier dumbbells than last time. 3-sec lowering."})]},
    {label:"Block 2", rest:60, items:[P("sarow",4,{reps:10, each:"side"})]},
-   {label:"Block 3", rest:45, superset:true, items:[P("hammerCurl",4,{reps:12}), P("tricepMachine",4,{reps:12})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("plank",3,{hold:45}), P("deadbug",3,{reps:10, each:"side"})]}
+   {label:"Block 3", rest:45, superset:true, items:[P("preacherCurl",4,{reps:12}), P("tricepMachine",4,{reps:12})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("pushup",3,{reps:10}), P("plank",3,{hold:50})]}
   ]},
  {key:"fri", short:"Fri", day:"Friday", title:"Full Body", mins:"40–45 min", focus:"Total body",
   warmup:{text:"5 min easy cardio + hip hinge practice (hands on hips, push hips back ×10).", mins:5},
   blocks:[
-   {label:"Block 1", rest:90, items:[P("deadlift",5,{reps:5, note:"November: 5 sets of 5, a bit heavier than October."})]},
-   {label:"Block 2", rest:75, superset:true, items:[P("hackSquat",4,{reps:10}), P("pushup",4,{reps:12})]},
+   {label:"Block 1", rest:90, items:[P("deadlift",5,{reps:5, note:"Heavy 5s. Last set: as many clean reps as you can."})]},
+   {label:"Block 2", rest:60, superset:true, items:[P("hackSquat",4,{reps:10}), P("pushup",4,{reps:10})]},
    {label:"Block 3", rest:60, items:[P("machineRow",4,{reps:10})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("bridge",3,{hold:45, variant:"hold"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("farmer",3,{hold:45, holdWord:"carry"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
   ]}
 ];
 
-// ---- weekly variety: Week A (the original plan) / B / C rotate by ISO week; plus a 15-min version of each day ----
+// ---- weekly variety: Week A (above) / B / C rotate by ISO week; plus a 15-min version of each day ----
 var VARIANTS = {
  mon:{
   B:[
-   {label:"Block 1", rest:90, items:[P("smithHipThrust",4,{reps:8})]},
-   {label:"Block 2", rest:75, items:[P("hackSquat",4,{reps:8})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("slRdl",3,{reps:10, each:"leg"}), P("legCurl",3,{reps:12})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("stepUp",3,{reps:10, each:"leg"}), P("donkeyKick",3,{reps:12, each:"side"})]}
+   {label:"Block 1", rest:90, items:[P("smithHipThrust",4,{reps:8, note:"Heavy. 3-sec lowering, 1-sec squeeze."})]},
+   {label:"Block 2", rest:75, items:[P("hackSquat",4,{reps:10})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("slRdl",4,{reps:10, each:"leg"}), P("legCurl",4,{reps:12})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("stepUp",3,{reps:12, each:"leg"}), P("kickMachine",3,{reps:15, each:"side"})]}
   ],
   C:[
-   {label:"Block 1", rest:90, items:[P("trapBar",4,{reps:8})]},
-   {label:"Block 2", rest:75, items:[P("splitSquat",3,{reps:12, each:"leg"})]},
+   {label:"Block 1", rest:90, items:[P("trapBar",4,{reps:6, note:"Heavy 6s. Last set: as many clean reps as you can."})]},
+   {label:"Block 2", rest:75, items:[P("bss",4,{reps:10, each:"leg"})]},
    {label:"Block 3", rest:60, superset:true, items:[P("legPress",4,{reps:12}), P("lyingLegCurl",4,{reps:12})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("kickMachine",3,{reps:12, each:"side"}), P("bridge",3,{reps:20, variant:"pulses"})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("kickMachine",3,{reps:15, each:"side"}), P("lunge",3,{reps:12, each:"leg"})]}
   ],
-  Q:[{label:"Round 1", rest:45, superset:true, items:[P("hipThrust",3,{reps:12}), P("legPress",3,{reps:12})]},
-     {label:"Round 2", rest:30, superset:true, items:[P("rdl",2,{reps:10}), P("abduction",2,{reps:20})]}]},
+  Q:[{label:"Round 1", rest:30, superset:true, items:[P("hipThrust",3,{reps:12}), P("bss",3,{reps:8, each:"leg"})]},
+     {label:"Round 2", rest:20, superset:true, items:[P("rdl",3,{reps:10}), P("abduction",3,{reps:25})]}]},
  tue:{
   B:[
-   {label:"Block 1", rest:60, items:[P("dbBench",4,{reps:10})]},
+   {label:"Block 1", rest:75, items:[P("bench",4,{reps:8, note:"Barbell (or Smith machine). Heavy, 3-sec lowering."})]},
    {label:"Block 2", rest:60, items:[P("chestRow",4,{reps:10})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("dbShoulderPress",4,{reps:10}), P("pullup",4,{reps:8})]},
-   {label:"Finisher", rest:45, finisher:true, items:[P("dbCurl",4,{reps:12}), P("tricepMachine",4,{reps:12})]}
+   {label:"Block 3", rest:60, superset:true, items:[P("dbShoulderPress",4,{reps:10}), P("pulldown",4,{reps:10})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("hammerCurl",3,{reps:12}), P("tricepMachine",3,{reps:12})]}
   ],
   C:[
-   {label:"Block 1", rest:60, items:[P("incline",4,{reps:10})]},
+   {label:"Block 1", rest:75, items:[P("incline",4,{reps:8, note:"Heavier dumbbells. 3-sec lowering."})]},
    {label:"Block 2", rest:60, items:[P("sarow",4,{reps:10, each:"side"})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("ohp",4,{reps:8}), P("pulldown",4,{reps:12})]},
-   {label:"Finisher", rest:45, finisher:true, items:[P("hammerCurl",4,{reps:12}), P("tricepMachine",4,{reps:12})]}
+   {label:"Block 3", rest:60, superset:true, items:[P("ohp",4,{reps:8}), P("pullup",4,{reps:8, note:"Use a little less assistance than last time."})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("preacherCurl",3,{reps:12}), P("dipMachine",3,{reps:12})]}
   ],
-  Q:[{label:"Round 1", rest:45, superset:true, items:[P("machineChest",3,{reps:10}), P("machineRow",3,{reps:10})]},
-     {label:"Round 2", rest:30, superset:true, items:[P("machineShoulder",2,{reps:12}), P("pulldown",2,{reps:12})]}]},
+  Q:[{label:"Round 1", rest:30, superset:true, items:[P("machineChest",3,{reps:10}), P("machineRow",3,{reps:10})]},
+     {label:"Round 2", rest:20, superset:true, items:[P("pushup",3,{reps:10}), P("pulldown",3,{reps:12})]}]},
  wed:{
   B:[
-   {label:"Block 1", rest:60, items:[P("smithHipThrust",4,{reps:12})]},
-   {label:"Block 2", rest:60, items:[P("bss",3,{reps:10, each:"leg"})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("donkeyKick",3,{reps:15, each:"side"}), P("abduction",3,{reps:20})]},
-   {label:"Block 4", rest:60, items:[P("stepUp",3,{reps:10, each:"leg"})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("slGluteBridge",3,{reps:12, each:"leg"})]}
+   {label:"Block 1", rest:75, items:[P("smithHipThrust",4,{reps:10, note:"Heavier than last week. 1-sec squeeze."})]},
+   {label:"Block 2", rest:60, items:[P("bss",4,{reps:10, each:"leg"})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("kickMachine",4,{reps:12, each:"side"}), P("abduction",4,{reps:20})]},
+   {label:"Block 4", rest:60, items:[P("stepUp",4,{reps:10, each:"leg", note:"Hold dumbbells. Don't push off the back leg."})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("legPress",4,{reps:20, note:"Burnout: feet high, lighter weight, nonstop reps."})]}
   ],
   C:[
-   {label:"Block 1", rest:60, items:[P("sumoSquat",4,{reps:12})]},
-   {label:"Block 2", rest:60, items:[P("slRdl",3,{reps:10, each:"leg"})]},
-   {label:"Block 3", rest:60, superset:true, items:[P("kickMachine",3,{reps:12, each:"side"}), P("abduction",3,{reps:20})]},
-   {label:"Block 4", rest:60, items:[P("reverseLunge",3,{reps:10, each:"leg"})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("bridge",3,{hold:45, variant:"hold"})]}
+   {label:"Block 1", rest:75, items:[P("hipThrust",4,{reps:12, note:"Pause 1 sec at the top of every rep."})]},
+   {label:"Block 2", rest:60, items:[P("slRdl",4,{reps:10, each:"leg"})]},
+   {label:"Block 3", rest:60, superset:true, items:[P("kickMachine",4,{reps:12, each:"side"}), P("abduction",4,{reps:20})]},
+   {label:"Block 4", rest:60, items:[P("reverseLunge",4,{reps:10, each:"leg"})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("sumoSquat",4,{reps:15, note:"One heavy dumbbell, nonstop reps."})]}
   ],
-  Q:[{label:"Round 1", rest:45, superset:true, items:[P("hipThrust",3,{reps:15}), P("kickMachine",3,{reps:12,each:"side"})]},
-     {label:"Finisher", rest:20, finisher:true, items:[P("abduction",2,{reps:20}), P("bridge",2,{reps:20,variant:"pulses"})]}]},
+  Q:[{label:"Round 1", rest:30, superset:true, items:[P("hipThrust",3,{reps:15}), P("kickMachine",3,{reps:12,each:"side"})]},
+     {label:"Finisher", rest:15, finisher:true, items:[P("abduction",3,{reps:25}), P("lunge",3,{reps:10,each:"leg"})]}]},
  thu:{
   B:[
-   {label:"Block 1", rest:75, items:[P("machineChest",4,{reps:10})]},
-   {label:"Block 2", rest:75, items:[P("machineRow",4,{reps:12})]},
-   {label:"Block 3", rest:45, superset:true, items:[P("preacherCurl",4,{reps:12}), P("dbOverheadExt",4,{reps:12})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("sidePlank",3,{hold:35, each:"side"}), P("birdDog",3,{reps:8, each:"side"})]}
+   {label:"Block 1", rest:75, items:[P("machineChest",4,{reps:8, note:"Heavy: the last 2 reps should be a real fight."})]},
+   {label:"Block 2", rest:60, items:[P("machineRow",4,{reps:10})]},
+   {label:"Block 3", rest:45, superset:true, items:[P("hammerCurl",4,{reps:12}), P("dipMachine",4,{reps:12})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("pushup",3,{reps:10}), P("sidePlank",3,{hold:35, each:"side"})]}
   ],
   C:[
-   {label:"Block 1", rest:90, items:[P("dbBench",4,{reps:10})]},
-   {label:"Block 2", rest:75, items:[P("chestRow",4,{reps:10})]},
-   {label:"Block 3", rest:45, superset:true, items:[P("dbCurl",4,{reps:12}), P("dipMachine",4,{reps:12})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("bearHold",3,{hold:35}), P("toeTap",3,{reps:10, each:"side"})]}
+   {label:"Block 1", rest:75, items:[P("dbBench",4,{reps:8, note:"Heavier dumbbells than last time. 3-sec lowering."})]},
+   {label:"Block 2", rest:60, items:[P("chestRow",4,{reps:10})]},
+   {label:"Block 3", rest:45, superset:true, items:[P("preacherCurl",4,{reps:12}), P("dbOverheadExt",4,{reps:12})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("pushup",3,{reps:10}), P("plank",3,{hold:50})]}
   ],
-  Q:[{label:"Round 1", rest:45, superset:true, items:[P("incline",3,{reps:10}), P("sarow",3,{reps:10,each:"side"})]},
-     {label:"Finisher", rest:20, finisher:true, items:[P("plank",2,{hold:30}), P("deadbug",2,{reps:8,each:"side"})]}]},
+  Q:[{label:"Round 1", rest:30, superset:true, items:[P("incline",3,{reps:10}), P("sarow",3,{reps:10,each:"side"})]},
+     {label:"Finisher", rest:15, finisher:true, items:[P("pushup",3,{reps:10}), P("plank",3,{hold:40})]}]},
  fri:{
   B:[
-   {label:"Block 1", rest:90, items:[P("trapBar",4,{reps:8})]},
-   {label:"Block 2", rest:75, superset:true, items:[P("legPress",4,{reps:12}), P("dbShoulderPress",4,{reps:10})]},
+   {label:"Block 1", rest:90, items:[P("trapBar",4,{reps:6, note:"Heavy 6s. Last set: as many clean reps as you can."})]},
+   {label:"Block 2", rest:60, superset:true, items:[P("legPress",4,{reps:12}), P("dbShoulderPress",4,{reps:10})]},
    {label:"Block 3", rest:60, items:[P("machineRow",4,{reps:10})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("farmer",3,{hold:45, holdWord:"carry"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("farmer",3,{hold:45, holdWord:"carry"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
   ],
   C:[
-   {label:"Block 1", rest:90, items:[P("kbDeadlift",4,{reps:10})]},
-   {label:"Block 2", rest:75, superset:true, items:[P("splitSquat",4,{reps:8, each:"leg"}), P("machineChest",4,{reps:10})]},
+   {label:"Block 1", rest:90, items:[P("rdl",4,{reps:8, note:"Barbell, heavy. Last set: as many clean reps as you can."})]},
+   {label:"Block 2", rest:60, superset:true, items:[P("bss",4,{reps:8, each:"leg"}), P("machineChest",4,{reps:10})]},
    {label:"Block 3", rest:60, items:[P("chestRow",4,{reps:10})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("plank",3,{hold:45}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("suitcaseCarry",3,{hold:40, each:"side", holdWord:"carry"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
   ],
-  Q:[{label:"Round 1", rest:45, superset:true, items:[P("goblet",3,{reps:12}), P("pushup",3,{reps:10})]},
-     {label:"Round 2", rest:30, superset:true, items:[P("kbDeadlift",2,{reps:12}), P("machineRow",2,{reps:10})]}]}
+  Q:[{label:"Round 1", rest:30, superset:true, items:[P("goblet",3,{reps:12}), P("pushup",3,{reps:10})]},
+     {label:"Round 2", rest:20, superset:true, items:[P("kbDeadlift",3,{reps:12}), P("machineRow",3,{reps:10})]}]}
 };
 var ALLDAYS = DAYS.slice();
 DAYS.forEach(function(d){ d.base = d.key; d.ver = "A"; });
@@ -819,11 +820,11 @@ DAYS.forEach(function(d){
 var BONUS = {key:"sat", base:"sat", ver:"A", bonus:true, short:"Sat", day:"Saturday (optional)", title:"Bonus Glute Day", mins:"40–45 min", focus:"Glutes",
   warmup:{text:"5 min easy bike or incline walk, then 15 bodyweight glute bridges + 10 squats.", mins:5},
   blocks:[
-   {label:"Block 1", rest:90, items:[P("hipThrust",4,{reps:10})]},
-   {label:"Block 2", rest:75, items:[P("bss",3,{reps:10,each:"leg"})]},
+   {label:"Block 1", rest:90, items:[P("hipThrust",4,{reps:10, note:"Barbell or heaviest machine. 1-sec squeeze at the top."})]},
+   {label:"Block 2", rest:75, items:[P("bss",4,{reps:10,each:"leg"})]},
    {label:"Block 3", rest:75, items:[P("legPress",4,{reps:12,note:"Feet high and wide on the platform to bias the glutes."})]},
-   {label:"Block 4", rest:60, superset:true, items:[P("rdl",3,{reps:10}), P("kickMachine",3,{reps:12,each:"side"})]},
-   {label:"Finisher", rest:30, finisher:true, items:[P("abduction",3,{reps:20,note:"Last round: 10 slow reps, then pulse to failure."})]}
+   {label:"Block 4", rest:60, superset:true, items:[P("rdl",4,{reps:10}), P("kickMachine",4,{reps:12,each:"side"})]},
+   {label:"Finisher", rest:20, finisher:true, items:[P("abduction",4,{reps:25,note:"Nonstop reps. Last round: pulse to failure."})]}
   ]};
 ALLDAYS.push(BONUS);
 function isoWeek(dt){ var d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate())); var n = d.getUTCDay() || 7; d.setUTCDate(d.getUTCDate() + 4 - n); var y = new Date(Date.UTC(d.getUTCFullYear(), 0, 1)); return Math.ceil(((d - y) / 86400000 + 1) / 7); }
@@ -859,7 +860,7 @@ function dayDate(base){ var i = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}[base
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ return (d.ver === "Q" ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver) + " · " + (d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.base)); }
-var BUILD = "Nov 10, 2026 9:37 PM ET";
+var BUILD = "Nov 10, 2026 10:02 PM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -1045,7 +1046,7 @@ function todayCardHtml(sel){
   if(cool && cool.walk) moves.push({x:cool.walk, g:cool});
   var list = moves.map(function(m){
     var p = m.x.p, g = m.g;
-    var what = g.k === "cool" ? p.walkText + ' walk' : g.k === "strength" ? g.rounds + ' sets × ' + (p.hold ? p.hold + 's' : p.reps) : g.rounds + ' rounds · ' + (p.hold ? p.hold + 's ' + (p.holdWord || 'hold') : p.reps + ' reps') + (p.each ? '/' + p.each : '');
+    var what = g.k === "cool" ? p.walkText + ' walk' : g.k === "strength" ? g.rounds + ' sets × ' + (p.hold ? p.hold + 's' : p.reps) + (g.drop ? ' + drop set' : g.amrap ? ' · AMRAP' : '') : g.emom ? g.rounds + ' min EMOM · ' + (p.hold ? p.hold + 's' : p.reps + ' reps') : g.rounds + ' rounds · ' + (p.hold ? p.hold + 's ' + (p.holdWord || 'hold') : p.reps + ' reps') + (p.each ? '/' + p.each : '');
     return '<div class="tmove">'+picHtml(p.ex, "thumb")+'<div class="tm"><div class="tn">'+esc(exName(p))+'</div><div class="td">'+esc((g.k === "cool" ? "Cool-down" : g.title) + ' · ' + what)+'</div></div></div>';
   }).join("");
   var tag = sel === "sat" ? 'Bonus · Sat '+md(dayDate("sat"))+' or Sun '+md(dayDate("sun")) : verLabel(wd.ver) + ' · ' + dayDateLabel(sel);
@@ -1110,7 +1111,7 @@ function renderOverview(){
     '<div class="thumb">🔥</div><div><div class="n">'+esc(wg.list.map(function(x){ return x.ex ? EX[x.ex].name : WU[x.wu].name; }).join(' · '))+'</div><div class="d">'+esc(w.text)+' (Tap-through mode)</div></div></div></div>';
   circuitPlan(d).forEach(function(g){
     if(g.k === "warm" || g.k === "cool") return;
-    var right = g.k === "strength" ? g.rounds + ' sets · ' + setSecs(g.items[0].p) + 's on / ' + g.rest + 's rest' : g.rounds + ' rounds · back to back · ' + g.rest + 's rest';
+    var right = g.meta;
     html += '<div class="section"><div class="h"><b>'+esc(g.title)+'</b><span>'+right+'</span></div>';
     g.items.forEach(function(x, j){
       var p = x.p, p0 = x.p0, lw = showWeight(p) ? lastLift(p.ex) : null;
@@ -1762,7 +1763,7 @@ function weightHtml(p){
   var val = today ? today.w : (prev ? prev.w : "");
   return '<div class="wcard"><div class="h"><span>Weight used (lbs)</span><span class="ok" id="wOk">'+(today ? 'Saved ✓' : '')+'</span></div>' +
     '<div class="wrow"><button class="wbtn" data-wstep="-5" aria-label="Minus 5">−5</button><label class="win"><input id="wIn" type="number" inputmode="decimal" min="0" step="any" placeholder="0" value="'+val+'"><span>lbs</span></label><button class="wbtn" data-wstep="5" aria-label="Plus 5">+5</button></div>' +
-    '<div class="wlast">'+(prev ? 'Last time: <b>'+prev.w+' lbs × '+esc(prev.r)+'</b> · '+esc(niceDate(prev.d)) : 'First time: pick a weight you can lift with 1–2 reps left.')+'</div></div>';
+    '<div class="wlast">'+(prev ? 'Last time: <b>'+prev.w+' lbs × '+esc(prev.r)+'</b> · '+esc(niceDate(prev.d))+'<br>Finished every rep? Try <b>'+(Math.round((prev.w + 5)*10)/10)+' lbs</b> today.' : 'First time: pick a weight where the last 2 reps are a real fight.')+'</div></div>';
 }
 function commitWeight(p){
   var inp = document.getElementById("wIn"); if(!inp || !showWeight(p)) return;
@@ -2283,7 +2284,7 @@ function runAiEstimate(){
 }
 
 // =================== LADDER-STYLE CIRCUITS · PRESS PLAY · WEEKLY CHALLENGE (Nov 10, 2026) ===================
-var APPVER = "6.1 Day picker";
+var APPVER = "6.2 Tougher";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
@@ -2312,8 +2313,8 @@ function r5(x){ return Math.round(x/5)*5; }
 // seconds for one interval of a move. Uni moves ("each leg/side") get double time with a "switch sides" cue halfway.
 function workSecs(p, fin, q){
   if(p.hold) return p.hold * (p.each ? 2 : 1);
-  var base = q ? (fin ? 30 : 40) : fin ? 35 : (p.reps >= 15 ? 50 : 45);
-  return p.each ? base * 2 - 10 : base;
+  var base = q ? 40 : fin ? 40 : (p.reps >= 12 ? 50 : 45);
+  return p.each ? (q ? 60 : base * 2 - 10) : base;
 }
 function setSecs(p){
   if(p.hold) return p.hold * (p.each ? 2 : 1);
@@ -2334,36 +2335,58 @@ function circuitPlan(d){
     var n = 0;
     d.blocks.forEach(function(b, bi){
       var its = items.filter(function(x){ return x.bi === bi; }); if(!its.length) return;
-      if(b.finisher) G.push({k:"finisher", title:"Finisher", items:its, rounds:Math.min(3, maxSets(its)), rest:b.rest, trans:15, fin:1, q:1});
-      else G.push({k:"circuit", title:"Circuit " + (++n), items:its, rounds:Math.min(3, maxSets(its)), rest:b.rest, trans:15, q:1});
+      if(b.finisher) G.push({k:"finisher", title:"Burnout finisher", items:its, rounds:Math.min(3, maxSets(its)), rest:b.rest, trans:10, fin:1, q:1});
+      else G.push({k:"circuit", title:"Circuit " + (++n), items:its, rounds:Math.min(3, maxSets(its)), rest:b.rest, trans:10, q:1});
     });
   } else {
     var fin = items.filter(function(x){ return x.b.finisher; }), mid = items.filter(function(x){ return !x.b.finisher; });
     var b0 = d.blocks[0];
     if(mid.length && !b0.superset && !b0.finisher && b0.items.length === 1 && mid[0].bi === 0){
       var m = mid.shift();
-      G.push({k:"strength", title:"Main lift", items:[m], rounds:m.p.sets, rest:b0.rest});
+      var hinge = HINGE.indexOf(m.p.ex) >= 0;
+      G.push({k:"strength", title:"Main lift", items:[m], rounds:m.p.sets, rest:b0.rest, amrap:hinge, drop:!hinge && !m.p.hold});
     }
     var at = 0;
     chunkSizes(mid.length).forEach(function(sz, ci){
       if(!sz) return;
       var its = mid.slice(at, at + sz); at += sz;
-      G.push({k:"circuit", title:"Circuit " + (ci + 1), items:its, rounds:Math.min(3, maxSets(its)), rest:90, trans:30});
+      var nC = chunkSizes(mid.length).length;
+      G.push({k:"circuit", title:"Circuit " + (ci + 1), items:its, rounds:Math.min(nC > 1 && ci > 0 ? 3 : 4, maxSets(its)), rest:nC > 1 ? 45 : 60, trans:20});
     });
-    if(fin.length) G.push({k:"finisher", title:"Finisher", items:fin, rounds:Math.min(3, maxSets(fin)), rest:45, trans:15, fin:1});
+    if(fin.length === 1) G.push({k:"finisher", title:"EMOM finisher", items:fin, rounds:4, rest:20, trans:0, fin:1, emom:1});
+    else if(fin.length) G.push({k:"finisher", title:"Burnout finisher", items:fin, rounds:kind === "upper" ? 4 : 3, rest:20, trans:10, fin:1});
   }
   G.push({k:"cool", title:"Cool-down", walk:walk, list: walk ? [] : q ? [{wu:"child",s:45}] : COOL[kind]});
+  G.forEach(function(g){ g.meta = groupMeta(g); });
   return G;
 }
+var HINGE = ["deadlift","trapBar","rdl","kbDeadlift","goodMorning","slRdl"];
+function groupMeta(g){
+  if(!g.items) return "";
+  if(g.k === "strength") return g.rounds + " sets" + (g.drop ? " + drop set" : g.amrap ? " · last set AMRAP" : "") + " · " + g.rest + "s rest";
+  var on = g.items.map(function(x){ return workSecs(x.p, g.fin, g.q); }).filter(function(v, i, a){ return a.indexOf(v) === i; }).join("/");
+  if(g.emom) return g.rounds + " min EMOM · " + on + "s on / " + g.rest + "s off";
+  return g.rounds + " rounds · " + on + "s on · " + g.rest + "s rest";
+}
+function effortCue(s){
+  if(!s || s.k !== "work") return "";
+  if(s.drop) return "🔥 Drop set: strip about 30% of the weight and keep going until only 1–2 reps are left in the tank.";
+  if(s.amrap) return "🔥 Last set: as many clean reps as you can. Stop the moment your form slips.";
+  if(s.g.k === "strength") return "💪 Pick a weight where the last 2 reps are a real fight. Got every rep clean? Go up 5 lbs next time.";
+  if(s.g.k === "finisher") return "🔥 " + (s.g.emom ? "EMOM: work hard for the whole interval, rest, repeat." : "Burnout: keep moving the whole time. Slow down before you stop.");
+  if(s.p && s.p.hold) return "💪 Brace hard and breathe. Make it harder than last week.";
+  return "💪 Heavy enough that the last 3 reps are hard. Lower for 3 seconds on every rep.";
+}
 function coolMins(g){ return Math.round(g.list.reduce(function(a, w){ return a + w.s; }, 0)/30)/2; }
-function moveName(x){ if(x.ex && EX[x.ex]) return x.p ? exName(x.p) : EX[x.ex].name; return x.wu ? WU[x.wu].name : "Move"; }
+function moveName(x){ if(x.ex && EX[x.ex]) return x.p ? exName(x.p) + (x.drop ? " · drop set" : "") : EX[x.ex].name; return x.wu ? WU[x.wu].name : "Move"; }
 function aimText(s){
   if(s.k === "warm" || s.k === "cool"){ return s.half ? "Easy pace · switch sides halfway" : "Easy pace · just keep moving"; }
   var p = s.p; if(!p) return "";
   if(p.hold) return "Hold " + p.hold + " sec" + (p.each ? " each " + p.each + " · switch halfway" : "");
-  var t = (s.g.k === "strength" ? p.reps + " strong reps" : "Aim for " + p.reps + " reps") + (p.each ? " each " + p.each + " · switch halfway" : "");
-  if(s.g.k === "strength") t += " · rest " + s.g.rest + "s after";
-  else if(!p.each) t += " · steady pace";
+  if(s.drop) return "Drop set · lighter weight · reps until 1–2 left in the tank";
+  if(s.amrap) return "AMRAP · as many clean reps as you can (" + p.reps + "+)";
+  var t = (s.g.k === "strength" ? p.reps + " heavy reps" : s.g.k === "finisher" ? p.reps + "+ reps, nonstop" : "Aim for " + p.reps + " reps") + (p.each ? " each " + p.each + " · switch halfway" : "");
+  if(s.g.k !== "finisher") t += " · 3-sec lowering";
   return t;
 }
 function buildTimeline(d){
@@ -2382,15 +2405,20 @@ function buildTimeline(d){
     if(g.k === "strength"){
       var it = g.items[0];
       for(var r = 1; r <= g.rounds; r++){
-        push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:setSecs(it.p), half:!!it.p.each, round:r, rounds:g.rounds});
+        var last = r === g.rounds;
+        push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:setSecs(it.p) + (last && g.amrap ? 15 : 0), half:!!it.p.each, round:r, rounds:g.rounds, amrap:last && g.amrap});
         if(r < g.rounds) push({k:"rest", g:g, gi:gi, secs:g.rest, round:r, rounds:g.rounds, setRest:1});
+      }
+      if(g.drop){
+        push({k:"trans", g:g, gi:gi, secs:15, round:g.rounds, rounds:g.rounds, dropTrans:1});
+        push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:it.p.each ? 70 : 40, half:!!it.p.each, round:g.rounds, rounds:g.rounds, drop:1});
       }
       return;
     }
     for(var rr = 1; rr <= g.rounds; rr++){
       g.items.forEach(function(it, j){
         push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:workSecs(it.p, g.fin, g.q), half:!!it.p.each, round:rr, rounds:g.rounds, pos:j});
-        if(j < g.items.length - 1) push({k:"trans", g:g, gi:gi, secs:g.trans, round:rr, rounds:g.rounds});
+        if(j < g.items.length - 1 && g.trans) push({k:"trans", g:g, gi:gi, secs:g.trans, round:rr, rounds:g.rounds});
       });
       if(rr < g.rounds) push({k:"rest", g:g, gi:gi, secs:g.rest, round:rr, rounds:g.rounds, roundRest:1});
     }
@@ -2478,7 +2506,7 @@ function planListHtml(d){
       names = l.join(" · "); meta = g.k === "warm" ? Math.round(g.list.reduce(function(a, w){ return a + w.s; }, 0)/60*2)/2 + " min" : (g.walk ? g.walk.p.walkMins + " min" : coolMins(g) + " min");
     } else {
       names = g.items.map(function(x){ return exName(x.p); }).join(" → ");
-      meta = g.k === "strength" ? g.rounds + " sets · " + setSecs(g.items[0].p) + "s on / " + g.rest + "s rest" : g.rounds + " rounds · " + g.items.map(function(x){ return workSecs(x.p, g.fin, g.q); }).filter(function(v, i, a){ return a.indexOf(v) === i; }).join("/") + "s on · " + g.rest + "s rest";
+      meta = g.meta;
     }
     return '<div class="pgl"><div class="pgt"><b>'+esc(g.title)+'</b><span>'+esc(meta)+'</span></div><div class="pgn">'+esc(names)+'</div></div>';
   }).join("");
@@ -2528,7 +2556,8 @@ function plCue(s){
   var nxt = "Next: " + moveName(nx) + ", " + secWords(nx.secs) + ".";
   if(s.groupStart) say((s.g.k === "cool" ? "Nice work! " : "") + s.g.title + ". " + nxt);
   else if(s.roundRest) say("Rest. Round " + (s.round + 1) + " of " + s.rounds + " is next. " + nxt);
-  else if(s.setRest) say("Rest. Set " + (s.round + 1) + " of " + s.rounds + " next.");
+  else if(s.dropTrans) say("Drop set next. Strip about 30 percent of the weight. " + secWords(nx.secs) + ".");
+  else if(s.setRest) say("Rest. Set " + (s.round + 1) + " of " + s.rounds + " next." + (s.round + 1 === s.rounds && s.g.amrap ? " Last set is as many reps as you can." : ""));
   else say(nxt);
 }
 function plTick(){
@@ -2549,7 +2578,7 @@ function plMarkWork(natural){
   var ran = PL.segTotal - Math.max(0, PL.left);
   if(natural || ran >= PL.segTotal * 0.5){
     PL.done[PL.i] = 1; PL.moves++; PL.exDone[s.ex] = 1;
-    if(showWeight(s.p)){ var inp = document.getElementById("wIn"); var w = inp ? num(inp.value) : null; if(w > 0) saveLift(s.p, w); }
+    if(showWeight(s.p) && !s.drop){ var inp = document.getElementById("wIn"); var w = inp ? num(inp.value) : null; if(w > 0) saveLift(s.p, w); }
   }
 }
 function plAdvance(natural){
@@ -2608,17 +2637,17 @@ function plSegRender(){
     (x.p && x.p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[x.p.orig].name)+'</div>' : '') + '</div></div>' +
     '<div class="pctl"><button class="pcb" id="pprev" aria-label="Back">'+ICO.prev+'</button><button class="pcb pp" id="ppause" aria-label="Pause">'+ICO.pause+'</button><button class="pcb" id="pskip" aria-label="Skip">'+ICO.next+'</button></div>' +
     ((s.k === "rest" || s.k === "trans") ? '<button class="padd" id="padd">+15 sec</button>' : '') +
-    (cue ? '<p class="note">'+esc(cue)+'</p>' : '');
+    (effortCue(x) ? '<p class="note effort">'+esc(effortCue(x))+'</p>' : '') + (cue ? '<p class="note">'+esc(cue)+'</p>' : '');
   // Ladder-style "up next" (what comes after the move on screen)
   var after = null;
   for(var j = (isBreak ? s.nx : PL.i) + 1; j < PL.S.length; j++){ var k = PL.S[j].k; if(k === "work" || k === "warm" || k === "cool"){ after = PL.S[j]; break; } }
   html += after ? '<div class="upnext">' + (after.ex && EX[after.ex] ? picHtml(after.ex, "thumb") : '<div class="thumb ph"><div class="e">'+((WU[after.wu]||{}).icon||"🔥")+'</div></div>') +
       '<div class="um"><div class="uk">'+(isBreak ? 'After that' : 'Up next')+'</div><div class="un">'+esc(moveName(after))+'</div><div class="ud">'+esc(after.g.title + (after.k === "work" ? " · " + (after.g.k === "strength" ? "set " : "round ") + after.round + " of " + after.rounds : "") + " · " + secWords(after.secs))+'</div></div></div>'
     : '<div class="upnext"><div class="thumb ph"><div class="e">🏁</div></div><div class="um"><div class="uk">Up next</div><div class="un">Finish 🎉</div></div></div>';
-  if(x.p && showWeight(x.p) && x.k === "work") html += '<div style="height:10px"></div>' + weightHtml(x.p);
+  if(x.p && showWeight(x.p) && x.k === "work" && !x.drop) html += '<div style="height:10px"></div>' + weightHtml(x.p);
   html += togglesHtml() + '<div style="height:18px"></div>';
   document.getElementById("pbody").innerHTML = html;
-  if(x.p && showWeight(x.p) && x.k === "work") bindWeight(x.p);
+  if(x.p && showWeight(x.p) && x.k === "work" && !x.drop) bindWeight(x.p);
   document.getElementById("ppause").onclick = function(){ if(PL.paused) plResume(); else plPause(); };
   document.getElementById("pskip").onclick = function(){ primeAudio(); var wasP = PL.paused; plAdvance(false); if(wasP){ PL.left = PL.S[PL.i].secs; plUpdate(true); } };
   document.getElementById("pprev").onclick = function(){ primeAudio(); plBack(); };
