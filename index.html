@@ -491,6 +491,12 @@ body.noscroll{overflow:hidden}
 .tm{min-width:0}.tn{font-weight:700;font-size:15px;line-height:1.2}.td{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
 .tcard .cta.play{width:calc(100% - 32px);margin:8px 16px 4px}
 .tlinks{display:flex;justify-content:space-between;padding:4px 14px 10px}
+.sesslab{font-size:11px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);margin:2px 6px 8px}
+#tcards .sesslab + .tcard{margin-top:0}
+.tcard.home .thero{background:linear-gradient(135deg,#4a6fa5,#6d8fc2)}
+.tcard.home.done .thero{background:linear-gradient(135deg,#3fa66b,#6cc08d)}
+.tcard .thint{font-size:12px;font-weight:600;opacity:.9;margin:2px 0 0}
+.td .wt{color:var(--accent);font-weight:700}
 
 .note.effort{border-left-color:var(--accent);background:#fff4ef;font-weight:600}
 </style>
@@ -666,6 +672,45 @@ Object.assign(SWAPS, {
 });
 // cable moves are only offered as the last (optional) swap choices
 Object.keys(SWAPS).forEach(function(k){ var a = SWAPS[k]; SWAPS[k] = a.filter(function(x){ return !EX[x].cable; }).concat(a.filter(function(x){ return EX[x].cable; })); });
+var GYM_ONLY = {kickMachine:1,legPress:1,legExt:1,legCurl:1,lyingLegCurl:1,abduction:1,machineRow:1,preacherCurl:1,dipMachine:1,tricepMachine:1,hackSquat:1,trapBar:1,machineChest:1,machineShoulder:1,pulldown:1,pullup:1,smithHipThrust:1,backExt:1,reversePecDeck:1,machineLateral:1,trapCarry:1,ropePushdown:1,row:1,kickback:1,facepull:1,pullThrough:1,saCableRow:1,saPulldown:1,cableCurl:1,cableAbduction:1,cableLateral:1,deadlift:1,bench:1,kbDeadlift:1,bandwalk:1,bandPullApart:1,clamshell:1,ballCurl:1,goodMorning:1};
+function homeOk(ex){ var e = EX[ex]; return !!e && !e.cable && !GYM_ONLY[ex]; }
+var HOME_SWAPS = {
+  hipThrust:["bridge","slGluteBridge"],
+  bss:["reverseLunge","stepUp","splitSquat"],
+  rdl:["slRdl"],
+  slRdl:["rdl"],
+  lunge:["reverseLunge","stepUp","splitSquat"],
+  reverseLunge:["lunge","splitSquat","stepUp"],
+  stepUp:["reverseLunge","splitSquat","bss"],
+  splitSquat:["bss","reverseLunge","stepUp"],
+  bridge:["hipThrust","slGluteBridge"],
+  slGluteBridge:["bridge","hipThrust"],
+  goblet:["sumoSquat","splitSquat"],
+  sumoSquat:["goblet","splitSquat"],
+  donkeyKick:["slGluteBridge","bridge"],
+  dbBench:["incline","inclinePushup","pushup"],
+  incline:["dbBench","inclinePushup"],
+  chestRow:["sarow"],
+  sarow:["chestRow"],
+  dbShoulderPress:["ohp"],
+  ohp:["dbShoulderPress"],
+  lateral:["ohp"],
+  hammerCurl:["dbCurl"],
+  dbCurl:["hammerCurl"],
+  benchDip:["dbOverheadExt"],
+  dbOverheadExt:["benchDip"],
+  plank:["bearHold","sidePlank"],
+  sidePlank:["plank","bearHold"],
+  bearHold:["plank","sidePlank"],
+  deadbug:["birdDog","toeTap"],
+  birdDog:["deadbug","toeTap"],
+  toeTap:["deadbug","birdDog"],
+  pushup:["inclinePushup","dbBench"],
+  inclinePushup:["pushup","dbBench"],
+  farmer:["suitcaseCarry"],
+  suitcaseCarry:["farmer"]
+};
+function swapList(ex, home){ return home ? (HOME_SWAPS[ex] || []).concat((SWAPS[ex] || []).filter(function(x){ return homeOk(x) && (HOME_SWAPS[ex] || []).indexOf(x) < 0; })) : (SWAPS[ex] || []); }
 // saved swaps are keyed by day + original exercise (+ which time it appears that day), so moving blocks never mixes them up
 function swapKey(dk, bi, ii){
   var d = dayByKey(dk), ex = d.blocks[bi].items[ii].ex, occ = 0;
@@ -674,8 +719,8 @@ function swapKey(dk, bi, ii){
 }
 // prescription with her swap applied (same sets/reps/rest; "each side" follows the new move)
 function effP(dk, bi, ii, p){
-  var alt = (load("mw_swaps", {}) || {})[swapKey(dk, bi, ii)];
-  if(!alt || !EX[alt] || (SWAPS[p.ex] || []).indexOf(alt) < 0) return p;
+  var day = dayByKey(dk), alt = (load("mw_swaps", {}) || {})[swapKey(dk, bi, ii)];
+  if(!alt || !EX[alt] || swapList(p.ex, day && day.home).indexOf(alt) < 0) return p;
   var q = {}; for(var k in p) q[k] = p[k];
   q.ex = alt; q.orig = p.ex; q.each = EX[alt].uni || undefined;
   return q;
@@ -848,6 +893,169 @@ var BONUS = {key:"sat", base:"sat", ver:"A", bonus:true, short:"Sat", day:"Satur
    {label:"Finisher", rest:20, finisher:true, items:[P("abduction",4,{reps:25,note:"Nonstop reps. Last round: pulse to failure."})]}
   ]};
 ALLDAYS.push(BONUS);
+
+// ---- afternoon home sessions (second workout of the day; complementary to the morning gym plan) ----
+// Keys: mon_h / mon_h_b / mon_h_c so weekDay() and markDone() stay separate from the gym day.
+var HOME = [
+ {key:"mon_h", short:"Mon", day:"Monday", title:"Upper + Core", mins:"30–40 min", focus:"Chest · Back · Core", kind:"upper",
+  warmup:{text:"Optional: 3 min easy spin. Then arm circles and a few incline push-ups on the bench."},
+  blocks:[
+   {label:"Block 1", rest:75, items:[P("dbBench",4,{reps:10, wt:"20s each", note:"Try the 20s (one in each hand). If they feel too heavy, use the 10s. 3-sec lowering."})]},
+   {label:"Block 2", rest:40, items:[P("sarow",3,{reps:10, each:"side", wt:"30 lb", note:"Hand and knee on the bench. Try the 30; go down to the 20 if your form slips."})]},
+   {label:"Block 3", rest:40, items:[P("dbShoulderPress",3,{reps:10, wt:"10s each", note:"Seated on the bench. Try the 10s. The 20s only if 10s feel easy."})]},
+   {label:"Block 4", rest:40, items:[P("hammerCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("benchDip",3,{reps:10, note:"Hands on the bench, feet on the floor. Bend your knees to make it easier."})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("plank",3,{hold:40})]}
+  ]},
+ {key:"tue_h", short:"Tue", day:"Tuesday", title:"Glutes + Arms", mins:"30–40 min", focus:"Glutes · Arms", kind:"lower",
+  warmup:{text:"Optional: 3 min easy spin. Then 10 bodyweight squats and 10 glute bridges."},
+  blocks:[
+   {label:"Block 1", rest:75, items:[P("hipThrust",4,{reps:12, wt:"40 lb", note:"Shoulders on the bench, the 40 on your hips. 1-sec squeeze at the top."})]},
+   {label:"Block 2", rest:40, items:[P("goblet",3,{reps:12, wt:"30 lb", note:"Hold at your chest. Try the 30, or the 35 if 30 feels easy."})]},
+   {label:"Block 3", rest:40, items:[P("reverseLunge",3,{reps:10, each:"leg", wt:"10s each", note:"Hold the 10s. Step back, push through the front heel."})]},
+   {label:"Block 4", rest:40, items:[P("hammerCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("dbOverheadExt",3,{reps:12, wt:"20 lb", note:"One 20 held with both hands. If 20 feels heavy, use a 10."})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("donkeyKick",3,{reps:15, each:"side"})]}
+  ]},
+ {key:"wed_h", short:"Wed", day:"Wednesday", title:"Upper + Core", mins:"30–40 min", focus:"Shoulders · Back · Core", kind:"upper",
+  warmup:{text:"Optional: 3 min easy spin. Then arm circles and a few incline push-ups on the bench."},
+  blocks:[
+   {label:"Block 1", rest:75, items:[P("incline",4,{reps:10, wt:"20s each", note:"Bench at ~30°. If it doesn’t incline, do a flat press with the 20s. Use the 10s if 20s feel too heavy."})]},
+   {label:"Block 2", rest:40, items:[P("chestRow",3,{reps:10, wt:"20s each", note:"Chest on the bench, dumbbells hanging at your sides. Try the 20s, or the 30s if 20s feel easy."})]},
+   {label:"Block 3", rest:40, items:[P("lateral",3,{reps:12, wt:"5s each", note:"Light 5s. Raise to shoulder height, lead with your elbows."})]},
+   {label:"Block 4", rest:40, items:[P("dbCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("dbOverheadExt",3,{reps:12, wt:"20 lb", note:"One 20 held with both hands. Use a 10 if 20 feels heavy."})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("bearHold",3,{hold:35})]}
+  ]},
+ {key:"thu_h", short:"Thu", day:"Thursday", title:"Glutes + Arms", mins:"30–40 min", focus:"Glutes · Arms", kind:"lower",
+  warmup:{text:"Optional: 3 min easy spin. Then 10 bodyweight squats and 10 glute bridges."},
+  blocks:[
+   {label:"Block 1", rest:75, items:[P("stepUp",4,{reps:10, each:"leg", wt:"10s each", note:"Use the bench as your step. Hold the 10s. Don’t push off the back leg."})]},
+   {label:"Block 2", rest:40, items:[P("rdl",3,{reps:10, wt:"20s each", note:"Dumbbells in each hand. Soft knees, push hips back, feel the hamstring stretch."})]},
+   {label:"Block 3", rest:40, items:[P("slGluteBridge",3,{reps:12, each:"leg"})]},
+   {label:"Block 4", rest:40, items:[P("hammerCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("dbOverheadExt",3,{reps:12, wt:"20 lb", note:"One 20 held with both hands. Use a 10 if 20 feels heavy."})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("donkeyKick",3,{reps:15, each:"side"})]}
+  ]},
+ {key:"fri_h", short:"Fri", day:"Friday", title:"Shoulders + Core", mins:"30–40 min", focus:"Shoulders · Arms · Core", kind:"upper",
+  warmup:{text:"Optional: 3 min easy spin. Then arm circles."},
+  blocks:[
+   {label:"Block 1", rest:75, items:[P("dbShoulderPress",4,{reps:10, wt:"10s each", note:"Seated on the bench. Try the 10s. The 20s only if 10s feel easy."})]},
+   {label:"Block 2", rest:40, items:[P("lateral",3,{reps:12, wt:"5s each"})]},
+   {label:"Block 3", rest:40, items:[P("hammerCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 4", rest:40, items:[P("dbOverheadExt",3,{reps:12, wt:"20 lb", note:"One 20 held with both hands. Use a 10 if 20 feels heavy."})]},
+   {label:"Block 5", rest:40, items:[P("bridge",3,{reps:15, wt:"30 lb", note:"Easy accessory after this morning’s lifts. The 30 on your hips, or the 20 if you prefer."})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("plank",3,{hold:40})]}
+  ]}
+];
+var HOME_VARIANTS = {
+ mon_h:{
+  B:[
+   {label:"Block 1", rest:75, items:[P("dbShoulderPress",4,{reps:8, wt:"10s each", note:"Seated on the bench. Try the 10s. The 20s only if 10s feel easy. 3-sec lowering."})]},
+   {label:"Block 2", rest:40, items:[P("chestRow",3,{reps:10, wt:"20s each", note:"Chest on the bench, dumbbells hanging at your sides. Try the 20s."})]},
+   {label:"Block 3", rest:40, items:[P("dbBench",3,{reps:10, wt:"20s each", note:"Try the 20s. Use the 10s if they feel too heavy. 3-sec lowering."})]},
+   {label:"Block 4", rest:40, items:[P("dbCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("dbOverheadExt",3,{reps:12, wt:"20 lb", note:"One 20 held with both hands. Use a 10 if 20 feels heavy."})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("deadbug",3,{reps:10, each:"side"})]}
+  ],
+  C:[
+   {label:"Block 1", rest:75, items:[P("sarow",4,{reps:10, each:"side", wt:"30 lb", note:"Hand and knee on the bench. Try the 30; go down to the 20 if your form slips."})]},
+   {label:"Block 2", rest:40, items:[P("dbBench",3,{reps:10, wt:"20s each", note:"Try the 20s. Use the 10s if they feel too heavy."})]},
+   {label:"Block 3", rest:40, items:[P("lateral",3,{reps:12, wt:"5s each"})]},
+   {label:"Block 4", rest:40, items:[P("hammerCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("benchDip",3,{reps:12, note:"Hands on the bench, feet on the floor. Bend your knees to make it easier."})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("sidePlank",3,{hold:30, each:"side"})]}
+  ]
+ },
+ tue_h:{
+  B:[
+   {label:"Block 1", rest:75, items:[P("goblet",4,{reps:12, wt:"30 lb", note:"Hold at your chest. Try the 30, or the 35 if 30 feels easy."})]},
+   {label:"Block 2", rest:40, items:[P("stepUp",3,{reps:10, each:"leg", wt:"10s each", note:"Use the bench as your step. Don’t push off the back leg."})]},
+   {label:"Block 3", rest:40, items:[P("slGluteBridge",3,{reps:12, each:"leg"})]},
+   {label:"Block 4", rest:40, items:[P("hammerCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("benchDip",3,{reps:12})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("sumoSquat",3,{reps:15, wt:"40 lb", note:"One 40 held at your chest or between your feet. Nonstop reps."})]}
+  ],
+  C:[
+   {label:"Block 1", rest:75, items:[P("reverseLunge",4,{reps:10, each:"leg", wt:"10s each", note:"Hold the 10s. Step back, push through the front heel."})]},
+   {label:"Block 2", rest:40, items:[P("slRdl",3,{reps:8, each:"leg", wt:"20 lb", note:"One 20 in the opposite hand. Hips square, soft standing knee. Hold the bench for balance if you need to."})]},
+   {label:"Block 3", rest:40, items:[P("hipThrust",3,{reps:12, wt:"40 lb", note:"Shoulders on the bench, the 40 on your hips. 1-sec squeeze at the top."})]},
+   {label:"Block 4", rest:40, items:[P("dbCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("dbOverheadExt",3,{reps:12, wt:"20 lb", note:"One 20 held with both hands. Use a 10 if 20 feels heavy."})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("donkeyKick",3,{reps:15, each:"side"})]}
+  ]
+ },
+ wed_h:{
+  B:[
+   {label:"Block 1", rest:75, items:[P("dbShoulderPress",4,{reps:10, wt:"10s each", note:"Seated on the bench. Try the 10s. The 20s only if 10s feel easy. 3-sec lowering."})]},
+   {label:"Block 2", rest:40, items:[P("sarow",3,{reps:10, each:"side", wt:"30 lb", note:"Hand and knee on the bench. Try the 30; go down to the 20 if your form slips."})]},
+   {label:"Block 3", rest:40, items:[P("inclinePushup",3,{reps:10, note:"Hands on the bench, body in a straight line. Lower your chest to the bench, push away."})]},
+   {label:"Block 4", rest:40, items:[P("hammerCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("benchDip",3,{reps:10, note:"Hands on the bench, feet on the floor. Bend your knees to make it easier."})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("deadbug",3,{reps:10, each:"side"})]}
+  ],
+  C:[
+   {label:"Block 1", rest:75, items:[P("chestRow",4,{reps:10, wt:"20s each", note:"Chest on the bench, dumbbells hanging at your sides. Try the 20s, or the 30s if 20s feel easy."})]},
+   {label:"Block 2", rest:40, items:[P("dbBench",3,{reps:10, wt:"20s each", note:"Try the 20s. Use the 10s if they feel too heavy."})]},
+   {label:"Block 3", rest:40, items:[P("dbShoulderPress",3,{reps:10, wt:"10s each", note:"Seated on the bench. Try the 10s."})]},
+   {label:"Block 4", rest:40, items:[P("lateral",3,{reps:12, wt:"5s each"})]},
+   {label:"Block 5", rest:40, items:[P("benchDip",3,{reps:12})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("sidePlank",3,{hold:30, each:"side"})]}
+  ]
+ },
+ thu_h:{
+  B:[
+   {label:"Block 1", rest:75, items:[P("bss",4,{reps:8, each:"leg", wt:"10s each", note:"Rear foot on the bench. Hold the 10s. Lean slightly forward to bias glutes."})]},
+   {label:"Block 2", rest:40, items:[P("hipThrust",3,{reps:12, wt:"40 lb", note:"Shoulders on the bench, the 40 on your hips. 1-sec squeeze at the top."})]},
+   {label:"Block 3", rest:40, items:[P("reverseLunge",3,{reps:8, each:"leg", wt:"10s each"})]},
+   {label:"Block 4", rest:40, items:[P("dbCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("benchDip",3,{reps:10})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("sumoSquat",3,{reps:15, wt:"40 lb", note:"One 40 held at your chest or between your feet. Nonstop reps."})]}
+  ],
+  C:[
+   {label:"Block 1", rest:75, items:[P("slRdl",4,{reps:8, each:"leg", wt:"20 lb", note:"One 20 in the opposite hand. Hips square, soft standing knee. Hold the bench for balance if you need to."})]},
+   {label:"Block 2", rest:40, items:[P("goblet",3,{reps:12, wt:"30 lb", note:"Hold at your chest. Try the 30, or the 35 if 30 feels easy."})]},
+   {label:"Block 3", rest:40, items:[P("stepUp",3,{reps:10, each:"leg", wt:"10s each", note:"Use the bench as your step. Don’t push off the back leg."})]},
+   {label:"Block 4", rest:40, items:[P("hammerCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 5", rest:40, items:[P("dbOverheadExt",3,{reps:12, wt:"20 lb", note:"One 20 held with both hands. Use a 10 if 20 feels heavy."})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("slGluteBridge",3,{reps:12, each:"leg"})]}
+  ]
+ },
+ fri_h:{
+  B:[
+   {label:"Block 1", rest:75, items:[P("ohp",4,{reps:8, wt:"10s each", note:"Standing. Squeeze your glutes and brace. Try the 10s. 3-sec lowering."})]},
+   {label:"Block 2", rest:40, items:[P("lateral",3,{reps:12, wt:"5s each"})]},
+   {label:"Block 3", rest:40, items:[P("hammerCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 4", rest:40, items:[P("benchDip",3,{reps:12})]},
+   {label:"Block 5", rest:40, items:[P("deadbug",3,{reps:10, each:"side"})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("sidePlank",3,{hold:30, each:"side"})]}
+  ],
+  C:[
+   {label:"Block 1", rest:75, items:[P("lateral",4,{reps:15, wt:"5s each", note:"Quality reps with the 5s. Slight bend in the elbows, pause at the top."})]},
+   {label:"Block 2", rest:40, items:[P("dbCurl",3,{reps:12, wt:"10s each"})]},
+   {label:"Block 3", rest:40, items:[P("dbOverheadExt",3,{reps:12, wt:"20 lb", note:"One 20 held with both hands. Use a 10 if 20 feels heavy."})]},
+   {label:"Block 4", rest:40, items:[P("bridge",3,{reps:15, wt:"30 lb", note:"Easy accessory. The 30 on your hips, or the 20 if you prefer."})]},
+   {label:"Block 5", rest:40, items:[P("deadbug",3,{reps:10, each:"side"})]},
+   {label:"Finisher", rest:25, finisher:true, items:[P("plank",3,{hold:40})]}
+  ]
+ }
+};
+HOME.forEach(function(d){
+  d.base = d.key; d.ver = "A"; d.home = true;
+  d.gymBase = d.key.replace(/_h$/, "");
+  ALLDAYS.push(d);
+  ["B","C"].forEach(function(v){
+    var bl = HOME_VARIANTS[d.key] && HOME_VARIANTS[d.key][v]; if(!bl) return;
+    ALLDAYS.push({key:d.key + "_" + v.toLowerCase(), base:d.key, ver:v, home:true, gymBase:d.gymBase, kind:d.kind,
+      short:d.short, day:d.day, title:d.title, mins:d.mins, focus:d.focus, warmup:d.warmup, blocks:bl});
+  });
+});
+function homeWeekDay(gymBase, ver){
+  ver = ver || weekVer();
+  var base = gymBase + "_h";
+  return dayByKey(ver === "A" ? base : base + "_" + ver.toLowerCase()) || dayByKey(base);
+}
+
 function isoWeek(dt){ var d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate())); var n = d.getUTCDay() || 7; d.setUTCDate(d.getUTCDate() + 4 - n); var y = new Date(Date.UTC(d.getUTCFullYear(), 0, 1)); return Math.ceil(((d - y) / 86400000 + 1) / 7); }
 function weekVer(dt){ return "ABC"[isoWeek(dt || new Date()) % 3]; }
 function dayByKey(k){ return ALLDAYS.find(function(x){ return x.key === k; }); }
@@ -885,11 +1093,11 @@ function ymd(d){ d = d || new Date(); return d.getFullYear() + "-" + String(d.ge
 // ---- dates: this week's real calendar dates (phone's local time; weeks run Mon–Sun) ----
 var MON3 = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], DOW3 = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 function md(d){ return MON3[d.getMonth()] + " " + d.getDate(); }
-function dayDate(base){ var i = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}[base]; var d = weekStart(new Date()); d.setDate(d.getDate() + (i || 0)); return d; }
+function dayDate(base){ var k = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}; if(k[base] === undefined && base){ var m = /^(mon|tue|wed|thu|fri|sat|sun)/.exec(base); base = m ? m[1] : base; } var i = k[base]; var d = weekStart(new Date()); d.setDate(d.getDate() + (i || 0)); return d; }
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
-function workoutTag(d){ return (isQ(d.ver) ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver) + " · " + (d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.base)); }
-var BUILD = "Nov 11, 2026 3:53 PM ET";
+function workoutTag(d){ var label = isQ(d.ver) ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver; var when = d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.gymBase || d.base); return label + (d.home ? " · Afternoon · Home" : "") + " · " + when; }
+var BUILD = "Nov 11, 2026 8:22 PM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -1071,40 +1279,59 @@ function dayChipsHtml(sel){
   chips += '<button class="dchip2 bonus'+(sel === "sat" ? ' on' : '')+(bd ? ' done' : '')+'" data-pick="sat" aria-pressed="'+(sel === "sat")+'"><span class="dw">Sat</span><span class="dn">'+(bd ? '✓' : '⭐')+'</span></button>';
   return '<div class="dpick" id="dpick" role="tablist">'+chips+'</div>';
 }
-function todayCardHtml(sel){
-  var wd = sel === "sat" ? BONUS : weekDay(sel), base = sel === "sat" ? BONUS : DAYS.filter(function(d){ return d.key === sel; })[0];
-  var done = doneThisWeek(sel), isToday = sel !== "sat" && DAYS[todayIdx()] && DAYS[todayIdx()].key === sel;
-  var moves = [];
-  circuitPlan(wd).forEach(function(g){
+function sessionMoves(wd){
+  var moves = [], seen = circuitPlan(wd);
+  seen.forEach(function(g){
     if(!g.items) return;
     g.items.forEach(function(x){ moves.push({x:x, g:g}); });
   });
-  var cool = circuitPlan(wd).filter(function(g){ return g.k === "cool"; })[0];
+  var cool = seen.filter(function(g){ return g.k === "cool"; })[0];
   if(cool && cool.walk) moves.push({x:cool.walk, g:cool});
+  return moves;
+}
+function sessionCardHtml(wd, opts){
+  opts = opts || {};
+  var done = doneThisWeek(wd.base), moves = sessionMoves(wd);
   var list = moves.map(function(m){
     var p = m.x.p, g = m.g;
-    var what = g.k === "cool" ? p.walkText + ' walk' : g.rounds + ' sets × ' + (p.hold ? p.hold + 's' : p.reps) + (p.each ? '/' + p.each : '') + (g.drop ? ' + drop set' : g.amrap ? ' · AMRAP' : '');
+    var what = g.k === "cool" ? p.walkText + ' walk' : g.rounds + ' sets × ' + (p.hold ? p.hold + 's' : p.reps) + (p.each ? '/' + p.each : '') + (g.drop ? ' + drop set' : g.amrap ? ' · AMRAP' : '') + (p.wt ? ' · ' + p.wt : '');
     var label = g.k === "cool" ? "Cool-down" : g.k === "strength" ? "Main lift" : g.k === "finisher" ? (g.drop ? "Burnout" : "Finisher") : "Straight sets";
     return '<div class="tmove">'+picHtml(p.ex, "thumb")+'<div class="tm"><div class="tn">'+esc(exName(p))+'</div><div class="td">'+esc(label + ' · ' + what)+'</div></div></div>';
   }).join("");
-  var tag = sel === "sat" ? 'Bonus · Sat '+md(dayDate("sat"))+' or Sun '+md(dayDate("sun")) : verLabel(wd.ver) + ' · ' + dayDateLabel(sel);
-  return '<div class="tcard'+(done ? ' done' : '')+'" id="tcard">' +
-    '<div class="thero"><div class="k">'+esc(tag)+(isToday ? ' <span class="badge">TODAY</span>' : '')+(sel === "sat" ? ' <span class="badge opt">OPTIONAL</span>' : '')+(done ? ' <span class="badge good">DONE ✓</span>' : '')+'</div>' +
-    '<h2 class="ttitle">'+esc(base.title)+'</h2><div class="pills"><span class="pill">⏱ ~'+planMinutes(wd)+' min</span><span class="pill">'+moves.length+' exercises</span><span class="pill">'+esc(base.focus)+'</span></div></div>' +
+  var tag = wd.bonus ? 'Bonus · Sat '+md(dayDate("sat"))+' or Sun '+md(dayDate("sun")) : verLabel(wd.ver) + ' · ' + dayDateLabel(wd.gymBase || wd.base);
+  return '<div class="tcard'+(wd.home ? ' home' : '')+(done ? ' done' : '')+'" id="'+opts.id+'">' +
+    '<div class="thero"><div class="k">'+esc(tag)+(opts.today ? ' <span class="badge">TODAY</span>' : '')+(wd.bonus ? ' <span class="badge opt">OPTIONAL</span>' : '')+(done ? ' <span class="badge good">DONE ✓</span>' : '')+'</div>' +
+    '<h2 class="ttitle">'+esc(wd.title)+'</h2>' + (opts.hint ? '<div class="thint">'+esc(opts.hint)+'</div>' : '') +
+    '<div class="pills"><span class="pill">⏱ ~'+planMinutes(wd)+' min</span><span class="pill">'+moves.length+' exercises</span><span class="pill">'+esc(wd.focus)+'</span></div></div>' +
     '<div class="tmoves">'+list+'</div>' +
-    '<button class="cta play" id="tplay">▶ '+(done ? 'Do it again · Press play' : 'Start · Press play')+'</button>' +
-    '<div class="tlinks"><button class="linkbtn" id="tdetail">Details &amp; swaps ›</button>' + (sel !== "sat" ? '<button class="linkbtn" id="tshort">⚡ 15-min version</button>' : '') + '</div></div>';
+    '<button class="cta play" id="'+opts.playId+'">▶ '+(done ? 'Do it again · Press play' : 'Start · Press play')+'</button>' +
+    '<div class="tlinks"><button class="linkbtn" id="'+opts.detailId+'">Details &amp; swaps ›</button>' + (opts.shortId ? '<button class="linkbtn" id="'+opts.shortId+'">⚡ 15-min version</button>' : '') + '</div></div>';
+}
+function todayCardHtml(sel){
+  var isToday = sel !== "sat" && DAYS[todayIdx()] && DAYS[todayIdx()].key === sel;
+  var gym = sel === "sat" ? BONUS : weekDay(sel);
+  var html = '<div id="tcards">';
+  if(sel !== "sat") html += '<div class="sesslab">Morning · Gym</div>';
+  html += sessionCardHtml(gym, {id:"gcard", playId:"gplay", detailId:"gdetail", shortId: sel !== "sat" ? "gshort" : "", today:isToday});
+  if(sel !== "sat"){
+    var hd = homeWeekDay(sel);
+    if(hd) html += '<div class="sesslab">Afternoon · Home</div>' + sessionCardHtml(hd, {id:"hcard", playId:"hplay", detailId:"hdetail", today:isToday, hint:"Complements this morning’s gym session · moderate effort"});
+  }
+  return html + '</div>';
 }
 function bindTodayCard(sel){
-  var wd = sel === "sat" ? BONUS : weekDay(sel);
-  document.getElementById("tplay").onclick = function(){ primeAudio(); PL = null; go("#day=" + wd.key + "&play=1"); };
-  document.getElementById("tdetail").onclick = function(){ go("#day=" + wd.key); };
-  var sh = document.getElementById("tshort"); if(sh) sh.onclick = function(){ go("#day=" + weekDay(sel, "Q").key); };
+  var gym = sel === "sat" ? BONUS : weekDay(sel);
+  document.getElementById("gplay").onclick = function(){ primeAudio(); PL = null; go("#day=" + gym.key + "&play=1"); };
+  document.getElementById("gdetail").onclick = function(){ go("#day=" + gym.key); };
+  var sh = document.getElementById("gshort"); if(sh) sh.onclick = function(){ go("#day=" + weekDay(sel, "Q").key); };
+  var hp = document.getElementById("hplay"), hd = homeWeekDay(sel);
+  if(hp && hd){ hp.onclick = function(){ primeAudio(); PL = null; go("#day=" + hd.key + "&play=1"); }; }
+  var hdet = document.getElementById("hdetail"); if(hdet && hd) hdet.onclick = function(){ go("#day=" + hd.key); };
   app.querySelectorAll("[data-pick]").forEach(function(b){ b.onclick = function(){
     if(homeSel === b.dataset.pick) return;
     homeSel = b.dataset.pick;
     var a = document.createElement("div"); a.innerHTML = dayChipsHtml(homeSel); document.getElementById("dpick").replaceWith(a.firstChild);
-    var c = document.createElement("div"); c.innerHTML = todayCardHtml(homeSel); document.getElementById("tcard").replaceWith(c.firstChild);
+    var c = document.createElement("div"); c.innerHTML = todayCardHtml(homeSel); document.getElementById("tcards").replaceWith(c.firstChild);
     bindTodayCard(homeSel);
   }; });
 }
@@ -1119,7 +1346,7 @@ function renderHome(){
     (t<0 ? '<p class="sub" style="margin:4px 4px 10px">Weekend = rest, an easy walk, or the optional Saturday bonus 🌿</p>' : '') +
     (t<0 && new Date().getDay() === 0 ? (function(){ var n = new Date(); n.setDate(n.getDate() + 1); return '<p class="sub nextwk" style="margin:0 4px 10px">Tomorrow starts <b>Week '+weekVer(n)+'</b> (Mon '+md(n)+').</p>'; })() : '') +
     streakHtml() + chalCardHtml() + trackCardHtml() + goalsHtml() + bodyCardHtml() + foodHtml() +
-    '<div class="footer">Pick a day up top · Mon–Fri plan + optional Saturday glute day<br><span class="appver">App version: '+esc(APPVER)+' · '+esc(BUILD)+'</span></div>';
+    '<div class="footer">Pick a day up top · gym in the morning, home in the afternoon · optional Saturday glute day<br><span class="appver">App version: '+esc(APPVER)+' · '+esc(BUILD)+'</span></div>';
   app.innerHTML = html;
   bindTodayCard(homeSel);
   bindFood();
@@ -1134,6 +1361,7 @@ function verSwitchHtml(d){
   var cur = weekVer();
   var opts = ["A","B","C"].map(function(v){ var x = weekDay(d.base, v); return '<button class="vchip'+(d.ver===v?' on':'')+'" data-ver="'+x.key+'">Week '+v+(v===cur?' <small>this week</small>':'')+'</button>'; }).join("");
   var q = weekDay(d.base, "Q");
+  if(d.home) return '<div class="vers">'+opts+'</div>';
   return '<div class="vers">'+opts+'</div>' + (isQ(d.ver) ? '<button class="shortbtn on" data-ver="'+weekDay(d.base).key+'">‹ Back to the full workout</button>' : '<button class="shortbtn" data-ver="'+q.key+'">⚡ Short on time? 15-min version</button>');
 }
 function renderOverview(){
@@ -1142,7 +1370,8 @@ function renderOverview(){
   var html = '<div class="topbar"><button class="iconbtn" id="home" aria-label="Back">‹</button><div></div><div style="width:44px"></div></div>' +
     '<div class="hero"><div class="k">'+workoutTag(d)+(doneThisWeek(d.base)?' · ✓ Done this week':'')+'</div><h1>'+d.title+'</h1>' +
     '<div class="pills"><span class="pill">⏱ ~'+planMinutes(d)+' min</span><span class="pill">'+nEx+' exercises</span><span class="pill">'+d.focus+'</span></div></div>' +
-    (d.bonus ? '<div class="tip" style="background:#f4efff;color:#5b44a8">⭐ Optional bonus day. It doesn’t change your Mon–Fri plan or weekly count.</div>' : verSwitchHtml(d)) + '<div class="tip">💡 Leave 1–2 reps in the tank.</div>';
+    (d.bonus ? '<div class="tip" style="background:#f4efff;color:#5b44a8">⭐ Optional bonus day. It doesn’t change your Mon–Fri plan or weekly count.</div>' : verSwitchHtml(d)) +
+    (d.home ? '<div class="tip">🏡 Afternoon home session — complementary to this morning’s gym workout. Moderate-to-hard, leave 1–2 reps in the tank.</div>' : '<div class="tip">💡 Leave 1–2 reps in the tank.</div>');
   var w = d.warmup;
   var wg = circuitPlan(d)[0];
   html += '<div class="section"><div class="h"><b>Warm-up</b><span>'+Math.round(wg.list.reduce(function(a, x){ return a + x.s; }, 0)/30)/2+' min · timed</span></div><div class="row">' +
@@ -1155,8 +1384,8 @@ function renderOverview(){
       var p = x.p, p0 = x.p0, lw = showWeight(p) ? lastLift(p.ex) : null;
       var secs = (g.k === "finisher") ? workSecs(p, 1, g.q) : setSecs(p);
       var what = p.hold ? p.hold + ' sec hold' + (p.each ? ' / ' + p.each : '') : 'aim ' + p.reps + ' reps' + (p.each ? ' / ' + p.each : '');
-      html += '<div class="row">'+picHtml(p.ex, "thumb")+'<div style="flex:1;min-width:0"><div class="n">'+esc(exName(p))+'</div><div class="d">'+g.rounds+' sets · '+secs+'s · '+esc(what)+(lw ? ' · last '+lw.w+' lbs' : '')+'</div>'+(p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '')+'</div>' +
-        (SWAPS[p0.ex] ? '<button class="swapmini" data-swap="'+x.bi+':'+x.i+'" aria-label="Swap exercise">⇄</button>' : '') + '</div>';
+      html += '<div class="row">'+picHtml(p.ex, "thumb")+'<div style="flex:1;min-width:0"><div class="n">'+esc(exName(p))+'</div><div class="d">'+g.rounds+' sets · '+secs+'s · '+esc(what)+(p.wt ? ' · try '+esc(p.wt) : '')+(lw ? ' · last '+lw.w+' lbs' : '')+'</div>'+(p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '')+'</div>' +
+        (swapList(p0.ex, d.home).length ? '<button class="swapmini" data-swap="'+x.bi+':'+x.i+'" aria-label="Swap exercise">⇄</button>' : '') + '</div>';
     });
     html += '</div>';
   });
@@ -1322,7 +1551,7 @@ function renderFinish(){
   var stats = '<div class="fstats"><div><b>'+(sess ? fmt(sess.secs) : '✓')+'</b><span>'+(sess ? 'time' : 'done')+'</span></div><div><b>'+(sess ? sess.moves : nEx)+'</b><span>moves done</span></div><div><b>🔥 '+st.weeks+'</b><span>week streak</span></div></div>';
   var chal = '<div class="chal mini'+(ch.beat ? ' won' : '')+'"><div class="ch"><span>🏅 '+esc(ch.c.t)+'</span><span>'+ch.v+' / '+ch.g.target+' '+ch.c.unit+'</span></div><div class="pbar'+(ch.beat ? ' full' : '')+'"><i style="width:'+Math.min(100, ch.v/ch.g.target*100)+'%"></i></div>' +
     '<div class="cs">'+(ch.beat ? '🎉 You beat this week’s challenge!' : (ch.c.auto ? 'Challenge update: '+Math.max(0, ch.g.target - ch.v)+' more '+unitN(ch.c.unit, Math.max(0, ch.g.target - ch.v))+' to beat it. You’re getting there.' : 'Try the challenge from the home screen whenever you have a minute.'))+'</div></div>';
-  var html = '<div class="finish"><div class="trophy">🏆</div><h1>'+(sess && sess.partial ? 'Nice work, that counts!' : 'Workout complete!')+'</h1><p class="sub">'+d.day+' · '+d.title+'</p>' + stats +
+  var html = '<div class="finish"><div class="trophy">🏆</div><h1>'+(sess && sess.partial ? 'Nice work, that counts!' : 'Workout complete!')+'</h1><p class="sub">'+d.day+' · '+(d.home ? 'Afternoon home · ' : '')+d.title+'</p>' + stats +
     '<p class="cheer">'+esc(cheer)+'</p>' + chal +
     '<div class="weekstrip">'+strip+'</div><p class="sub" style="margin-bottom:18px">'+n+' of 5 this week · so proud of you, Mina 💛</p></div>' +
     goalsHtml() + '<div style="margin-top:14px"><button class="cta" id="home">Back to my week</button></div>';
@@ -1756,14 +1985,14 @@ function startScan(){
 function openSwap(dk, bi, ii, rerender){
   var day = dayByKey(dk); if(!day) return;
   var p0 = day.blocks[bi].items[ii], cur = effP(dk, bi, ii, p0), orig = p0.ex;
-  var opts = SWAPS[orig] || [];
+  var opts = swapList(orig, day.home);
   var optHtml = function(k, isCur){
     var e = EX[k];
     return '<div class="swopt'+(isCur ? ' cur' : '')+'"'+(isCur ? '' : ' role="button" tabindex="0" data-pick="'+k+'"')+'>' + picHtml(k, "thumb") +
       '<div class="sm"><div class="sn">'+esc(e.name)+(isCur ? '<span class="tag">NOW</span>' : '')+(k === orig && !isCur ? '<span class="tag" style="background:var(--accent)">ORIGINAL</span>' : '')+'</div><div class="sc">'+esc(e.cue)+'</div>' +
       (e.video ? '<a class="sv" href="'+e.video+'" target="_blank" rel="noopener" data-vid="1">▶ Form video</a>' : '') + '</div></div>';
   };
-  var html = mhead("Swap exercise") + '<p class="sub" style="margin:-4px 0 12px">Same sets, reps and rest. Pick what your gym has free.</p>';
+  var html = mhead("Swap exercise") + '<p class="sub" style="margin:-4px 0 12px">Same sets, reps and rest. '+(day.home ? 'Pick another move you can do with your dumbbells and bench.' : 'Pick what your gym has free.')+'</p>';
   if(cur.orig) html += '<button class="swback" data-pick="'+orig+'">↩ Back to original: '+esc(EX[orig].name)+'</button>';
   html += optHtml(cur.ex, true);
   html += '<div class="lbl">Swap for</div>';
@@ -1796,7 +2025,7 @@ function weightHtml(p){
   var val = today ? today.w : (prev ? prev.w : "");
   return '<div class="wcard"><div class="h"><span>Weight used (lbs)</span><span class="ok" id="wOk">'+(today ? 'Saved ✓' : '')+'</span></div>' +
     '<div class="wrow"><button class="wbtn" data-wstep="-5" aria-label="Minus 5">−5</button><label class="win"><input id="wIn" type="number" inputmode="decimal" min="0" step="any" placeholder="0" value="'+val+'"><span>lbs</span></label><button class="wbtn" data-wstep="5" aria-label="Plus 5">+5</button></div>' +
-    '<div class="wlast">'+(prev ? 'Last time: <b>'+prev.w+' lbs × '+esc(prev.r)+'</b> · '+esc(niceDate(prev.d))+'<br>Finished every rep? Try <b>'+(Math.round((prev.w + 5)*10)/10)+' lbs</b> today.' : 'First time: pick a weight where the last 2 reps are a real fight.')+'</div></div>';
+    '<div class="wlast">'+(p.wt ? 'Suggested: <b>'+esc(p.wt)+'</b> from your 5, 10, 20, 30, 35 and 40 lb set.<br>' : '')+(prev ? 'Last time: <b>'+prev.w+' lbs × '+esc(prev.r)+'</b> · '+esc(niceDate(prev.d))+'<br>Finished every rep? Try <b>'+(Math.round((prev.w + 5)*10)/10)+' lbs</b> today.' : (p.wt ? 'Start with the suggested weight and adjust if you need to.' : 'First time: pick a weight where the last 2 reps are a real fight.'))+'</div></div>';
 }
 function commitWeight(p){
   var inp = document.getElementById("wIn"); if(!inp || !showWeight(p)) return;
@@ -2317,7 +2546,7 @@ function runAiEstimate(){
 }
 
 // =================== LADDER-STYLE STRAIGHT SETS · PRESS PLAY · WEEKLY CHALLENGE ===================
-var APPVER = "6.6 Straight sets";
+var APPVER = "6.7 Home sessions";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
@@ -2340,8 +2569,13 @@ var WARMQ = {
   upper:[{wu:"march",s:40},{wu:"arms",s:30},{ex:"bandPullApart",s:30}],
   full:[{wu:"march",s:40},{wu:"squat",s:30},{wu:"arms",s:30}]
 };
+var WARMH = {
+  upper:[{wu:"march",s:45},{wu:"arms",s:40},{ex:"inclinePushup",s:40},{ex:"birdDog",s:45,half:1}],
+  lower:[{wu:"march",s:45},{wu:"squat",s:40},{ex:"bridge",s:40},{wu:"hinge",s:40}],
+  full:[{wu:"march",s:40},{wu:"squat",s:35},{ex:"bridge",s:35},{wu:"arms",s:35}]
+};
 var COOL = { lower:[{wu:"fig4",s:60,half:1},{wu:"ham",s:60,half:1},{wu:"child",s:45}], upper:[{wu:"chest",s:60,half:1},{wu:"cat",s:45},{wu:"child",s:45}], full:[{wu:"fig4",s:60,half:1},{wu:"chest",s:60,half:1},{wu:"child",s:45}] };
-function dayKind(d){ return (d.base === "tue" || d.base === "thu") ? "upper" : d.base === "fri" ? "full" : "lower"; }
+function dayKind(d){ if(d.kind) return d.kind; return (d.base === "tue" || d.base === "thu") ? "upper" : d.base === "fri" ? "full" : "lower"; }
 function r5(x){ return Math.round(x/5)*5; }
 // seconds for one interval of a move. Uni moves ("each leg/side") get double time with a "switch sides" cue halfway.
 function workSecs(p, fin, q){
@@ -2358,8 +2592,8 @@ function chunkSizes(n){ return n <= 3 ? [n] : n === 4 ? [2,2] : n === 5 ? [3,2] 
 function maxSets(items){ return items.reduce(function(a, x){ return Math.max(a, x.p.sets || 1); }, 1); }
 // turn the day's moves into: warm-up → straight sets of each move (all sets of 1, then all of 2, …) → cool-down
 function circuitPlan(d){
-  var G = [], kind = dayKind(d), q = isQ(d.ver);
-  G.push({k:"warm", title:"Warm-up", list:(q ? WARMQ : WARM)[kind]});
+  var G = [], kind = dayKind(d), q = isQ(d.ver), home = !!d.home;
+  G.push({k:"warm", title:"Warm-up", list:(q ? WARMQ : home ? WARMH : WARM)[kind]});
   var items = [];
   d.blocks.forEach(function(b, bi){ b.items.forEach(function(p0, i){ items.push({p:effP(d.key, bi, i, p0), p0:p0, b:b, bi:bi, i:i}); }); });
   var walk = items.filter(function(x){ return x.p.walkMins; })[0];
@@ -2370,11 +2604,11 @@ function circuitPlan(d){
     var isFin = !!m.b.finisher;
     var lastFin = isFin && m === fins[fins.length - 1];
     var hinge = HINGE.indexOf(m.p.ex) >= 0;
-    var rounds = q ? Math.min(3, m.p.sets || 3) : (isMain ? m.p.sets : (isFin ? Math.max(3, m.p.sets || 3) : 4));
-    var rest = q ? 15 : isMain ? (m.b.rest || 90) : isFin ? 25 : 30;
+    var rounds = q ? Math.min(3, m.p.sets || 3) : (isMain ? m.p.sets : (isFin ? Math.max(3, m.p.sets || 3) : (home ? (m.p.sets || 3) : 4)));
+    var rest = q ? 15 : isMain ? (m.b.rest || (home ? 75 : 90)) : isFin ? 25 : (home ? 40 : 30);
     var g = {k: isMain ? "strength" : isFin ? "finisher" : "sets", title: isMain ? "Main lift" : isFin ? (lastFin ? "Burnout" : "Finisher") : exName(m.p), items:[m], rounds:rounds, rest:rest, fin:isFin?1:0, q:q?1:0};
-    if(isMain){ g.amrap = hinge; g.drop = !hinge && !m.p.hold; }
-    else if(lastFin && !q && !m.p.hold && !m.p.walkMins) g.drop = true;
+    if(isMain){ g.amrap = !home && hinge; g.drop = !home && !hinge && !m.p.hold; }
+    else if(lastFin && !q && !home && !m.p.hold && !m.p.walkMins) g.drop = true;
     G.push(g);
   });
   G.push({k:"cool", title:"Cool-down", walk:walk, list: walk ? [] : q ? [{wu:"child",s:45}] : COOL[kind]});
@@ -2391,6 +2625,10 @@ function effortCue(s){
   if(!s || s.k !== "work") return "";
   if(s.drop) return "🔥 Drop set: strip about 30% of the weight and keep going until only 1–2 reps are left in the tank.";
   if(s.amrap) return "🔥 Last set: as many clean reps as you can. Stop the moment your form slips.";
+  if((PL && PL.d && PL.d.home) || (s.g && s.g.home)){
+    if(s.g.k === "strength" || s.g.k === "sets") return "💪 Moderate-to-hard. Last reps should feel challenging, but leave 1–2 in the tank — you already trained this morning.";
+    if(s.g.k === "finisher") return "🔥 Keep moving, but this isn’t a max-out. Slow down before you stop.";
+  }
   if(s.g.k === "strength" || s.g.k === "sets") return "💪 Pick a weight where the last 2 reps are a real fight. Got every rep clean? Go up 5 lbs next time.";
   if(s.g.k === "finisher") return "🔥 Burnout: keep moving the whole time. Slow down before you stop.";
   if(s.p && s.p.hold) return "💪 Brace hard and breathe. Make it harder than last week.";
@@ -2404,7 +2642,8 @@ function aimText(s){
   if(p.hold) return "Hold " + p.hold + " sec" + (p.each ? " each " + p.each + " · switch halfway" : "");
   if(s.drop) return "Drop set · lighter weight · reps until 1–2 left in the tank";
   if(s.amrap) return "AMRAP · as many clean reps as you can (" + p.reps + "+)";
-  var t = (s.g.k === "finisher" ? p.reps + "+ reps, nonstop" : (s.g.k === "strength" ? p.reps + " heavy reps" : "Aim for " + p.reps + " reps")) + (p.each ? " each " + p.each + " · switch halfway" : "");
+  var t = (s.g.k === "finisher" ? p.reps + "+ reps, nonstop" : (s.g.k === "strength" ? p.reps + " strong reps" : "Aim for " + p.reps + " reps")) + (p.each ? " each " + p.each + " · switch halfway" : "");
+  if(p.wt) t += " · try " + p.wt;
   if(s.g.k !== "finisher") t += " · 3-sec lowering";
   return t;
 }
