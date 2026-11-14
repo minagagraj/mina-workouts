@@ -485,9 +485,42 @@ body.noscroll{overflow:hidden}
 .ttitle{font-size:28px;font-weight:800;color:#fff;margin:6px 0 2px;letter-spacing:-.5px}
 .thero .pills{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .tmoves{padding:6px 16px 4px}
-.tmove{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line)}
+.tmove{display:flex;align-items:center;gap:12px;padding:8px 4px;border-top:1px solid var(--line);width:100%;text-align:left;background:transparent;border-left:0;border-right:0;border-bottom:0;border-radius:12px;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .tmove:first-child{border-top:0}
+.tmove:hover,.tmove:focus{background:var(--accent-soft);outline:none}
+.tmove:active{transform:scale(.99)}
 .tmove .thumb{flex:0 0 64px;height:44px;border-radius:10px}
+.tchev{flex:0 0 18px;color:var(--muted);font-weight:800;font-size:18px;opacity:.6}
+.tmove.chal .tn{color:#a8432b}
+.chalpill{display:inline-flex;align-items:center;gap:4px}
+.peekhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.peekhead h2{font-size:22px;font-weight:800;letter-spacing:-.3px;margin:0;line-height:1.2;flex:1;padding-right:8px}
+.peekdemo{border-radius:18px;overflow:hidden;margin:0 -2px 12px;background:#1a120f}
+.peekdemo .demo{margin:0;border-radius:0;aspect-ratio:16/9;height:auto;min-height:200px}
+.peekdemo .dtop{display:none}
+.peekmeta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.peekmeta .pill{background:var(--accent-soft);color:#a8432b}
+.peekrest{font-size:14px;font-weight:700;color:var(--muted);margin:0 0 12px}
+.peekcues{margin:0 0 16px;padding:0;list-style:none}
+.peekcues li{position:relative;padding:8px 0 8px 28px;font-size:15px;font-weight:600;line-height:1.35;border-top:1px solid var(--line)}
+.peekcues li:before{content:counter(c);counter-increment:c;position:absolute;left:0;top:8px;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:#a8432b;font-size:12px;font-weight:800;display:grid;place-items:center}
+.peekcues{counter-reset:c}
+.peekchal{background:#fff4ef;border:1px solid #f3d2c4;border-radius:14px;padding:10px 12px;margin:0 0 12px;font-size:14px;font-weight:700;color:#a8432b}
+.plcnt{color:#fff;font-weight:800;font-size:12px;min-width:86px;text-align:center;font-variant-numeric:tabular-nums;text-shadow:0 1px 3px rgba(0,0,0,.4);white-space:nowrap}
+.ring.k-chal .fg,.ring.k-fin .fg{stroke:#e8664a}
+.pkind.k-chal{background:#e8664a}
+.pkind.k-fin{background:#c2583f}
+.challog{background:#fff4ef;border-radius:16px;padding:12px 14px;margin:12px 0 8px;text-align:center;box-shadow:var(--shadow)}
+.challog .cl{font-size:13px;font-weight:800;color:#a8432b;text-transform:uppercase;letter-spacing:.6px}
+.challog .ct{font-size:15px;font-weight:700;margin:4px 0 8px}
+.chalstep{display:flex;align-items:center;justify-content:center;gap:14px;margin:8px 0}
+.chalstep button{width:48px;height:48px;border-radius:50%;background:var(--accent);color:#fff;font-size:24px;font-weight:800;box-shadow:0 6px 14px rgba(232,102,74,.35)}
+.chalstep b{font-size:32px;font-weight:800;min-width:64px}
+.fchal{background:var(--card);border-radius:16px;padding:14px;box-shadow:var(--shadow);margin:12px 0;text-align:center}
+.fchal .fk{font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:#a8432b}
+.fchal b{display:block;font-size:28px;font-weight:800;margin:4px 0}
+.fchal.won{background:var(--good-soft)}
+.fchal.won .fk{color:#24774a}
 .tm{min-width:0}.tn{font-weight:700;font-size:15px;line-height:1.2}.td{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
 .tcard .cta.play{width:calc(100% - 32px);margin:8px 16px 4px}
 .tlinks{display:flex;justify-content:space-between;padding:4px 14px 10px}
@@ -495,6 +528,7 @@ body.noscroll{overflow:hidden}
 #tcards .sesslab + .tcard{margin-top:0}
 .tcard.home .thero{background:linear-gradient(135deg,#4a6fa5,#6d8fc2)}
 .tcard.home.done .thero{background:linear-gradient(135deg,#3fa66b,#6cc08d)}
+.peekrow{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .tcard .thint{font-size:12px;font-weight:600;opacity:.9;margin:2px 0 0}
 .td .wt{color:var(--accent);font-weight:700}
 
@@ -717,11 +751,9 @@ var HOME_SWAPS = {
   birdDog:["deadbug","toeTap"],
   toeTap:["deadbug","birdDog"],
   pushup:["inclinePushup","dbBench"],
-  inclinePushup:["pushup","dbBench"],
-  farmer:["suitcaseCarry"],
-  suitcaseCarry:["farmer"]
+  inclinePushup:["pushup","dbBench"]
 };
-function swapList(ex, home){ return home ? (HOME_SWAPS[ex] || []).concat((SWAPS[ex] || []).filter(function(x){ return homeOk(x) && (HOME_SWAPS[ex] || []).indexOf(x) < 0; })) : (SWAPS[ex] || []); }
+function swapList(ex, home){ var raw = home ? (HOME_SWAPS[ex] || []).concat((SWAPS[ex] || []).filter(function(x){ return homeOk(x) && (HOME_SWAPS[ex] || []).indexOf(x) < 0; })) : (SWAPS[ex] || []); return raw.filter(function(x){ return EX[x] && !EX[x].carry && (!home || homeOk(x)); }); }
 // saved swaps are keyed by day + original exercise (+ which time it appears that day), so moving blocks never mixes them up
 function swapKey(dk, bi, ii){
   var d = dayByKey(dk), ex = d.blocks[bi].items[ii].ex, occ = 0;
@@ -780,7 +812,7 @@ var DAYS = [
    {label:"Block 1", rest:90, items:[P("deadlift",5,{reps:5, note:"Heavy 5s. Last set: as many clean reps as you can."})]},
    {label:"Block 2", rest:60, superset:true, items:[P("hackSquat",4,{reps:10}), P("pushup",4,{reps:10})]},
    {label:"Block 3", rest:60, items:[P("machineRow",4,{reps:10})]},
-   {label:"Finisher", rest:20, finisher:true, items:[P("farmer",3,{hold:45, holdWord:"carry"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("sumoSquat",3,{reps:15, note:"One heavy dumbbell, nonstop reps."}), P("abduction",3,{reps:20, challenge:1, amrapSecs:45, challengeTarget:20, note:"Last set is your Challenge set: 45 seconds, as many clean reps as you can."})]}
   ]}
 ];
 
@@ -867,13 +899,13 @@ var VARIANTS = {
    {label:"Block 1", rest:90, items:[P("hipThrust",4,{reps:8, note:"Barbell or heaviest machine. 1-sec squeeze at the top."})]},
    {label:"Block 2", rest:60, superset:true, items:[P("reverseLunge",4,{reps:8, each:"leg"}), P("machineChest",4,{reps:10})]},
    {label:"Block 3", rest:60, items:[P("pullup",4,{reps:8, note:"Use a little less assistance than last time."})]},
-   {label:"Finisher", rest:20, finisher:true, items:[P("suitcaseCarry",3,{hold:40, each:"side", holdWord:"carry"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("goblet",3,{reps:12, challenge:1, amrapSecs:45, challengeTarget:12, note:"Hold a heavy dumbbell at your chest. Last set is your Challenge set: 45 seconds, beat 12 clean reps."}), P("hammerCurl",3,{reps:12, tag:"1.5 reps", note:"Curl all the way up, halfway down, back up, then all the way down."})]}
   ],
   C:[
    {label:"Block 1", rest:90, items:[P("legPress",4,{reps:10, note:"Feet high and wide. 3-sec lowering. Last 2 reps should be a real fight."})]},
    {label:"Block 2", rest:60, superset:true, items:[P("bss",4,{reps:8, each:"leg"}), P("incline",4,{reps:10})]},
    {label:"Block 3", rest:60, items:[P("sarow",4,{reps:10, each:"side"})]},
-   {label:"Finisher", rest:20, finisher:true, items:[P("trapCarry",3,{hold:40, holdWord:"carry"}), P("walk",1,{walkMins:4,walkText:"3–5 min"})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("sumoSquat",3,{reps:15, challenge:1, amrapSecs:45, challengeTarget:15, note:"One heavy dumbbell. Last set is your Challenge set: 45 seconds, as many clean reps as you can."}), P("abduction",3,{reps:20, note:"Nonstop reps, pause at the end range."})]}
   ],
   Q:[{label:"Round 1", rest:30, superset:true, items:[P("goblet",3,{reps:12}), P("pushup",3,{reps:10})]},
      {label:"Round 2", rest:20, superset:true, items:[P("kbDeadlift",3,{reps:12}), P("machineRow",3,{reps:10})]}],
@@ -883,18 +915,39 @@ var VARIANTS = {
       {label:"Round 2", rest:20, superset:true, items:[P("incline",3,{reps:10}), P("sarow",3,{reps:10, each:"side"})]}]}
 };
 function isQ(v){ return !!v && String(v).charAt(0) === "Q"; }
+var SESSION_TITLES = {
+  mon:{A:"Glute Power", B:"Heavy Hips", C:"Sculpt & Strong"},
+  tue:{A:"Push & Pull", B:"Upper Fire", C:"Press & Pull"},
+  wed:{A:"Glute Burner", B:"Glute Pump", C:"Hinge & Drive"},
+  thu:{A:"Arms & Core", B:"Row & Press", C:"Upper Sculpt"},
+  fri:{A:"Full Send Friday", B:"Total Body Charge", C:"Strong All Over"},
+  sat:{A:"Saturday Glute Burn"},
+  mon_h:{A:"Upper Charge", B:"Press & Row", C:"Row & Press"},
+  tue_h:{A:"Glute Burn at Home", B:"Goblet Power", C:"Lunge & Lift"},
+  wed_h:{A:"Incline & Iron", B:"Shoulder Sculpt", C:"Row Power"},
+  thu_h:{A:"Step-Up Strong", B:"Split Squat Burn", C:"Hinge & Sculpt"},
+  fri_h:{A:"Shoulder Finish", B:"Standing Strong", C:"Raise & Brace"}
+};
+function sessionTitle(key, ver){
+  ver = ver || "A";
+  var q = isQ(ver), v = q ? (ver.replace(/^Q/, "") || "A") : ver;
+  var map = SESSION_TITLES[key];
+  var t = (map && (map[v] || map.A)) || "";
+  if(q && t) t = "Express · " + t;
+  return t;
+}
 var ALLDAYS = DAYS.slice();
-DAYS.forEach(function(d){ d.base = d.key; d.ver = "A"; });
+DAYS.forEach(function(d){ d.base = d.key; d.ver = "A"; var t = sessionTitle(d.key, "A"); if(t) d.title = t; });
 DAYS.forEach(function(d){
   ["B","C","Q","QB","QC"].forEach(function(v){
     var bl = VARIANTS[d.key] && VARIANTS[d.key][v]; if(!bl) return;
     ALLDAYS.push({key:d.key + "_" + v.toLowerCase(), base:d.key, ver:v, short:d.short, day:d.day,
-      title: isQ(v) ? d.title + " · 15 min" : d.title, mins: isQ(v) ? "15 min" : d.mins, focus:d.focus,
+      title: sessionTitle(d.key, v) || (isQ(v) ? d.title + " · 15 min" : d.title), mins: isQ(v) ? "15 min" : d.mins, focus:d.focus,
       warmup: isQ(v) ? {text:"2 min: 10 bodyweight squats + arm circles, then go.", mins:2} : d.warmup, blocks:bl});
   });
 });
 // optional weekend bonus day: not part of the Mon–Fri plan or the "x of 5" count
-var BONUS = {key:"sat", base:"sat", ver:"A", bonus:true, short:"Sat", day:"Saturday (optional)", title:"Bonus Glute Day", mins:"40–45 min", focus:"Glutes",
+var BONUS = {key:"sat", base:"sat", ver:"A", bonus:true, short:"Sat", day:"Saturday (optional)", title: sessionTitle("sat","A") || "Saturday Glute Burn", mins:"40–45 min", focus:"Glutes",
   warmup:{text:"5 min easy bike or incline walk, then 15 bodyweight glute bridges + 10 squats.", mins:5},
   blocks:[
    {label:"Block 1", rest:90, items:[P("hipThrust",4,{reps:10, note:"Barbell or heaviest machine. 1-sec squeeze at the top."})]},
@@ -1060,11 +1113,12 @@ HOME.forEach(function(d){
   d.base = d.key; d.ver = "A"; d.home = true;
   d.gymBase = d.key.replace(/_h$/, "");
   d.spin = d.spin || {rounds:4, on:20, off:40};
+  var ht = sessionTitle(d.key, "A"); if(ht) d.title = ht;
   ALLDAYS.push(d);
   ["B","C"].forEach(function(v){
     var bl = HOME_VARIANTS[d.key] && HOME_VARIANTS[d.key][v]; if(!bl) return;
     ALLDAYS.push({key:d.key + "_" + v.toLowerCase(), base:d.key, ver:v, home:true, gymBase:d.gymBase, kind:d.kind, spin:d.spin,
-      short:d.short, day:d.day, title:d.title, mins:d.mins, focus:d.focus, warmup:d.warmup, blocks:bl});
+      short:d.short, day:d.day, title: sessionTitle(d.key, v) || d.title, mins:d.mins, focus:d.focus, warmup:d.warmup, blocks:bl});
   });
 });
 
@@ -1077,6 +1131,45 @@ function homeWeekDay(gymBase, ver){
 function isoWeek(dt){ var d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(), dt.getDate())); var n = d.getUTCDay() || 7; d.setUTCDate(d.getUTCDate() + 4 - n); var y = new Date(Date.UTC(d.getUTCFullYear(), 0, 1)); return Math.ceil(((d - y) / 86400000 + 1) / 7); }
 function weekVer(dt){ return "ABC"[isoWeek(dt || new Date()) % 3]; }
 function dayByKey(k){ return ALLDAYS.find(function(x){ return x.key === k; }); }
+var CHAL_SKIP = {deadlift:1, trapBar:1, bench:1, rdl:1, kbDeadlift:1, goodMorning:1, walk:1, spinBike:1};
+function pickChallenge(d){
+  var marked = null, firstBi = null, firstAny = null;
+  d.blocks.forEach(function(b){
+    b.items.forEach(function(p){
+      if(p.walkMins || CHAL_SKIP[p.ex] || (EX[p.ex] && EX[p.ex].carry)) return;
+      if(p.challenge || p.amrapSecs) marked = marked || p;
+      if(!firstAny) firstAny = p;
+      if(!firstBi && !p.each && !p.hold) firstBi = p;
+    });
+  });
+  return marked || firstBi || firstAny;
+}
+function applySessionSpice(d){
+  if(!d || d._spiced) return;
+  d._spiced = 1;
+  if(isQ(d.ver)) return;
+  var main = d.blocks[0] && d.blocks[0].items[0];
+  if(main && !main.scheme && !main.hold && !main.walkMins && main.sets >= 4 && main.reps){
+    var r = +main.reps;
+    if(main.sets >= 5){ main.scheme = [r, r, r, Math.max(3, r-2), r]; main.topSet = 4; }
+    else if(r <= 6){ main.scheme = [r, r, Math.max(3, r-2), r]; main.topSet = 3; }
+    else { main.scheme = [r+2, r, Math.max(6, r-2), r]; }
+  }
+  var ch = pickChallenge(d);
+  if(ch){
+    ch.challenge = 1;
+    if(!ch.amrapSecs) ch.amrapSecs = 45;
+    if(!ch.challengeTarget) ch.challengeTarget = ch.reps || 10;
+    if(ch.drop) ch.drop = 0;
+    if(ch.scheme && ch.sets && ch.scheme.length >= ch.sets) ch.scheme = ch.scheme.slice(0, ch.sets - 1);
+  }
+  d.blocks.forEach(function(b){ b.items.forEach(function(p){ if(p !== ch && p.drop) p.drop = 0; }); });
+  if(main && main.scheme && main !== ch && main.sets && main.scheme.length < main.sets){
+    main.scheme = main.scheme.concat([main.reps || main.scheme[main.scheme.length-1]]);
+    if(!main.topSet) main.topSet = 3;
+  }
+}
+ALLDAYS.forEach(applySessionSpice);
 function weekDay(base, ver){
   ver = ver || weekVer();
   if(ver === "Q"){
@@ -1115,7 +1208,7 @@ function dayDate(base){ var k = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}; if(
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ var label = isQ(d.ver) ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver; var when = d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.gymBase || d.base); return label + (d.home ? " · Afternoon · Home" : "") + " · " + when; }
-var BUILD = "Nov 11, 2026 9:00 PM ET";
+var BUILD = "Nov 13, 2026 10:07 PM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -1297,6 +1390,59 @@ function dayChipsHtml(sel){
   chips += '<button class="dchip2 bonus'+(sel === "sat" ? ' on' : '')+(bd ? ' done' : '')+'" data-pick="sat" aria-pressed="'+(sel === "sat")+'"><span class="dw">Sat</span><span class="dn">'+(bd ? '✓' : '⭐')+'</span></button>';
   return '<div class="dpick" id="dpick" role="tablist">'+chips+'</div>';
 }
+function prStore(){ var m = load("mw_pr", {}); return m && typeof m === "object" ? m : {}; }
+function prBest(ex){ var r = prStore()[ex]; return r && +r.best > 0 ? +r.best : 0; }
+function challengeTarget(p){ if(!p) return 10; var b = prBest(p.ex); if(b > 0) return b + 1; return p.challengeTarget || p.reps || 10; }
+function savePr(ex, reps){
+  var m = prStore(), cur = m[ex] || {};
+  cur.last = +reps; cur.date = ymd();
+  var isBest = !cur.best || reps > cur.best;
+  if(isBest) cur.best = +reps;
+  m[ex] = cur; save("mw_pr", m);
+  return {best:cur.best, last:cur.last, isBest:isBest};
+}
+function formCues(ex, p){
+  var e = EX[ex] || {}, out = [];
+  if(e.cue) out.push(e.cue);
+  if(p && p.note) out.push(p.note);
+  if(p && p.tag){
+    if(/3-1-1/.test(p.tag)) out.push("Tempo: 3 seconds down, a 1-second pause, then drive up.");
+    else if(/1\.5/.test(p.tag)) out.push("Each rep is a 1.5: all the way up, halfway down, back up, then all the way down.");
+    else if(/pause/.test(p.tag)) out.push("Hold the pause — don’t bounce through it.");
+    else if(/lowering|tempo/.test(p.tag)) out.push("Take the full lowering time. That’s where the work is.");
+  }
+  if(out.length < 2) out.push("The last reps should feel hard, but every rep stays clean. Stop if your form slips.");
+  if(out.length < 3 && p && p.wt) out.push("Try " + p.wt + ". Go down a size if form slips, up if the last reps feel easy.");
+  if(out.length < 3) out.push("Breathe out on the hard part. Ribs down, squeeze at the top.");
+  return out.slice(0, 3);
+}
+function openPeek(wd, mi){
+  var moves = sessionMoves(wd), m = moves[mi];
+  if(!m) return;
+  var p = m.x.p, g = m.g, ex = p.ex, name = g.k === "spin" ? "Spin bike" : exName(p);
+  var rest = g.rest || (wd.home ? 30 : 60);
+  var what;
+  if(g.k === "spin") what = g.rounds + " rounds · " + g.on + "s all-out / " + g.off + "s easy";
+  else if(p.hold) what = g.rounds + " sets × " + p.hold + "s" + (p.each ? "/" + p.each : "");
+  else if(p.scheme && p.scheme.length) what = g.rounds + " sets · " + schemeLabel(p) + (p.each ? " /" + p.each : "") + (g.challenge ? " + Challenge set" : "");
+  else what = g.rounds + " sets × " + (p.reps || "") + (p.each ? "/" + p.each : "") + (g.challenge ? " + Challenge set" : "");
+  if(p.wt) what += " · " + p.wt;
+  var cues = formCues(ex, p);
+  var best = prBest(ex), tgt = g.challenge ? challengeTarget(p) : 0;
+  var chal = g.challenge ? '<div class="peekchal">🎯 Challenge set: last set is ' + (g.burnSecs || 45) + 's, as many clean reps as you can. Beat ' + tgt + (best ? " · your best is " + best : " · first try sets the official best") + '.</div>' : "";
+  var demo = ex && EX[ex] ? '<div class="peekdemo">' + demoHtml(ex, "") + "</div>" : "";
+  openModal(
+    '<div class="peekhead"><h2>' + esc(name) + '</h2><button class="mx" aria-label="Close">✕</button></div>' +
+    demo +
+    '<div class="peekmeta"><span class="pill">' + esc(what) + '</span>' + (p.tag ? '<span class="pill">' + esc(p.tag) + '</span>' : "") + '</div>' +
+    (g.k === "spin" ? '<div class="peekrest">20 seconds all-out, 40 seconds easy. Repeat.</div>' : '<div class="peekrest">Rest ' + rest + "s between sets</div>") +
+    chal +
+    '<ul class="peekcues">' + cues.map(function(c){ return "<li>" + esc(c) + "</li>"; }).join("") + "</ul>" +
+    '<button class="cta" id="peekok">Got it</button>'
+  );
+  bindDemo();
+  var ok = $m("peekok"); if(ok) ok.onclick = closeModal;
+}
 function sessionMoves(wd){
   var moves = [], seen = circuitPlan(wd);
   seen.forEach(function(g){
@@ -1309,24 +1455,29 @@ function sessionMoves(wd){
 }
 function sessionCardHtml(wd, opts){
   opts = opts || {};
+  opts.peek = opts.id || wd.key;
+  opts._mi = 0;
   var done = doneThisWeek(wd.base), moves = sessionMoves(wd);
   var lifts = moves.filter(function(m){ return m.g.k !== "spin" && m.g.k !== "cool"; });
+  var chalG = lifts.filter(function(m){ return m.g.challenge; })[0];
   var list = moves.map(function(m){
     var p = m.x.p, g = m.g;
     var what, label;
     if(g.k === "spin"){ what = g.rounds + " rounds · " + g.on + "s all-out / " + g.off + "s easy"; label = "Spin finisher"; }
     else if(g.k === "cool"){ what = p.walkText + " walk"; label = "Cool-down"; }
     else {
-      what = g.rounds + " sets × " + (p.hold ? p.hold + "s" : p.reps) + (p.each ? "/" + p.each : "") + (g.drop ? " + drop set" : g.amrap ? " · AMRAP" : g.burnSecs ? " · last set " + g.burnSecs + "s AMRAP" : "") + (p.wt ? " · " + p.wt : "");
-      label = g.k === "strength" ? "Main lift" : g.k === "finisher" ? (g.drop || g.burnSecs ? "Burnout" : "Finisher") : "Straight sets";
+      var repsTxt = p.hold ? (p.hold + "s") : (p.scheme && p.scheme.length ? schemeLabel(p) : (p.reps != null ? p.reps : ""));
+      what = g.rounds + " sets × " + repsTxt + (p.each && !p.scheme ? "/" + p.each : p.each && p.scheme ? " /" + p.each : "") + (g.challenge ? " + Challenge set (" + (g.burnSecs || 45) + "s)" : g.drop ? " + drop set" : g.amrap ? " · AMRAP" : g.burnSecs ? " · last set " + g.burnSecs + "s AMRAP" : "") + (p.wt ? " · " + p.wt : "");
+      if(g.challenge){ var b = prBest(p.ex); what += " · beat " + challengeTarget(p) + (b ? " (best " + b + ")" : ""); }
+      label = g.challenge ? "🎯 Challenge" : g.k === "strength" ? "Main lift" : g.k === "finisher" ? (g.drop || g.burnSecs ? "Burnout" : "Finisher") : "Straight sets";
     }
-    return '<div class="tmove">'+picHtml(p.ex, "thumb")+'<div class="tm"><div class="tn">'+esc(g.k === "spin" ? "Spin bike" : exName(p))+'</div><div class="td">'+esc(label + " · " + what)+'</div></div></div>';
+    return '<button type="button" class="tmove'+(g.challenge ? " chal" : "")+'" data-peek="'+opts.peek+'|'+(opts._mi++)+'">'+picHtml(p.ex, "thumb")+'<div class="tm"><div class="tn">'+esc(g.k === "spin" ? "Spin bike" : exName(p))+'</div><div class="td">'+esc(label + " · " + what)+'</div></div><span class="tchev" aria-hidden="true">›</span></button>';
   }).join("");
   var tag = wd.bonus ? 'Bonus · Sat '+md(dayDate("sat"))+' or Sun '+md(dayDate("sun")) : verLabel(wd.ver) + ' · ' + dayDateLabel(wd.gymBase || wd.base);
   return '<div class="tcard'+(wd.home ? ' home' : '')+(done ? ' done' : '')+'" id="'+opts.id+'">' +
     '<div class="thero"><div class="k">'+esc(tag)+(opts.today ? ' <span class="badge">TODAY</span>' : '')+(wd.bonus ? ' <span class="badge opt">OPTIONAL</span>' : '')+(done ? ' <span class="badge good">DONE ✓</span>' : '')+'</div>' +
     '<h2 class="ttitle">'+esc(wd.title)+'</h2>' + (opts.hint ? '<div class="thint">'+esc(opts.hint)+'</div>' : '') +
-    '<div class="pills"><span class="pill">⏱ ~'+planMinutes(wd)+' min</span><span class="pill">'+lifts.length+' exercises</span>' + (wd.spin ? '<span class="pill">🚴 '+wd.spin.rounds+'× 20/40 spin</span>' : '') + '<span class="pill">'+esc(wd.focus)+'</span></div></div>' +
+    '<div class="pills"><span class="pill">⏱ ~'+planMinutes(wd)+' min</span><span class="pill">'+lifts.length+' exercises</span>' + (wd.spin ? '<span class="pill">🚴 '+wd.spin.rounds+'× 20/40 spin</span>' : '') + (chalG ? '<span class="pill chalpills">🎯 Challenge set</span>' : '') + '<span class="pill">'+esc(wd.focus)+'</span></div></div>' +
     '<div class="tmoves">'+list+'</div>' +
     '<button class="cta play" id="'+opts.playId+'">▶ '+(done ? 'Do it again · Press play' : 'Start · Press play')+'</button>' +
     '<div class="tlinks"><button class="linkbtn" id="'+opts.detailId+'">Details &amp; swaps ›</button>' + (opts.shortId ? '<button class="linkbtn" id="'+opts.shortId+'">⚡ 15-min version</button>' : '') + '</div></div>';
@@ -1343,6 +1494,11 @@ function todayCardHtml(sel){
   }
   return html + '</div>';
 }
+function bindPeeks(wd, peekId){
+  document.querySelectorAll('.tmove[data-peek^="'+(peekId || "")+'"]').forEach(function(btn){
+    btn.onclick = function(e){ e.preventDefault(); e.stopPropagation(); var a = btn.getAttribute("data-peek").split("|"); openPeek(wd, +a[1]); };
+  });
+}
 function bindTodayCard(sel){
   var gym = sel === "sat" ? BONUS : weekDay(sel);
   document.getElementById("gplay").onclick = function(){ primeAudio(); PL = null; go("#day=" + gym.key + "&play=1"); };
@@ -1351,6 +1507,8 @@ function bindTodayCard(sel){
   var hp = document.getElementById("hplay"), hd = homeWeekDay(sel);
   if(hp && hd){ hp.onclick = function(){ primeAudio(); PL = null; go("#day=" + hd.key + "&play=1"); }; }
   var hdet = document.getElementById("hdetail"); if(hdet && hd) hdet.onclick = function(){ go("#day=" + hd.key); };
+  bindPeeks(gym, "gcard");
+  if(hd) bindPeeks(hd, "hcard");
   app.querySelectorAll("[data-pick]").forEach(function(b){ b.onclick = function(){
     if(homeSel === b.dataset.pick) return;
     homeSel = b.dataset.pick;
@@ -1408,8 +1566,8 @@ function renderOverview(){
       var p = x.p, p0 = x.p0, lw = showWeight(p) ? lastLift(p.ex) : null;
       var secs = (g.k === "finisher") ? workSecs(p, 1, g.q) : setSecs(p);
       var what = p.hold ? p.hold + ' sec hold' + (p.each ? ' / ' + p.each : '') : 'aim ' + p.reps + ' reps' + (p.each ? ' / ' + p.each : '');
-      html += '<div class="row">'+picHtml(p.ex, "thumb")+'<div style="flex:1;min-width:0"><div class="n">'+esc(exName(p))+'</div><div class="d">'+g.rounds+' sets · '+secs+'s · '+esc(what)+(p.wt ? ' · try '+esc(p.wt) : '')+(lw ? ' · last '+lw.w+' lbs' : '')+'</div>'+(p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '')+'</div>' +
-        (swapList(p0.ex, d.home).length ? '<button class="swapmini" data-swap="'+x.bi+':'+x.i+'" aria-label="Swap exercise">⇄</button>' : '') + '</div>';
+      html += '<div class="row peekrow" data-ovpeek="'+x.bi+':'+x.i+'" role="button">'+picHtml(p.ex, "thumb")+'<div style="flex:1;min-width:0"><div class="n">'+esc(exName(p))+'</div><div class="d">'+g.rounds+' sets · '+secs+'s · '+esc(what)+(p.wt ? ' · try '+esc(p.wt) : '')+(lw ? ' · last '+lw.w+' lbs' : '')+(g.challenge ? " · 🎯 Challenge set" : "")+'</div>'+(p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '')+'</div>' +
+        (swapList(p0.ex, d.home).length ? '<button class="swapmini" data-swap="'+x.bi+':'+x.i+'" aria-label="Swap exercise">⇄</button>' : '<span class="tchev" aria-hidden="true">›</span>') + '</div>';
     });
     html += '</div>';
   });
@@ -1423,7 +1581,14 @@ function renderOverview(){
   document.getElementById("play").onclick = function(){ primeAudio(); PL = null; go("#day="+d.key+"&play=1"); };
   bindGoals(); bindFood();
   app.querySelectorAll("[data-ver]").forEach(function(b){ b.onclick = function(){ go("#day=" + b.dataset.ver); }; });
-  app.querySelectorAll("[data-swap]").forEach(function(b){ b.onclick = function(){ var a = b.dataset.swap.split(":"); openSwap(d.key, +a[0], +a[1], renderOverview); }; });
+  app.querySelectorAll("[data-swap]").forEach(function(b){ b.onclick = function(e){ e.stopPropagation(); var a = b.dataset.swap.split(":"); openSwap(d.key, +a[0], +a[1], renderOverview); }; });
+  app.querySelectorAll("[data-ovpeek]").forEach(function(b){
+    b.onclick = function(){
+      var a = b.dataset.ovpeek.split(":"), moves = sessionMoves(d), mi = -1;
+      moves.forEach(function(m, i){ if(m.x.bi === +a[0] && m.x.i === +a[1]) mi = i; });
+      if(mi >= 0) openPeek(d, mi);
+    };
+  });
 }
 
 // ---- STEP ----
@@ -1572,10 +1737,18 @@ function renderFinish(){
   var nEx = d.blocks.reduce(function(a,b){ return a + b.items.length; }, 0);
   var st = workoutStreak(), ch = chalNow();
   var cheer = CHEERS[(new Date().getDate() + d.base.length) % CHEERS.length];
-  var stats = '<div class="fstats"><div><b>'+(sess ? fmt(sess.secs) : '✓')+'</b><span>'+(sess ? 'time' : 'done')+'</span></div><div><b>'+(sess ? sess.moves : nEx)+'</b><span>moves done</span></div><div><b>🔥 '+st.weeks+'</b><span>week streak</span></div></div>';
+  var stats = '<div class="fstats"><div><b>'+(sess ? fmt(sess.secs) : '✓')+'</b><span>'+(sess ? 'time' : 'done')+'</span></div><div><b>'+(sess ? (sess.sets || sess.moves) : nEx)+'</b><span>sets done</span></div><div><b>🔥 '+st.weeks+'</b><span>week streak</span></div></div>';
+  var chalBox = "";
+  if(sess && sess.chal){
+    var beat = sess.chal.reps >= sess.chal.target, pr = sess.chal.isBest;
+    chalBox = '<div class="fchal'+(beat||pr ? ' won' : '')+'"><div class="fk">'+(pr ? "🎉 New best!" : beat ? "🎯 Challenge beaten" : "🎯 Challenge set")+'</div><b>'+sess.chal.reps+' reps</b><div class="sub">Target '+sess.chal.target+(sess.chal.bestBefore ? " · previous best "+sess.chal.bestBefore : "")+' · '+esc(sess.chal.name || "Challenge")+'</div></div>';
+  } else if(sess && !sess.partial){
+    var cg = circuitPlan(d).filter(function(g){ return g.challenge; })[0];
+    if(cg && cg.items && cg.items[0]) chalBox = '<div class="fchal"><div class="fk">🎯 Challenge set</div><div class="sub">You finished the session — log your '+esc(EX[cg.items[0].p.ex].name)+' reps next time to start a best.</div></div>';
+  }
   var chal = '<div class="chal mini'+(ch.beat ? ' won' : '')+'"><div class="ch"><span>🏅 '+esc(ch.c.t)+'</span><span>'+ch.v+' / '+ch.g.target+' '+ch.c.unit+'</span></div><div class="pbar'+(ch.beat ? ' full' : '')+'"><i style="width:'+Math.min(100, ch.v/ch.g.target*100)+'%"></i></div>' +
     '<div class="cs">'+(ch.beat ? '🎉 You beat this week’s challenge!' : (ch.c.auto ? 'Challenge update: '+Math.max(0, ch.g.target - ch.v)+' more '+unitN(ch.c.unit, Math.max(0, ch.g.target - ch.v))+' to beat it. You’re getting there.' : 'Try the challenge from the home screen whenever you have a minute.'))+'</div></div>';
-  var html = '<div class="finish"><div class="trophy">🏆</div><h1>'+(sess && sess.partial ? 'Nice work, that counts!' : 'Workout complete!')+'</h1><p class="sub">'+d.day+' · '+(d.home ? 'Afternoon home · ' : '')+d.title+'</p>' + stats +
+  var html = '<div class="finish"><div class="trophy">🏆</div><h1>'+(sess && sess.partial ? 'Nice work, that counts!' : "You did it, Mina!")+'</h1><p class="sub">'+d.day+' · '+(d.home ? 'Afternoon home · ' : '')+d.title+'</p>' + stats + chalBox +
     '<p class="cheer">'+esc(cheer)+'</p>' + chal +
     '<div class="weekstrip">'+strip+'</div><p class="sub" style="margin-bottom:18px">'+n+' of 5 this week · so proud of you, Mina 💛</p></div>' +
     goalsHtml() + '<div style="margin-top:14px"><button class="cta" id="home">Back to my week</button></div>';
@@ -2570,7 +2743,7 @@ function runAiEstimate(){
 }
 
 // =================== LADDER-STYLE STRAIGHT SETS · PRESS PLAY · WEEKLY CHALLENGE ===================
-var APPVER = "6.8 Home sessions";
+var APPVER = "6.9 Tap to preview";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
@@ -2608,9 +2781,22 @@ function workSecs(p, fin, q){
   var base = q ? 40 : fin ? 40 : (p.reps >= 12 ? 50 : 45);
   return p.each ? (q ? 60 : base * 2 - 10) : base;
 }
-function setSecs(p){
+function setReps(p, round){
+  if(p.scheme && p.scheme.length){
+    var i = Math.max(0, (round || 1) - 1);
+    return p.scheme[Math.min(i, p.scheme.length - 1)];
+  }
+  return p.reps;
+}
+function schemeLabel(p){
+  if(!(p.scheme && p.scheme.length)) return (p.reps != null ? p.reps : "");
+  var s = p.scheme.join("–");
+  if(p.topSet) return s + " · top set " + p.topSet + " + back-off";
+  return s + " pyramid";
+}
+function setSecs(p, round){
   if(p.hold) return p.hold * (p.each ? 2 : 1);
-  var s = Math.max(45, Math.min(60, r5(p.reps * 4 + 10)));
+  var s = Math.max(45, Math.min(60, r5((setReps(p, round) || p.reps || 8) * 4 + 10)));
   if(p.tag && /1\.5|tempo|pause/.test(p.tag)) s = Math.min(70, s + 10);
   return p.each ? Math.min(80, s * 2 - 10) : s;
 }
@@ -2637,6 +2823,7 @@ function circuitPlan(d){
     else if(m.p.drop) g.drop = true;
     else if(lastFin && !q && !home && !m.p.hold && !m.p.walkMins) g.drop = true;
     if(m.p.amrapSecs) g.burnSecs = m.p.amrapSecs;
+    if(m.p.challenge){ g.challenge = 1; g.chalTarget = m.p.challengeTarget || m.p.reps || 10; if(!g.burnSecs) g.burnSecs = m.p.amrapSecs || 45; }
     G.push(g);
   });
   if(d.spin) G.push({k:"spin", title:"Spin finisher", rounds:d.spin.rounds, on:d.spin.on, off:d.spin.off, rest:d.spin.off, items:[{p:{ex:"spinBike", sets:d.spin.rounds, spin:1}}]});
@@ -2648,7 +2835,7 @@ var HINGE = ["deadlift","trapBar","rdl","kbDeadlift","goodMorning","slRdl","back
 function groupMeta(g){
   if(g.k === "spin") return g.rounds + " rounds · " + g.on + "s all-out / " + g.off + "s easy";
   if(!g.items) return "";
-  var extra = g.drop ? " + drop set" : g.amrap ? " · last set AMRAP" : g.burnSecs ? " · last set " + g.burnSecs + "s AMRAP" : "";
+  var extra = g.challenge ? " · last set is the Challenge (" + (g.burnSecs || 45) + "s)" : g.drop ? " + drop set" : g.amrap ? " · last set AMRAP" : g.burnSecs ? " · last set " + g.burnSecs + "s AMRAP" : "";
   return g.rounds + " sets" + extra + " · " + g.rest + "s rest";
 }
 function effortCue(s){
@@ -2656,6 +2843,10 @@ function effortCue(s){
   if(s.sprint) return "🔥 All-out for 20 seconds. Turn the resistance up and fight for it.";
   if(s.easy) return "🚴‍♀️ Easy spin. Catch your breath — the next sprint is coming.";
   if(s.drop) return "🔥 Drop set: strip about 30% of the weight and keep going until only 1–2 reps are left in the tank.";
+  if(s.chal || (s.burn && s.g && s.g.challenge)){
+    var tgt = s.p ? challengeTarget(s.p) : 10, best = s.p ? prBest(s.p.ex) : 0;
+    return "🎯 Challenge set: " + (s.g.burnSecs || 45) + " seconds, as many clean reps as you can. Beat " + tgt + (best ? " — your best is " + best + "." : ".") + " Stop the moment your form slips.";
+  }
   if(s.burn) return "🔥 45-second AMRAP: as many clean reps as you can. Stop the moment your form slips.";
   if(s.amrap) return "🔥 Last set: as many clean reps as you can. Stop the moment your form slips.";
   if((PL && PL.d && PL.d.home) || (s.g && s.g.home)){
@@ -2677,9 +2868,15 @@ function aimText(s){
   var p = s.p; if(!p) return "";
   if(p.hold) return "Hold " + p.hold + " sec" + (p.each ? " each " + p.each + " · switch halfway" : "");
   if(s.drop) return "Drop set · lighter weight · reps until 1–2 left in the tank";
+  if(s.chal || (s.burn && s.g && s.g.challenge)){
+    var tgt = challengeTarget(p);
+    var best = prBest(p.ex);
+    return "🎯 Challenge set · " + (s.g.burnSecs || 45) + "s AMRAP · beat " + tgt + " clean reps" + (best ? " (best " + best + ")" : "");
+  }
   if(s.burn) return s.burn + "s AMRAP · as many clean reps as you can";
   if(s.amrap) return "AMRAP · as many clean reps as you can (" + p.reps + "+)";
-  var t = (s.g.k === "finisher" ? p.reps + "+ reps, nonstop" : (s.g.k === "strength" ? p.reps + " strong reps" : "Aim for " + p.reps + " reps")) + (p.each ? " each " + p.each + " · switch halfway" : "");
+  var repsNow = setReps(p, s.round);
+  var t = (s.g.k === "finisher" ? repsNow + "+ reps, nonstop" : (s.g.k === "strength" ? repsNow + " strong reps" : "Aim for " + repsNow + " reps")) + (p.each ? " each " + p.each + " · switch halfway" : "");
   if(p.tag) t += " · " + p.tag;
   if(p.wt) t += " · try " + p.wt;
   if(s.g.k !== "finisher" && !(p.tag && /tempo|pause|lowering|1\.5/.test(p.tag))) t += " · 3-sec lowering";
@@ -2708,12 +2905,12 @@ function buildTimeline(d){
     }
     if(g.items && g.items.length === 1){
       var it = g.items[0];
-      var work = function(p){ return (g.k === "strength" || !g.fin) ? setSecs(p) : workSecs(p, 1, g.q); };
+      var work = function(p, r){ return (g.k === "strength" || !g.fin) ? setSecs(p, r) : workSecs(p, 1, g.q); };
       for(var r = 1; r <= g.rounds; r++){
         var last = r === g.rounds;
-        var secs = work(it.p) + (last && g.amrap && !g.burnSecs ? 15 : 0);
+        var secs = work(it.p, r) + (last && g.amrap && !g.burnSecs ? 15 : 0);
         if(last && g.burnSecs) secs = g.burnSecs;
-        push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:secs, half:!!it.p.each, round:r, rounds:g.rounds, amrap:last && g.amrap, burn:last && g.burnSecs});
+        push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:secs, half:!!it.p.each, round:r, rounds:g.rounds, amrap:last && g.amrap, burn:last && g.burnSecs, chal:last && g.challenge});
         if(r < g.rounds) push({k:"rest", g:g, gi:gi, secs:g.rest, round:r, rounds:g.rounds, setRest:1});
       }
       if(g.drop){
@@ -2795,7 +2992,7 @@ function plPersist(force){
   var now = Date.now();
   if(!force && now - _plSaved < 800) return;
   _plSaved = now;
-  save(PL_STORE, {v:1, key:PL.key, i:PL.i, started:true, paused:!!PL.paused, holdForInput:!!PL.holdForInput, startedAt:PL.startedAt, endAt:PL.endAt, left:PL.left, segTotal:PL.segTotal, extra:PL.extra||0, done:PL.done, exDone:PL.exDone, logged:PL.logged||{}, moves:PL.moves||0, active:PL.active||0});
+  save(PL_STORE, {v:1, key:PL.key, i:PL.i, started:true, paused:!!PL.paused, holdForInput:!!PL.holdForInput, startedAt:PL.startedAt, endAt:PL.endAt, left:PL.left, segTotal:PL.segTotal, extra:PL.extra||0, done:PL.done, exDone:PL.exDone, logged:PL.logged||{}, moves:PL.moves||0, active:PL.active||0, chal:PL.chal||null});
 }
 function plRestore(d){
   var st = load(PL_STORE, null);
@@ -2816,6 +3013,7 @@ function plRestore(d){
   pl.logged = st.logged && typeof st.logged === "object" ? st.logged : {};
   pl.moves = +st.moves || 0;
   pl.active = +st.active || 0;
+  pl.chal = st.chal || null;
   return pl;
 }
 function plNeedsInput(s){
@@ -2914,21 +3112,29 @@ function plCue(s){
   var nx = s.nx != null ? PL.S[s.nx] : null;
   if(s.k === "ready"){ return; }
   if(s.k === "work"){
-    if(s.sprint){ say("All-out! Twenty seconds!"); return; }
-    if(s.easy){ say("Easy spin, forty seconds."); return; }
-    say(PL.S[PL.i-1] && (PL.S[PL.i-1].k === "trans" || PL.S[PL.i-1].k === "rest" || PL.S[PL.i-1].k === "ready") ? "Go!" : moveName(s) + ". Go!"); return;
+    if(s.sprint){ say("All-out! Twenty seconds! Fight for it!"); return; }
+    if(s.easy){ say("Easy spin. Catch your breath."); return; }
+    if(s.chal){ var tgt = challengeTarget(s.p); say("Challenge set, Mina! " + (s.g.burnSecs || 45) + " seconds. Beat " + tgt + " clean reps. Go!"); return; }
+    if(s.g && s.g.k === "finisher" && s.round === s.rounds){ say("Finisher! Clock is running. Leave it all here. Go!"); return; }
+    say(PL.S[PL.i-1] && (PL.S[PL.i-1].k === "trans" || PL.S[PL.i-1].k === "rest" || PL.S[PL.i-1].k === "ready") ? "Go, Mina!" : moveName(s) + ". Let's go!"); return;
   }
   if(s.k === "warm" || s.k === "cool"){
     var first = s.round === 1 && (!PL.S[PL.i-1] || PL.S[PL.i-1].k !== s.k);
-    say((first && s.k === "warm" ? "Warm-up. " : "") + (first && s.k === "cool" ? "Cool-down. " : "") + moveName(s) + ", " + secWords(s.secs) + (s.half ? ". Switch sides halfway." : "."));
+    say((first && s.k === "warm" ? "Warm-up. " : "") + (first && s.k === "cool" ? "Cool-down. Nice work. " : "") + moveName(s) + ", " + secWords(s.secs) + (s.half ? ". Switch sides halfway." : "."));
     return;
   }
   if(!nx) return;
   var nxt = "Next: " + moveName(nx) + ", " + secWords(nx.secs) + ".";
-  if(s.groupStart) say((s.g.k === "cool" ? "Nice work! " : "") + s.g.title + ". " + nxt);
-  else if(s.roundRest) say("Rest. Set " + (s.round + 1) + " of " + s.rounds + " is next. " + nxt);
+  if(s.groupStart) say((s.g.k === "cool" ? "You did it! " : "Here we go. ") + s.g.title + ". " + nxt);
   else if(s.dropTrans) say("Drop set next. Strip about 30 percent of the weight. " + secWords(nx.secs) + ".");
-  else if(s.setRest) say("Rest. Set " + (s.round + 1) + " of " + s.rounds + " next." + (s.round + 1 === s.rounds && s.g.burnSecs ? " Last set is " + s.g.burnSecs + " seconds, as many reps as you can." : s.round + 1 === s.rounds && s.g.amrap ? " Last set is as many reps as you can." : ""));
+  else if(s.setRest){
+    var n = s.round + 1, last = n === s.rounds;
+    if(last && s.g.challenge) say("Beautiful work. Challenge set is next. " + (s.g.burnSecs || 45) + " seconds, beat " + challengeTarget(s.p) + "!");
+    else if(last && s.g.burnSecs) say("Rest. Last set is " + s.g.burnSecs + " seconds, as many reps as you can. You've got this.");
+    else if(last) say("Rest. Last set coming — this is the one that builds you, Mina.");
+    else if(n === 2) say("Nice. Shake it out — set 2 of " + s.rounds + " is next. Make it count.");
+    else say("Yes! Rest — then set " + n + " of " + s.rounds + ". Stay strong.");
+  }
   else say(nxt);
 }
 function plTick(){
@@ -2982,11 +3188,21 @@ function plResume(){
   PL.holdForInput = false; PL.paused = false; PL.endAt = Date.now() + PL.left * 1000;
   plPersist(true); plRun(); plUpdate(true);
 }
-function plSegKind(s){ if(s.sprint) return "All-out"; if(s.easy) return "Easy spin"; if(s.burn) return "AMRAP"; return {ready:"Get ready", warm:"Warm-up", work:"Work", rest:"Rest", trans:"Next up", cool:"Cool-down", spin:"Spin"}[s.k]; }
+function plSegKind(s){ if(s.chal) return "Challenge"; if(s.sprint) return "All-out"; if(s.easy) return "Easy spin"; if(s.burn) return "AMRAP"; if(s.g && s.g.k === "finisher" && s.k === "work") return "Finisher"; return {ready:"Get ready", warm:"Warm-up", work:"Work", rest:"Rest", trans:"Next up", cool:"Cool-down", spin:"Spin"}[s.k]; }
+function plLiftCounts(){
+  var groups = [];
+  PL.S.forEach(function(s){ if(s.k === "work" && s.g && s.g.k !== "spin" && s.g.k !== "warm" && s.g.k !== "cool" && groups.indexOf(s.g) < 0) groups.push(s.g); });
+  var s = PL.S[PL.i], g = (s.k === "rest" || s.k === "trans") && s.nx != null ? PL.S[s.nx].g : s.g;
+  var idx = groups.indexOf(g);
+  var src = (s.k === "rest" || s.k === "trans") && s.nx != null ? PL.S[s.nx] : s;
+  var setNo = src.round || 1, sets = src.rounds || 0;
+  if(s.k === "rest" && s.setRest) setNo = Math.min(s.rounds, s.round + 1);
+  return {move: idx + 1, moves: groups.length, set: setNo, sets: sets, spin: !!(g && g.k === "spin")};
+}
 function plDisplaySeg(){ var s = PL.S[PL.i]; return (s.k === "rest" || s.k === "trans" || s.k === "ready") && s.nx != null ? PL.S[s.nx] : s; }
 function plTopHtml(){
   return '<div class="topbar pltop"><button class="iconbtn" id="pclose" aria-label="End workout">✕</button>' +
-    '<div class="progress"><i id="plProg" style="width:0%"></i></div><div class="pleft" id="plLeft">0:00</div></div>';
+    '<div class="progress"><i id="plProg" style="width:0%"></i></div><div class="plcnt" id="plCnt"></div><div class="pleft" id="plLeft">0:00</div></div>';
 }
 function plDemo(x){
   var top = plTopHtml();
@@ -3005,13 +3221,21 @@ function plSegRender(){
   if(s.groupStart) grp = "Next: " + g.title + (g.rounds ? " · " + g.rounds + " sets" : "");
   var cue = x.ex && EX[x.ex] ? EX[x.ex].cue : (WU[x.wu] || {}).cue || "";
   var aim = aimText(x);
-  var html = '<div class="pmeta"><span class="pkind k-'+s.k+'">'+plSegKind(s)+'</span><span class="pgrp">'+esc(grp)+'</span></div>' +
-    '<div class="pmain"><div class="ring k-'+s.k+'" id="ring"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="ringFg" cx="60" cy="60" r="52"/></svg>' +
+  var kindCls = s.chal ? "chal" : (s.g && s.g.k === "finisher" && s.k === "work" ? "fin" : s.k);
+  var html = '<div class="pmeta"><span class="pkind k-'+kindCls+'">'+plSegKind(s)+'</span><span class="pgrp">'+esc(grp)+'</span></div>' +
+    '<div class="pmain"><div class="ring k-'+kindCls+'" id="ring"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="ringFg" cx="60" cy="60" r="52"/></svg>' +
     '<div class="rt"><div><b id="ringT">0:00</b><small id="ringL">'+(isBreak ? "rest" : "left")+'</small></div></div></div>' +
     '<div class="pinfo">'+(isBreak ? '<div class="pnx">Up next</div>' : '')+'<h2 class="pname">'+esc(moveName(x))+'</h2><div class="paim">'+esc(aim)+'</div>' +
     (x.p && x.p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[x.p.orig].name)+'</div>' : '') + '</div></div>' +
     '<div class="pctl"><button class="pcb" id="pprev" aria-label="Back">'+ICO.prev+'</button><button class="pcb pp" id="ppause" aria-label="Pause">'+ICO.pause+'</button><button class="pcb" id="pskip" aria-label="Skip">'+ICO.next+'</button></div>' +
     ((s.k === "rest" || s.k === "trans") ? '<button class="padd" id="padd">+15 sec</button>' : '') +
+    (function(){
+      var prev = PL.S[PL.i-1];
+      if(!(prev && prev.chal && (s.k === "rest" || s.k === "trans") && !PL.chal)) return "";
+      var tgt = challengeTarget(prev.p), best = prBest(prev.p.ex);
+      PL._chalAsk = prev;
+      return '<div class="challog" id="challog"><div class="cl">Challenge set</div><div class="ct">How many clean reps? Beat '+tgt+(best ? " · best "+best : "")+'</div><div class="chalstep"><button type="button" id="chalMinus" aria-label="Less">−</button><b id="chalN">'+tgt+'</b><button type="button" id="chalPlus" aria-label="More">+</button></div><button class="cta" id="chalSave">Save my reps</button></div>';
+    })() +
     (effortCue(x) ? '<p class="note effort">'+esc(effortCue(x))+'</p>' : '') + (cue ? '<p class="note">'+esc(cue)+'</p>' : '');
   // Ladder-style "up next" (what comes after the move on screen)
   var after = null;
@@ -3027,6 +3251,23 @@ function plSegRender(){
   document.getElementById("pskip").onclick = function(){ primeAudio(); var wasP = PL.paused; plAdvance(false); if(wasP){ PL.left = PL.S[PL.i].secs; plUpdate(true); } };
   document.getElementById("pprev").onclick = function(){ primeAudio(); plBack(); };
   var add = document.getElementById("padd"); if(add) add.onclick = function(){ PL.endAt += 15000; PL.segTotal += 15; PL.extra += 15; if(PL.paused) PL.left += 15; plPersist(true); plUpdate(true); };
+  var cSave = document.getElementById("chalSave");
+  if(cSave){
+    var nEl = document.getElementById("chalN");
+    var n = parseInt(nEl && nEl.textContent, 10) || 10;
+    var minus = document.getElementById("chalMinus"), plus = document.getElementById("chalPlus");
+    if(minus) minus.onclick = function(){ n = Math.max(0, n - 1); nEl.textContent = n; };
+    if(plus) plus.onclick = function(){ n = n + 1; nEl.textContent = n; };
+    cSave.onclick = function(){
+      var prev = PL._chalAsk; if(!prev || !prev.p) return;
+      var tgt = challengeTarget(prev.p), bestBefore = prBest(prev.p.ex);
+      var rec = savePr(prev.p.ex, n);
+      PL.chal = {ex:prev.p.ex, name:(EX[prev.p.ex]||{}).name, reps:n, target:tgt, bestBefore:bestBefore, isBest:!!rec.isBest};
+      var box = document.getElementById("challog");
+      if(box){ var msg = rec.isBest ? "🎉 New best!" : "Saved"; box.innerHTML = '<div class="cl">' + msg + '</div><div class="ct">' + n + ' reps' + (n >= tgt ? ' — you beat it!' : '') + '</div>'; }
+      plPersist(true);
+    };
+  }
   bindToggles();
   if(PL.paused && (PL.holdForInput || PL.autoPaused)) plPausedMsg();
 }
@@ -3045,6 +3286,11 @@ function plUpdate(full){
   var fg = document.getElementById("ringFg"); if(fg){ var C = 2 * Math.PI * 52; fg.style.strokeDasharray = C; fg.style.strokeDashoffset = C * (1 - Math.max(0, Math.min(1, left / PL.segTotal))); }
   var pr = document.getElementById("plProg"); if(pr) pr.style.width = Math.min(100, el / total * 100) + "%";
   var pl = document.getElementById("plLeft"); if(pl) pl.textContent = fmt(Math.max(0, total - el)) + " left";
+  var pc = document.getElementById("plCnt");
+  if(pc){
+    var c = plLiftCounts();
+    pc.textContent = c.spin ? "Spin" : (c.move >= 1 ? ("Move "+c.move+"/"+c.moves+(c.sets ? " · Set "+c.set+"/"+c.sets : "")) : (s.k==="cool" ? "Cool-down" : s.k==="warm" || s.k==="ready" ? "Warm-up" : ""));
+  }
   var pp = document.getElementById("ppause"); if(pp && (full || pp.dataset.p !== String(PL.paused))){ pp.dataset.p = String(PL.paused); pp.innerHTML = PL.paused ? ICO.play : ICO.pause; pp.setAttribute("aria-label", PL.paused ? "Play" : "Pause"); pp.classList.toggle("paused", PL.paused); var r = document.getElementById("ring"); if(r) r.classList.toggle("paused", PL.paused); var rl = document.getElementById("ringL"); if(rl) rl.textContent = PL.paused ? "paused" : (plDisplaySeg() !== s ? "rest" : "left"); }
 }
 function plClose(){
@@ -3057,10 +3303,11 @@ function plClose(){
 }
 function plFinish(partial){
   var d = PL.d, works = PL.S.filter(function(s){ return s.k === "work"; }).length;
-  var sess = {date:ymd(), day:d.base, key:d.key, title:d.title, secs:Math.round(PL.active/1000), moves:PL.moves, of:works, ex:Object.keys(PL.exDone).length, partial:!!partial, at:Date.now()};
+  var setsDone = PL.S.filter(function(s){ return s.k === "work" && s.g && s.g.k !== "spin"; }).filter(function(s, i, a){ /* counted via PL.moves */ return true; }).length;
+  var sess = {date:ymd(), day:d.base, key:d.key, title:d.title, secs:Math.round(PL.active/1000), moves:PL.moves, of:works, sets:PL.moves, ex:Object.keys(PL.exDone).length, partial:!!partial, at:Date.now(), chal:PL.chal || null};
   var l = load("mw_sessions", []); if(!Array.isArray(l)) l = []; l.push(sess); save("mw_sessions", l.slice(-150)); save("mw_last_session", sess);
   stopPlayer(); PL = null; plClearPlay();
-  say(partial ? "Nice work, Mina. That counts." : "Workout complete! Amazing job, Mina.");
+  say(partial ? "Nice work, Mina. That counts." : "You did it, Mina! What a workout.");
   go("#day=" + d.key + "&done=1");
 }
 function plOnBackground(){ if(PL && PL.started) plPersist(true); }
