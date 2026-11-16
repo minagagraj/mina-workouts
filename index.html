@@ -1271,6 +1271,28 @@ function pickChallenge(d){
   });
   return marked || firstBi || firstAny;
 }
+// Gym rule kept across monthly plan refreshes: opener 4 sets, every later gym exercise 3 sets.
+// Home, 15-min, and Saturday bonus are left alone. Challenge stays inside the slot's set count.
+function applyGymSetRule(d){
+  if(!d || d._gymSets || d.home || isQ(d.ver) || d.bonus) return;
+  d._gymSets = 1;
+  var first = true;
+  d.blocks.forEach(function(b){
+    b.items.forEach(function(p){
+      if(p.walkMins) return;
+      var want = first ? 4 : 3;
+      first = false;
+      if(p.scheme && p.scheme.length){
+        if(p.challenge && p.scheme.length >= want) p.scheme = p.scheme.slice(0, Math.max(1, want - 1));
+        else if(p.scheme.length > want) p.scheme = p.scheme.slice(0, want);
+        else if(!p.challenge){
+          while(p.scheme.length < want) p.scheme.push(p.reps || p.scheme[p.scheme.length - 1]);
+        }
+      }
+      p.sets = want;
+    });
+  });
+}
 function applySessionSpice(d){
   if(!d || d._spiced) return;
   d._spiced = 1;
@@ -1296,7 +1318,7 @@ function applySessionSpice(d){
     if(!main.topSet) main.topSet = 3;
   }
 }
-ALLDAYS.forEach(applySessionSpice);
+ALLDAYS.forEach(function(d){ applyGymSetRule(d); applySessionSpice(d); });
 function weekDay(base, ver){
   ver = ver || weekVer();
   if(ver === "Q"){
@@ -1335,7 +1357,7 @@ function dayDate(base){ var k = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}; if(
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ var label = isQ(d.ver) ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver; var when = d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.gymBase || d.base); return label + (d.home ? " · Afternoon · Home" : "") + " · " + when; }
-var BUILD = "Nov 14, 2026 6:39 PM ET";
+var BUILD = "Nov 16, 2026 4:42 PM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -2876,7 +2898,7 @@ function runAiEstimate(){
 }
 
 // =================== LADDER-STYLE STRAIGHT SETS · PRESS PLAY · WEEKLY CHALLENGE ===================
-var APPVER = "6.18 Ab swaps fixed";
+var APPVER = "6.19 4 then 3 sets";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
@@ -2949,7 +2971,7 @@ function circuitPlan(d){
     var isFin = !!m.b.finisher;
     var lastFin = isFin && m === fins[fins.length - 1];
     var hinge = HINGE.indexOf(m.p.ex) >= 0;
-    var rounds = q ? Math.min(3, m.p.sets || 3) : (isMain ? m.p.sets : (isFin ? Math.max(3, m.p.sets || 3) : (home ? (m.p.sets || 3) : 4)));
+    var rounds = q ? Math.min(3, m.p.sets || 3) : home ? (isMain ? m.p.sets : (isFin ? Math.max(3, m.p.sets || 3) : (m.p.sets || 3))) : (isMain ? 4 : 3);
     var rest = q ? 15 : isMain ? (m.b.rest || (home ? 60 : 90)) : isFin ? (home ? 20 : 25) : (home ? 30 : 30);
     var g = {k: isMain ? "strength" : isFin ? "finisher" : "sets", title: isMain ? "Main lift" : isFin ? (lastFin ? "Burnout" : "Finisher") : exName(m.p), items:[m], rounds:rounds, rest:rest, fin:isFin?1:0, q:q?1:0};
     if(isMain){ g.amrap = !home && hinge; g.drop = home ? !!m.p.drop : (!hinge && !m.p.hold); }
