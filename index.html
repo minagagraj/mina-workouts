@@ -691,8 +691,6 @@ EX.beltSquat = {name:"Belt squat", video:V("Z4Cd2HNfhA0"), mech:1, icon:"🏋️
 EX.adductor = {name:"Adductor machine", video:V("e9AqTFMmP18"), mech:1, icon:"🦵", cue:"Sit tall, pads against the insides of your knees. Squeeze your thighs together, pause, then return with control. Don't use momentum."};
 EX.hipExtMachine = {name:"Hip extension machine", video:V("lwqNo8ypMDo"), uni:"side", mech:1, icon:"🍑", cue:"Stand tall and hold the handles, with the pad behind your working thigh. Drive that leg back by squeezing your glute, then return with control. Don't arch your lower back. Switch sides halfway. If this machine is taken, swap to the glute kickback machine."};
 EX.crunchMachine = {name:"Ab crunch machine", video:V("NpjB_rp756Y"), mech:1, abMachine:1, icon:"🧘‍♀️", cue:"Sit tall, pads across your upper chest. Crunch your ribs toward your hips, pause, then return with control. Don't pull with your neck."};
-EX.captainChair = {name:"Captain's chair knee raise", video:V("7KDDZtaUaxw"), mech:1, icon:"🪑", cue:"Forearms on the pads, back against the back pad, legs hanging. Raise your knees toward your chest and curl your hips up, then lower slowly. Don't swing."};
-EX.hangingKnee = {name:"Hanging knee raise", video:V("iC_fu-XjNPo"), icon:"🧗‍♀️", cue:"Hang from a pull-up bar with a firm grip. Raise your knees toward your chest and curl your hips up, then lower slowly. Don't swing."};
 EX.declineCrunch = {name:"Decline bench crunch", video:V("xfNAzPwNRqw"), icon:"🧘‍♀️", cue:"Feet hooked under the pads of a decline bench, hands lightly behind your head. Curl your ribs toward your hips, then lower slowly. Don't pull on your neck."};
 EX.sideBend45 = {name:"Weighted 45° side bend", video:V("IyCX-a9Lm_U"), uni:"side", mech:1, icon:"📐", cue:"On the 45° back-extension station, turn sideways, hip on the pad, a plate or dumbbell against your top shoulder. Lower toward the floor, then lift by shortening your side. Switch sides halfway."};
 EX.plateRussianTwist = {name:"Plate Russian twist", video:V("fCHFQTBqm-U"), uni:"side", icon:"⚙️", cue:"Sit tall, lean back slightly, and hold a weight plate at your chest. Rotate your ribs side to side. Keep your chest up and your hips still. Feet can stay on the floor."};
@@ -768,8 +766,8 @@ var SWAPS = {
   sarow:["machineRow","chestRow","highRow"],
   lateral:["machineLateral","smithUprightRow","machineShoulder"],
   pullup:["pulldown","highRow"],
-  plank:["captainChair","declineCrunch","hollowHold","bicycle","crunch","bearHold","sidePlank"],
-  deadbug:["captainChair","declineCrunch","toeTap","bicycle","hollowHold","crunch","birdDog"],
+  plank:["declineCrunch","hollowHold","bicycle","crunch","bearHold","sidePlank","plateRussianTwist"],
+  deadbug:["declineCrunch","toeTap","bicycle","hollowHold","crunch","birdDog","plateRussianTwist"],
   pushup:["inclinePushup","machineChest","dbBench"]
 };
 Object.assign(SWAPS, {
@@ -805,14 +803,12 @@ Object.assign(SWAPS, {
   cableFrontRaise:["machineLateral","smithUprightRow","lateral"],
   cableUprightRow:["smithUprightRow","machineLateral","machineShoulder"],
   sidePlank:["pallof","russianTwist","hollowHold","plank","bearHold"],
-  birdDog:["captainChair","declineCrunch","deadbug","toeTap","bicycle","hollowHold","crunch"],
+  birdDog:["declineCrunch","deadbug","toeTap","bicycle","hollowHold","crunch","plateRussianTwist"],
   bearHold:["hollowHold","plank","deadbug","bicycle","sidePlank"],
   toeTap:["deadbug","bicycle","hollowHold","crunch","birdDog"],
-  captainChair:["hangingKnee","declineCrunch","sideBend45","plateRussianTwist","plank","birdDog"],
-  hangingKnee:["captainChair","declineCrunch","sideBend45","plateRussianTwist","plank","birdDog"],
-  declineCrunch:["captainChair","hangingKnee","plateRussianTwist","sideBend45","crunch","plank"],
-  sideBend45:["plateRussianTwist","captainChair","declineCrunch","hangingKnee","sidePlank"],
-  plateRussianTwist:["sideBend45","declineCrunch","captainChair","hangingKnee","crunch"]
+  declineCrunch:["plateRussianTwist","sideBend45","crunch","plank","birdDog","hollowHold"],
+  sideBend45:["plateRussianTwist","declineCrunch","sidePlank","crunch"],
+  plateRussianTwist:["sideBend45","declineCrunch","crunch","sidePlank","birdDog"]
 });
 function isCableLike(ex){ var e = EX[ex] || {}; var n = (ex + " " + (e.name || "")).toLowerCase(); return !!e.cable || /cable|rope/.test(n); }
 function isAbMachine(ex){
@@ -822,21 +818,25 @@ function isAbMachine(ex){
   if(/abduct|adduct/.test(n)) return false;
   return /crunch machine|abdominal machine|(selectorized|plate-?loaded) ab|ab crunch|ab machine/.test(n) || (/\bab(dominal)?s?\b/.test(n) && /machine/.test(n));
 }
+function isUprightRaiseStation(ex){
+  var n = (ex + " " + ((EX[ex] || {}).name || "")).toLowerCase();
+  return /(chair|vertical).{0,20}(knee|leg)\s*raise|(knee|leg)\s*raise.{0,20}(chair|vertical)|\bhang(ing)?\s+(knee|leg)\s+raise/.test(n);
+}
 function gymForbidden(ex){
   var e = EX[ex] || {};
   var n = (ex + " " + (e.name || "")).toLowerCase();
-  if(!e || e.carry || isCableLike(ex) || isAbMachine(ex) || e.band || e.ball) return true;
+  if(!e || e.carry || isCableLike(ex) || isAbMachine(ex) || isUprightRaiseStation(ex) || e.band || e.ball) return true;
   if(/medicine[ -]?ball|med[ -]?ball/.test(n)) return true;
   if(e.band || /(^|\s)banded?\b/.test(n)) return true;
   return false;
 }
-var GYM_CORE_FALLBACK = ["captainChair","declineCrunch","sideBend45","plateRussianTwist","hangingKnee"];
+var GYM_CORE_FALLBACK = ["declineCrunch","sideBend45","plateRussianTwist"];
 // Engine rule kept across monthly plan refreshes: never put an ab/crunch machine in a gym session or gym swap list.
 function replaceBannedGymMoves(d){
   if(!d || d.home) return;
   d.blocks.forEach(function(b){
     b.items.forEach(function(p){
-      if(!p || !p.ex || !(isAbMachine(p.ex) || isCableLike(p.ex))) return;
+      if(!p || !p.ex || !(isAbMachine(p.ex) || isCableLike(p.ex) || isUprightRaiseStation(p.ex))) return;
       var used = {};
       d.blocks.forEach(function(b2){ b2.items.forEach(function(it){ if(it !== p){ used[it.ex] = 1; used[moveBase(it.ex)] = 1; } }); });
       p.ex = GYM_CORE_FALLBACK.filter(function(x){ return EX[x] && !used[x] && !used[moveBase(x)]; })[0] || "plank";
@@ -844,7 +844,7 @@ function replaceBannedGymMoves(d){
   });
 }
 Object.keys(SWAPS).forEach(function(k){ SWAPS[k] = (SWAPS[k] || []).filter(function(x){ return EX[x] && !isCableLike(x) && !isAbMachine(x); }); });
-var GYM_ONLY = {kickMachine:1,legPress:1,legExt:1,legCurl:1,lyingLegCurl:1,abduction:1,machineRow:1,preacherCurl:1,dipMachine:1,tricepMachine:1,hackSquat:1,trapBar:1,machineChest:1,machineShoulder:1,pulldown:1,pullup:1,smithHipThrust:1,backExt:1,reversePecDeck:1,machineLateral:1,trapCarry:1,ropePushdown:1,row:1,kickback:1,facepull:1,pullThrough:1,saCableRow:1,saPulldown:1,cableCurl:1,cableAbduction:1,cableLateral:1,deadlift:1,bench:1,kbDeadlift:1,bandwalk:1,bandPullApart:1,clamshell:1,ballCurl:1,goodMorning:1,hipThrust:1,rdl:1,ohp:1,deficitSumo:1,cableFrontRaise:1,cableUprightRow:1,cableOhExt:1,machineSumo:1,standingHipThrust:1,deadliftMachine:1,splitSquatMachine:1,smithRdl:1,smithDeadlift:1,smithSplitSquat:1,hipThrustMachine:1,inclineMachine:1,cableCrunch:1,beltSquat:1,adductor:1,hipExtMachine:1,crunchMachine:1,captainChair:1,hangingKnee:1,sideBend45:1,declineCrunch:1,plateRussianTwist:1,highRow:1,smithUprightRow:1};
+var GYM_ONLY = {kickMachine:1,legPress:1,legExt:1,legCurl:1,lyingLegCurl:1,abduction:1,machineRow:1,preacherCurl:1,dipMachine:1,tricepMachine:1,hackSquat:1,trapBar:1,machineChest:1,machineShoulder:1,pulldown:1,pullup:1,smithHipThrust:1,backExt:1,reversePecDeck:1,machineLateral:1,trapCarry:1,ropePushdown:1,row:1,kickback:1,facepull:1,pullThrough:1,saCableRow:1,saPulldown:1,cableCurl:1,cableAbduction:1,cableLateral:1,deadlift:1,bench:1,kbDeadlift:1,bandwalk:1,bandPullApart:1,clamshell:1,ballCurl:1,goodMorning:1,hipThrust:1,rdl:1,ohp:1,deficitSumo:1,cableFrontRaise:1,cableUprightRow:1,cableOhExt:1,machineSumo:1,standingHipThrust:1,deadliftMachine:1,splitSquatMachine:1,smithRdl:1,smithDeadlift:1,smithSplitSquat:1,hipThrustMachine:1,inclineMachine:1,cableCrunch:1,beltSquat:1,adductor:1,hipExtMachine:1,crunchMachine:1,sideBend45:1,declineCrunch:1,plateRussianTwist:1,highRow:1,smithUprightRow:1};
 function homeOk(ex){ var e = EX[ex]; return !!e && !e.cable && !GYM_ONLY[ex]; }
 
 var HOME_SWAPS = {
@@ -1132,7 +1132,7 @@ var VARIANTS = {
    {label:"Block 2", rest:60, items:[P("machineRow",4,{reps:10})]},
    {label:"Block 3", rest:45, items:[P("smithUprightRow",4,{reps:12, note:"Bar against your thighs, hands close together. Pull toward your chin, elbows high and wide."})]},
    {label:"Block 4", rest:45, items:[P("tricepMachine",4,{reps:12, note:"Elbows on the pad lined up with the pivot. Straighten your arms, squeeze, return slowly."})]},
-   {label:"Block 5", rest:45, items:[P("captainChair",4,{reps:15, note:"Forearms on the pads, back against the back pad. Raise your knees toward your chest and curl your hips up, then lower slowly. Don't swing. If the chair is taken, swap to hanging knee raises."})]},
+   {label:"Block 5", rest:45, items:[P("declineCrunch",4,{reps:15, note:"Feet hooked under the pads of a decline bench. Curl your ribs toward your hips, then lower slowly. Don't pull on your neck."})]},
    {label:"Finisher", rest:20, finisher:true, items:[P("birdDog",4,{reps:10, each:"side"})]}
   ],
   Q:[{label:"Round 1", rest:30, items:[P("inclineMachine",3,{reps:10}), P("highRow",3,{reps:10})]},
@@ -1388,7 +1388,7 @@ function isoWeek(dt){ var d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(),
 function weekVer(dt){ return "ABC"[isoWeek(dt || new Date()) % 3]; }
 function dayByKey(k){ return ALLDAYS.find(function(x){ return x.key === k; }); }
 var CHAL_SKIP = {deadlift:1, trapBar:1, bench:1, rdl:1, kbDeadlift:1, goodMorning:1, walk:1, spinBike:1, deadliftMachine:1, smithDeadlift:1, smithRdl:1};
-var MOVE_BASE = {bandDbHipThrust:"dbHipThrust", dbOhp:"dbShoulderPress", slRdl:"dbRdl", hangingKnee:"captainChair", plateRussianTwist:"russianTwist"};
+var MOVE_BASE = {bandDbHipThrust:"dbHipThrust", dbOhp:"dbShoulderPress", slRdl:"dbRdl", plateRussianTwist:"russianTwist"};
 function moveBase(ex){ return MOVE_BASE[ex] || ex; }
 function pickChallenge(d){
   var marked = null, firstBi = null, firstAny = null;
@@ -1462,7 +1462,7 @@ var FEEL = {
   machineChest:"chest, not the front shoulders", inclineMachine:"upper chest, not the neck", machineShoulder:"shoulders, not the traps",
   smithUprightRow:"shoulders, elbows high, not the neck", machineLateral:"side shoulders, not the traps", tricepMachine:"triceps, elbows stay put",
   preacherCurl:"biceps, no swinging", dipMachine:"triceps and chest, no shoulder pinch", reversePecDeck:"upper back, not the neck",
-  crunchMachine:"abs, don't pull on your neck", captainChair:"lower abs, don't swing", hangingKnee:"lower abs, don't swing", declineCrunch:"abs, don't pull on your neck", sideBend45:"obliques, don't twist or yank", plateRussianTwist:"obliques, chest up", birdDog:"core and glute, hips stay level", plank:"core, ribs down", sidePlank:"obliques, hips high",
+  crunchMachine:"abs, don't pull on your neck", declineCrunch:"abs, don't pull on your neck", sideBend45:"obliques, don't twist or yank", plateRussianTwist:"obliques, chest up", birdDog:"core and glute, hips stay level", plank:"core, ribs down", sidePlank:"obliques, hips high",
   dbRdl:"hamstrings and glutes, not low back", sumoSquat:"glutes and inner thighs, not low back", heelFrontSquat:"quads, chest up",
   dbBentRow:"mid-back, not the arms", dbShoulderPress:"shoulders, don't arch your low back", dbFrontOh:"shoulders, ribs down",
   bandDbHipThrust:"glutes, not low back", bandQuadKick:"glute, not low back", bandSideKick:"glute medius, don't lean",
@@ -1612,7 +1612,7 @@ function dayDate(base){ var k = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}; if(
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ var label = isQ(d.ver) ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver; var when = d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.gymBase || d.base); return label + (d.home ? " · Afternoon · Home" : "") + " · " + when; }
-var BUILD = "Nov 19, 2026 10:38 AM ET";
+var BUILD = "Nov 19, 2026 10:41 AM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -1645,7 +1645,7 @@ function picHtml(ex, cls){
 
 
 // ---- Ladder-style demo: looping, muted form video at the top of the exercise screen ----
-var DEMO_START = {"hipThrust":123,"bss":129,"rdl":57,"kickback":0,"lunge":33,"bridge":92,"deadlift":80,"bench":110,"row":48,"ohp":215,"facepull":171,"incline":232,"sarow":159,"lateral":215,"deadbug":85,"pushup":98,"smithHipThrust":65,"slGluteBridge":94,"reverseLunge":84,"splitSquat":54,"slRdl":90,"goodMorning":65,"pullThrough":40,"donkeyKick":90,"legPress":102,"legExt":24,"legCurl":28,"preacherCurl":56,"tricepMachine":49,"hammerCurl":27,"dbCurl":45,"cableCurl":85,"benchDip":16,"ropePushdown":41,"dbOverheadExt":15,"hackSquat":37,"sumoSquat":8,"trapBar":66,"kbDeadlift":59,"dbBench":58,"chestRow":57,"saCableRow":41,"dbShoulderPress":64,"reversePecDeck":64,"cableAbduction":40,"machineLateral":69,"sidePlank":83,"bearHold":49,"birdDog":37,"toeTap":86,"inclinePushup":95,"dbHipThrust":55,"dbRdl":28,"goblet":90,"declinePushup":8,"dbOhp":40,"spinBike":50,"dbFrontOh":6,"dbBentRow":6,"heelFrontSquat":18,"bandSideKick":1,"bandLateral":5,"bandUprightRow":3,"bandFrontRaise":45,"deficitSumo":7,"cableFrontRaise":2,"cableUprightRow":13,"cableOhExt":14,"machineRow":16,"cableLateral":3,"machineSumo":20,"bandQuadKick":12,"bandDbHipThrust":2,"standingHipThrust":42,"deadliftMachine":50,"splitSquatMachine":32,"smithRdl":22,"smithDeadlift":40,"smithSplitSquat":25,"hipThrustMachine":30,"inclineMachine":5,"cableCrunch":10,"beltSquat":32,"adductor":8,"hipExtMachine":8,"crunchMachine":28,"captainChair":14,"hangingKnee":0,"declineCrunch":0,"sideBend45":0,"plateRussianTwist":8,"highRow":8,"smithUprightRow":5,"bicycle":4,"hollowHold":4,"russianTwist":18,"pallof":4,"crunch":12}; // seconds: skip intros so the demo opens on the move
+var DEMO_START = {"hipThrust":123,"bss":129,"rdl":57,"kickback":0,"lunge":33,"bridge":92,"deadlift":80,"bench":110,"row":48,"ohp":215,"facepull":171,"incline":232,"sarow":159,"lateral":215,"deadbug":85,"pushup":98,"smithHipThrust":65,"slGluteBridge":94,"reverseLunge":84,"splitSquat":54,"slRdl":90,"goodMorning":65,"pullThrough":40,"donkeyKick":90,"legPress":102,"legExt":24,"legCurl":28,"preacherCurl":56,"tricepMachine":49,"hammerCurl":27,"dbCurl":45,"cableCurl":85,"benchDip":16,"ropePushdown":41,"dbOverheadExt":15,"hackSquat":37,"sumoSquat":8,"trapBar":66,"kbDeadlift":59,"dbBench":58,"chestRow":57,"saCableRow":41,"dbShoulderPress":64,"reversePecDeck":64,"cableAbduction":40,"machineLateral":69,"sidePlank":83,"bearHold":49,"birdDog":37,"toeTap":86,"inclinePushup":95,"dbHipThrust":55,"dbRdl":28,"goblet":90,"declinePushup":8,"dbOhp":40,"spinBike":50,"dbFrontOh":6,"dbBentRow":6,"heelFrontSquat":18,"bandSideKick":1,"bandLateral":5,"bandUprightRow":3,"bandFrontRaise":45,"deficitSumo":7,"cableFrontRaise":2,"cableUprightRow":13,"cableOhExt":14,"machineRow":16,"cableLateral":3,"machineSumo":20,"bandQuadKick":12,"bandDbHipThrust":2,"standingHipThrust":42,"deadliftMachine":50,"splitSquatMachine":32,"smithRdl":22,"smithDeadlift":40,"smithSplitSquat":25,"hipThrustMachine":30,"inclineMachine":5,"cableCrunch":10,"beltSquat":32,"adductor":8,"hipExtMachine":8,"crunchMachine":28,"declineCrunch":0,"sideBend45":0,"plateRussianTwist":8,"highRow":8,"smithUprightRow":5,"bicycle":4,"hollowHold":4,"russianTwist":18,"pallof":4,"crunch":12}; // seconds: skip intros so the demo opens on the move
 function ytId(ex){ var m = /v=([\w-]{11})/.exec((EX[ex] && EX[ex].video) || ""); return m ? m[1] : null; }
 function demoHtml(ex, top){
   var e = EX[ex], id = ytId(ex), online = navigator.onLine !== false, fit = !!load("mw_demo_fit", 0);
@@ -3397,7 +3397,7 @@ function runAiEstimate(){
 
 // =================== LADDER-STYLE STRAIGHT SETS · PRESS PLAY · WEEKLY CHALLENGE ===================
 var APPNAME = "Strong";
-var APPVER = "6.24 Treadmill walk · no cool-down";
+var APPVER = "6.25 Bench and floor core";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
