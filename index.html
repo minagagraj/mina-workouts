@@ -176,6 +176,10 @@ h2{font-size:22px;margin:0;letter-spacing:-.3px}
 .swapbtn{flex:0 0 auto;padding:10px 14px;border-radius:14px;background:var(--card);box-shadow:var(--shadow);font-weight:800;font-size:15px;color:var(--accent);min-height:44px}
 .swapmini{flex:0 0 auto;min-width:44px;height:44px;padding:0 12px;border-radius:14px;background:var(--bg);color:var(--accent);font-size:14px;font-weight:800;display:grid;place-items:center;white-space:nowrap}
 .pswap{display:block;width:100%;margin:10px 0 0;padding:12px 14px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);font-weight:800;font-size:16px;color:var(--accent);min-height:48px}
+.twalk{display:flex;gap:8px;margin:10px 4px 0;flex-wrap:wrap}
+.twalk button{flex:1;min-width:96px;min-height:44px;padding:10px 12px;border-radius:14px;background:var(--card);box-shadow:var(--shadow);font-weight:800;font-size:14px;color:var(--accent)}
+.twalk button.on{background:var(--accent);color:#fff}
+.tread .d{font-size:13px;color:var(--muted);font-weight:600;line-height:1.35}
 .upnext .swapmini{flex:0 0 auto;align-self:center}
 .swapped{font-size:12px;font-weight:700;color:#a8432b;background:var(--accent-soft);display:inline-block;border-radius:8px;padding:2px 8px;margin-top:3px}
 .swopt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border-radius:18px;padding:12px;box-shadow:var(--shadow);border:2px solid transparent;margin-bottom:10px}
@@ -1608,7 +1612,7 @@ function dayDate(base){ var k = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}; if(
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ var label = isQ(d.ver) ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver; var when = d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.gymBase || d.base); return label + (d.home ? " · Afternoon · Home" : "") + " · " + when; }
-var BUILD = "Nov 19, 2026 6:50 AM ET";
+var BUILD = "Nov 19, 2026 10:38 AM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -1627,7 +1631,7 @@ function shortRx(p, fin){
   return p.sets + " sets × " + right;
 }
 function explainRx(p, fin){
-  if(p.walkMins) return "Easy pace for " + p.walkText + ". No sets — just breathe and cool down.";
+  if(p.walkMins) return "Your pace for " + p.walkText + ". No sets — walk and go when you’re ready.";
   var setW = p.sets===1 ? "set" : "sets";
   if(p.hold){ var w = p.holdWord || "hold"; return p.sets + " " + setW + " of a " + p.hold + "-second " + w + (p.each ? " on each " + p.each : "") + "."; }
   return "Do all " + p.sets + " " + setW + " of " + p.reps + " reps" + (p.each ? " on each " + p.each : "") + " here, then move on." + (p.note ? " " + p.note : "");
@@ -1667,7 +1671,8 @@ function rxText(p){
 }
 function upNextHtml(d, steps, i){
   var n = steps[i + 1];
-  if(!n) return '<div class="upnext"><div class="thumb ph"><div class="e">🏁</div></div><div class="um"><div class="uk">Up next</div><div class="un">Finish & cool down</div></div></div>';
+  if(!n) return '<div class="upnext"><div class="thumb ph"><div class="e">🏁</div></div><div class="um"><div class="uk">Up next</div><div class="un">Finish</div></div></div>';
+  if(n.type === "treadmill") return '<div class="upnext"><div class="thumb ph"><div class="e">🚶‍♀️</div></div><div class="um"><div class="uk">Up next</div><div class="un">Treadmill walk</div><div class="ud">10–20 min · your pace</div></div></div>';
   var ex = n.type === "warmup" ? n.w.ex : n.p.ex;
   return '<div class="upnext">' + (ex ? picHtml(ex, "thumb") : '<div class="thumb">🔥</div>') + '<div class="um"><div class="uk">Up next</div><div class="un">'+esc(n.type === "warmup" ? "Warm-up" : exName(n.p))+'</div><div class="ud">'+esc(n.type === "warmup" ? "" : rxText(n.p))+'</div></div></div>';
 }
@@ -1681,6 +1686,7 @@ function buildSteps(d){
       steps.push({type:"ex", p:effP(d.key, bi, i, p0), base:p0, block:b, bi:bi, idx:i, label:label});
     });
   });
+  if(!d.home) steps.push({type:"treadmill", p:{ex:"treadmill", walkMins:15, walkText:"10–20 min"}});
   return steps;
 }
 
@@ -1730,6 +1736,56 @@ function render(){
 }
 
 // ---- goals card ----
+function todayWalkMins(){ return (load("mw_walks", {}) || {})[ymd()] || 0; }
+function logWalkMins(min){
+  min = Math.round(+min || 0);
+  if(min <= 0) return todayWalkMins();
+  var w = load("mw_walks", {}) || {}, t = ymd();
+  w[t] = (w[t] || 0) + min;
+  save("mw_walks", w);
+  if(w[t] >= 30){ var gk = "mw_goals_" + t, g = load(gk, {}) || {}; g.walk = true; save(gk, g); }
+  toast("🚶‍♀️ +" + min + " min toward today’s walk" + (w[t] >= 30 ? " · walk goal done" : ""));
+  return w[t];
+}
+function treadmillCardHtml(opts){
+  opts = opts || {};
+  var logged = todayWalkMins();
+  return '<div class="section tread" id="treadBox"><div class="h"><b>Treadmill walk</b><span>10–20 min · your pace</span></div>' +
+    '<div class="row"><div class="thumb ph"><div class="e">🚶‍♀️</div></div><div style="flex:1;min-width:0"><div class="n">Treadmill walk</div>' +
+    '<div class="d">Your pace. A 10–20 minute incline walk is a great way to finish. It can count toward today’s walk goal.</div>' +
+    (logged ? '<div class="d">'+logged+' min already logged today.</div>' : '') + '</div></div>' +
+    '<div class="twalk">' +
+      '<button type="button" data-walklog="10">Log 10 min</button>' +
+      '<button type="button" data-walklog="15">Log 15 min</button>' +
+      '<button type="button" data-walklog="20">Log 20 min</button>' +
+    '</div>' +
+    (opts.play ? '<div class="twalk">' +
+      '<button type="button" data-walktimer="10">⏱ 10 min</button>' +
+      '<button type="button" data-walktimer="15">⏱ 15 min</button>' +
+      '<button type="button" data-walktimer="20">⏱ 20 min</button>' +
+    '</div><button class="linkbtn" id="twskip" style="display:block;margin:12px auto 0">Skip and finish ›</button>' : '') +
+    '</div>';
+}
+function bindTreadmill(rerender, onSkip){
+  document.querySelectorAll("[data-walklog]").forEach(function(b){
+    b.onclick = function(){
+      logWalkMins(+b.dataset.walklog);
+      if(onSkip) onSkip();
+      else if(rerender) rerender();
+    };
+  });
+  document.querySelectorAll("[data-walktimer]").forEach(function(b){
+    b.onclick = function(){
+      if(!PL) return;
+      var mins = +b.dataset.walktimer;
+      PL.walkTimer = mins; PL.holdForWalk = false; PL.paused = false;
+      PL.segTotal = mins * 60; PL.left = PL.segTotal; PL.endAt = Date.now() + PL.segTotal * 1000; PL.extra = 0;
+      plPersist(true); plSegRender(); plUpdate(true); plRun();
+    };
+  });
+  var sk = document.getElementById("twskip");
+  if(sk) sk.onclick = function(){ if(onSkip) onSkip(); };
+}
 function goalsHtml(){
   var g = load("mw_goals_" + ymd(), {});
   var n = GOALS.filter(function(x){ return g[x.k]; }).length;
@@ -1737,7 +1793,7 @@ function goalsHtml(){
   var prog = '<div class="gprog"><div class="gl"><span>Protein</span><b>'+Math.round(ft.p)+' / '+fs.p+' g</b></div><div class="pbar thin'+(ft.p >= fs.p ? ' full' : '')+'"><i style="width:'+Math.min(100, ft.p / fs.p * 100)+'%"></i></div>' +
     (fs.k ? '<div class="gl"><span>Calories</span><b>'+Math.round(ft.k)+' / '+fs.k+'</b></div>'+kcalBar(ft, fs, 'thin') : '') + '</div>';
   return '<div class="goals"><div class="h"><b>Daily goals</b><span>'+n+'/'+GOALS.length+' today</span></div>' + prog +
-    GOALS.map(function(x){ var wm = x.k === "walk" && g.walk ? (load("mw_walks", {}) || {})[ymd()] : 0; return '<button class="goal'+(g[x.k]?' on':'')+'" data-goal="'+x.k+'"><span class="box">'+(g[x.k]?'✓':'')+'</span><span class="gt">'+esc(x.t)+(wm ? ' <small class="wmin">· '+wm+' min logged ⌚</small>' : '')+'</span></button>'; }).join("") + '</div>';
+    GOALS.map(function(x){ var wm = x.k === "walk" ? todayWalkMins() : 0; return '<button class="goal'+(g[x.k]?' on':'')+'" data-goal="'+x.k+'"><span class="box">'+(g[x.k]?'✓':'')+'</span><span class="gt">'+esc(x.t)+(wm ? ' <small class="wmin">· '+wm+' min logged</small>' : '')+'</span></button>'; }).join("") + '</div>';
 }
 function bindGoals(){
   app.querySelectorAll("[data-goal]").forEach(function(b){
@@ -1850,8 +1906,6 @@ function sessionMoves(wd){
     if(!g.items) return;
     g.items.forEach(function(x){ moves.push({x:x, g:g}); });
   });
-  var cool = seen.filter(function(g){ return g.k === "cool"; })[0];
-  if(cool && cool.walk) moves.push({x:cool.walk, g:cool});
   return moves;
 }
 function sessionCardHtml(wd, opts){
@@ -1859,13 +1913,13 @@ function sessionCardHtml(wd, opts){
   opts.peek = opts.id || wd.key;
   opts._mi = 0;
   var done = doneThisWeek(wd.base), moves = sessionMoves(wd);
-  var lifts = moves.filter(function(m){ return m.g.k !== "spin" && m.g.k !== "cool"; });
+  var lifts = moves.filter(function(m){ return m.g.k !== "spin" && m.g.k !== "cool" && m.g.k !== "treadmill"; });
   var chalG = lifts.filter(function(m){ return m.g.challenge; })[0];
   var list = moves.map(function(m){
     var p = m.x.p, g = m.g;
     var what, label;
     if(g.k === "spin"){ what = g.rounds + " rounds · " + g.on + "s all-out / " + g.off + "s easy"; label = "Spin finisher"; }
-    else if(g.k === "cool"){ what = p.walkText + " walk"; label = "Cool-down"; }
+    else if(g.k === "treadmill"){ what = "10–20 min · your pace"; label = "Treadmill walk"; }
     else {
       var repsTxt = p.hold ? (p.hold + "s") : (p.scheme && p.scheme.length ? schemeLabel(p) : (p.reps != null ? p.reps : ""));
       what = g.rounds + " sets × " + repsTxt + (p.each && !p.scheme ? "/" + p.each : p.each && p.scheme ? " /" + p.each : "") + (g.challenge ? " + Challenge set (" + (g.burnSecs || 45) + "s)" : g.drop ? " + drop set" : g.amrap ? " · AMRAP" : g.burnSecs ? " · last set " + g.burnSecs + "s AMRAP" : "") + (p.wt ? " · " + p.wt : "");
@@ -1874,6 +1928,7 @@ function sessionCardHtml(wd, opts){
     }
     return '<button type="button" class="tmove'+(g.challenge ? " chal" : "")+'" data-peek="'+opts.peek+'|'+(opts._mi++)+'">'+picHtml(p.ex, "thumb")+'<div class="tm"><div class="tn">'+esc(g.k === "spin" ? "Spin bike" : exName(p))+'</div><div class="td">'+esc(label + " · " + what)+'</div></div><span class="tchev" aria-hidden="true">›</span></button>';
   }).join("");
+  if(!wd.home) list += '<div class="tmove"><div class="thumb ph"><div class="e">🚶‍♀️</div></div><div class="tm"><div class="tn">Treadmill walk</div><div class="td">10–20 min incline · your pace · counts toward today’s walk</div></div></div>';
   var tag = wd.bonus ? 'Bonus · Sat '+md(dayDate("sat"))+' or Sun '+md(dayDate("sun")) : verLabel(wd.ver) + ' · ' + dayDateLabel(wd.gymBase || wd.base);
   return '<div class="tcard'+(wd.home ? ' home' : '')+(done ? ' done' : '')+'" id="'+opts.id+'">' +
     '<div class="thero"><div class="k">'+esc(tag)+(opts.today ? ' <span class="badge">TODAY</span>' : '')+(wd.bonus ? ' <span class="badge opt">OPTIONAL</span>' : '')+(done ? ' <span class="badge good">DONE ✓</span>' : '')+'</div>' +
@@ -1987,7 +2042,7 @@ function renderOverview(){
   });
   html += '</div>';
   circuitPlan(d).forEach(function(g){
-    if(g.k === "warm" || g.k === "cool") return;
+    if(g.k === "warm" || g.k === "cool" || g.k === "treadmill") return;
     var right = g.meta;
     var headBadge = g.k==='circuit' ? ' <span class="badge-circ">40s / 15s</span>' : '';
     html += '<div class="section"><div class="h"><b>'+esc(g.title)+headBadge+'</b><span>'+right+'</span></div>';
@@ -2014,8 +2069,7 @@ function renderOverview(){
     });
     html += '</div>';
   });
-  var cg = circuitPlan(d).filter(function(g){ return g.k === "cool"; })[0];
-  html += '<div class="section"><div class="h"><b>Cool-down</b><span>'+(cg.walk ? cg.walk.p.walkMins + ' min' : coolMins(cg) + ' min')+'</span></div><div class="row"><div class="thumb">🧘‍♀️</div><div><div class="n">'+(cg.walk ? 'Easy walk' : cg.list.map(function(w){ return WU[w.wu].name; }).join(' + '))+'</div><div class="d">Timed and guided, like the warm-up.</div></div></div></div>';
+  if(!d.home) html += treadmillCardHtml();
   html += goalsHtml() + foodHtml();
   html += '<div class="sticky"><button class="cta play" id="play">▶ Press play · follow along</button><button class="manual" id="start">or tap through sets at my own pace</button></div>';
   app.innerHTML = html;
@@ -2025,6 +2079,7 @@ function renderOverview(){
   bindGoals(); bindFood();
   app.querySelectorAll("[data-ver]").forEach(function(b){ b.onclick = function(){ go("#day=" + b.dataset.ver); }; });
   bindSwapButtons(app, d.key);
+  bindTreadmill(function(){ if(PL && !PL.started) renderPlayReady(); else if(!(PL && PL.started)) renderOverview(); });
   app.querySelectorAll("[data-ovpeek]").forEach(function(b){
     b.onclick = function(){
       var a = b.dataset.ovpeek.split(":"), moves = sessionMoves(d), mi = -1;
@@ -2043,7 +2098,9 @@ function renderStep(){
   var demoEx = st.type === "warmup" ? st.w.ex : st.p.ex;
   var html = demoEx ? demoHtml(demoEx, topHtml) : topHtml + '<div class="pic ph"><div class="e">🔥</div><div class="t">Get warm & loose</div></div>';
   var isLast = state.step === steps.length - 1;
-  if(st.type === "warmup"){
+  if(st.type === "treadmill"){
+    html += '<div class="datetag">'+esc(workoutTag(d))+'</div>' + treadmillCardHtml();
+  } else if(st.type === "warmup"){
     var w = st.w;
     html += '<div class="datetag">'+esc(workoutTag(d))+'</div><div class="exlabel">Warm-up</div>' +
       '<h2 class="exname">'+(w.ex?EX[w.ex].name:'Warm-up')+'</h2><p class="explain" style="margin-top:8px">'+esc(w.text)+'</p>';
@@ -2085,6 +2142,7 @@ function renderStep(){
   app.querySelectorAll("[data-set]").forEach(function(btn){
     btn.onclick = function(){ unlockAudio(); toggleSet(+btn.dataset.set); if(st.type==="ex") commitWeight(st.p); };
   });
+  if(st.type === "treadmill") bindTreadmill(renderStep);
   var sw = document.getElementById("swap");
   if(sw) sw.onclick = function(){ openSwap(d.key, st.bi, st.idx, renderStep); };
   if(st.type==="ex" && showWeight(st.p)) bindWeight(st.p);
@@ -2695,7 +2753,7 @@ function warmName(tok){
 function swapRefFromSeg(s){
   if(!s) return null;
   if(s.k === "warm" || (s.g && s.g.k === "warm")) return {warm: (s.round || 1) - 1};
-  if(s.k === "cool" || (s.g && s.g.k === "cool") || (s.g && s.g.k === "spin")) return null;
+  if(s.k === "cool" || s.k === "treadmill" || (s.g && (s.g.k === "cool" || s.g.k === "spin" || s.g.k === "treadmill"))) return null;
   if(s.it && s.it.bi != null) return {bi:s.it.bi, ii:s.it.i};
   return null;
 }
@@ -3339,7 +3397,7 @@ function runAiEstimate(){
 
 // =================== LADDER-STYLE STRAIGHT SETS · PRESS PLAY · WEEKLY CHALLENGE ===================
 var APPNAME = "Strong";
-var APPVER = "6.23 No ab machine · Swap any move";
+var APPVER = "6.24 Treadmill walk · no cool-down";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
@@ -3369,6 +3427,7 @@ var WARMH = {
   upper:[{wu:"scap",s:60},{wu:"arms",s:60},{ex:"inclinePushup",s:60}],
   full:[{ex:"bridge",s:60},{wu:"arms",s:60},{wu:"squat",s:60}]
 };
+// Retired stretch cool-downs (do not re-attach in monthly refreshes). Gym ends with a treadmill walk; home ends on the spin bike.
 var COOL = { lower:[{wu:"fig4",s:60,half:1},{wu:"ham",s:60,half:1},{wu:"child",s:45}], upper:[{wu:"chest",s:60,half:1},{wu:"cat",s:45},{wu:"child",s:45}], full:[{wu:"fig4",s:60,half:1},{wu:"chest",s:60,half:1},{wu:"child",s:45}] };
 var COOLH = { lower:[{wu:"fig4",s:40,half:1},{wu:"child",s:30}], upper:[{wu:"chest",s:40,half:1},{wu:"child",s:30}], full:[{wu:"fig4",s:35,half:1},{wu:"chest",s:35}] };
 function dayKind(d){ if(d.kind) return d.kind; return (d.base === "tue" || d.base === "thu") ? "upper" : d.base === "fri" ? "full" : "lower"; }
@@ -3422,6 +3481,7 @@ function liftGroup(m, opts){
   return decorateGroup(g, m);
 }
 // Engine rule kept across monthly plan refreshes: 3-move warm-up; gym is one machine at a time (all sets, then the next); home mids are a 40/15 burn circuit.
+// Engine rule: never attach a stretch cool-down. Gym sessions end with a treadmill walk that is not part of the lifting time. Home ends on the spin bike.
 function circuitPlan(d){
   var G = [], kind = dayKind(d), q = isQ(d.ver), home = !!d.home;
   var list0 = (q ? WARMQ : home ? WARMH : WARM)[kind] || [];
@@ -3468,12 +3528,14 @@ function circuitPlan(d){
     }
   }
   if(d.spin) G.push({k:"spin", title:"Spin finisher", rounds:d.spin.rounds, on:d.spin.on, off:d.spin.off, rest:d.spin.off, items:[{p:{ex:"spinBike", sets:d.spin.rounds, spin:1}}]});
-  G.push({k:"cool", title:"Cool-down", walk:walk, list: walk ? [] : q ? [{wu:"child",s:45}] : (home ? COOLH : COOL)[kind]});
+  // Gym only: one treadmill walk after the lifts — not counted in the ~40 min lifting time. No stretch cool-down, now or in monthly refreshes.
+  if(!home) G.push({k:"treadmill", title:"Treadmill walk", mins:15, suggest:"10–20 min incline at your pace"});
   G.forEach(function(g){ g.meta = groupMeta(g); });
   return G;
 }
 var HINGE = ["deadlift","trapBar","rdl","kbDeadlift","goodMorning","slRdl","backExt","dbRdl"];
 function groupMeta(g){
+  if(g.k === "treadmill") return "10–20 min · your pace · incline";
   if(g.k === "spin") return g.rounds + " rounds · " + g.on + "s all-out / " + g.off + "s easy";
   if(g.k === "circuit") return "🔥 " + g.rounds + " rounds · " + g.on + "s on / " + g.off + "s off · last round Burnout";
   if(!g.items) return "";
@@ -3510,7 +3572,7 @@ function effortCue(s){
   return "💪 Heavy enough that the last 3 reps are hard. Lower for 3 seconds on every rep.";
 }
 function coolMins(g){ return Math.round(g.list.reduce(function(a, w){ return a + w.s; }, 0)/30)/2; }
-function moveName(x){ if(x.sprint) return "All-out sprint"; if(x.easy) return "Easy spin"; if(x.ex && EX[x.ex]) return x.p ? exName(x.p) + (x.drop ? " · drop set" : "") : EX[x.ex].name; return x.wu ? WU[x.wu].name : "Move"; }
+function moveName(x){ if(x.k === "treadmill" || x.treadmill || (x.g && x.g.k === "treadmill") || x.ex === "treadmill") return "Treadmill walk"; if(x.sprint) return "All-out sprint"; if(x.easy) return "Easy spin"; if(x.ex && EX[x.ex]) return x.p ? exName(x.p) + (x.drop ? " · drop set" : "") : EX[x.ex].name; return x.wu ? WU[x.wu].name : "Move"; }
 function aimText(s){
   if(s.k === "warm" || s.k === "cool"){ return s.half ? "Easy pace · switch sides halfway" : "Easy pace · just keep moving"; }
   if(s.sprint) return "All-out for " + s.secs + " seconds. Fight for it.";
@@ -3557,9 +3619,14 @@ function buildTimeline(d){
   var push = function(o){ S.push(o); };
   var qPlan = isQ(d.ver), tsec = qPlan ? 15 : (d.home ? 15 : 30), csec = qPlan ? 10 : 15;
   G.forEach(function(g, gi){
-    if(gi > 0 && g.k !== "cool" && G[gi-1].k !== "warm") push({k:"trans", g:g, gi:gi, secs:tsec, groupStart:1});
+    if(g.k === "treadmill"){ /* no timed transition — she starts the walk when she's ready */ }
+    else if(gi > 0 && g.k !== "cool" && G[gi-1].k !== "warm") push({k:"trans", g:g, gi:gi, secs:tsec, groupStart:1});
     else if(gi > 0 && G[gi-1].k === "warm") push({k:"trans", g:g, gi:gi, secs:tsec, groupStart:1});
     else if(g.k === "cool") push({k:"trans", g:g, gi:gi, secs:csec, groupStart:1});
+    if(g.k === "treadmill"){
+      push({k:"treadmill", g:g, gi:gi, ex:"treadmill", secs:0, treadmill:1, p:{ex:"treadmill", walkMins:15, walkText:"10–20 min"}});
+      return;
+    }
     if(g.k === "warm" || g.k === "cool"){
       var list = g.list.slice();
       if(g.walk) list.unshift({ex:"walk", s:g.walk.p.walkMins*60, walk:1});
@@ -3609,11 +3676,12 @@ function buildTimeline(d){
   });
   S.unshift({k:"ready", g:G[0], gi:0, secs:10});
   // every rest/transition points at the move that comes next (Ladder shows it during the break)
-  for(var i = S.length - 1, nx = null; i >= 0; i--){ S[i].nx = nx; if(S[i].k === "work" || S[i].k === "warm" || S[i].k === "cool") nx = i; }
+  for(var i = S.length - 1, nx = null; i >= 0; i--){ S[i].nx = nx; if(S[i].k === "work" || S[i].k === "warm" || S[i].k === "cool" || S[i].k === "treadmill") nx = i; }
   return S;
 }
-function tlSecs(S){ return S.reduce(function(a, s){ return a + s.secs; }, 0); }
-function planMinutes(d){ return Math.round(tlSecs(buildTimeline(d)) / 60); }
+function tlSecs(S){ return S.reduce(function(a, s){ return a + (s.secs || 0); }, 0); }
+function liftSeg(s){ return s && s.k !== "treadmill" && !(s.g && (s.g.k === "treadmill" || s.g.k === "cool")); }
+function planMinutes(d){ return Math.round(tlSecs(buildTimeline(d).filter(liftSeg)) / 60); }
 
 // ---- sound + voice (only when Sound cues is on) ----
 function beepsOn(){ return soundOn(); }
@@ -3665,7 +3733,7 @@ var ICO = {"prev": "<svg viewBox=\"0 0 24 24\" width=\"26\" height=\"26\"><path 
 function stopPlayer(){ if(PL && PL.iv){ clearInterval(PL.iv); PL.iv = null; } }
 function plNew(d){
   var S = buildTimeline(d);
-  return {key:d.key, d:d, S:S, i:0, started:false, paused:true, left:S[0].secs, segTotal:S[0].secs, endAt:0, lastT:0, active:0, moves:0, done:{}, exDone:{}, logged:{}, demoKey:null, lastWhole:null, halfDone:false, extra:0, holdForInput:false};
+  return {key:d.key, d:d, S:S, i:0, started:false, paused:true, left:S[0].secs, segTotal:S[0].secs, endAt:0, lastT:0, active:0, moves:0, done:{}, exDone:{}, logged:{}, demoKey:null, lastWhole:null, halfDone:false, extra:0, holdForInput:false, holdForWalk:false, walkTimer:0};
 }
 var PL_STORE = "mw_play";
 var _plSaved = 0;
@@ -3675,7 +3743,7 @@ function plPersist(force){
   var now = Date.now();
   if(!force && now - _plSaved < 800) return;
   _plSaved = now;
-  save(PL_STORE, {v:1, key:PL.key, i:PL.i, started:true, paused:!!PL.paused, holdForInput:!!PL.holdForInput, startedAt:PL.startedAt, endAt:PL.endAt, left:PL.left, segTotal:PL.segTotal, extra:PL.extra||0, done:PL.done, exDone:PL.exDone, logged:PL.logged||{}, moves:PL.moves||0, active:PL.active||0, chal:PL.chal||null});
+  save(PL_STORE, {v:1, key:PL.key, i:PL.i, started:true, paused:!!PL.paused, holdForInput:!!PL.holdForInput, holdForWalk:!!PL.holdForWalk, walkTimer:PL.walkTimer||0, startedAt:PL.startedAt, endAt:PL.endAt, left:PL.left, segTotal:PL.segTotal, extra:PL.extra||0, done:PL.done, exDone:PL.exDone, logged:PL.logged||{}, moves:PL.moves||0, active:PL.active||0, chal:PL.chal||null});
 }
 function plRestore(d){
   var st = load(PL_STORE, null);
@@ -3697,6 +3765,8 @@ function plRestore(d){
   pl.moves = +st.moves || 0;
   pl.active = +st.active || 0;
   pl.chal = st.chal || null;
+  pl.holdForWalk = !!st.holdForWalk;
+  pl.walkTimer = +st.walkTimer || 0;
   return pl;
 }
 function plNeedsInput(s){
@@ -3709,9 +3779,18 @@ function plCatchUp(){
   if(!PL || !PL.started || PL.paused) return false;
   var now = Date.now(), moved = false, guard = 0;
   while(guard++ < PL.S.length + 3){
+    var s = PL.S[PL.i];
+    if(s && s.k === "treadmill"){
+      if(PL.walkTimer){
+        var leftW = (PL.endAt - now) / 1000;
+        if(leftW > 0){ PL.left = leftW; break; }
+        var mins = PL.walkTimer; PL.walkTimer = 0; PL.paused = true;
+        logWalkMins(mins); plFinish(false); return true;
+      }
+      PL.paused = true; PL.holdForWalk = true; PL.left = 0; break;
+    }
     var left = (PL.endAt - now) / 1000;
     if(left > 0){ PL.left = left; break; }
-    var s = PL.S[PL.i];
     if(plNeedsInput(s)){
       PL.left = 0; PL.paused = true; PL.holdForInput = true; moved = true; break;
     }
@@ -3753,7 +3832,10 @@ function bindToggles(){
 function planListHtml(d){
   return circuitPlan(d).map(function(g){
     var body, meta;
-    if(g.k === "warm" || g.k === "cool"){
+    if(g.k === "treadmill"){
+      meta = "10–20 min · your pace";
+      body = '<div class="pgn">Treadmill walk · incline, your pace. Counts toward today’s walk goal.</div>';
+    } else if(g.k === "warm" || g.k === "cool"){
       meta = g.k === "warm" ? Math.round(g.list.reduce(function(a, w){ return a + w.s; }, 0)/60*2)/2 + " min" : (g.walk ? g.walk.p.walkMins + " min" : coolMins(g) + " min");
       var rows = (g.list||[]).map(function(w, j){
         var nm = w.ex ? EX[w.ex].name : WU[w.wu].name;
@@ -3779,7 +3861,7 @@ function renderPlayReady(){
   var html = '<div class="topbar"><button class="iconbtn" id="pback" aria-label="Back">‹</button><div class="ftitle">Press play</div><div style="width:44px"></div></div>' +
     '<div class="hero play"><div class="k">'+esc(workoutTag(d))+'</div><h1>'+esc(d.title)+'</h1>' +
     '<div class="pills"><span class="pill">⏱ '+mins+' min</span><span class="pill">'+nEx+' exercises</span><span class="pill">Hands-free</span></div></div>' +
-    '<p class="sub" style="margin:0 2px 10px">One tap and it runs the whole thing: warm-up, every move, rests and the cool-down. Follow the video and the on-screen countdown. Your music keeps playing unless you turn Sound cues on.</p>' +
+    '<p class="sub" style="margin:0 2px 10px">One tap and it runs the whole thing: warm-up, every lift and rests. Follow the video and the on-screen countdown. Gym days end with an optional treadmill walk, not a stretch cool-down. Your music keeps playing unless you turn Sound cues on.</p>' +
     '<div class="section plan">'+planListHtml(d)+'</div>' +
     togglesHtml() +
     '<button class="bigplay" id="pgo" aria-label="Start follow-along workout"><span>▶</span></button><div class="bigplayl">Start</div>' +
@@ -3787,6 +3869,7 @@ function renderPlayReady(){
     '<button class="linkbtn" id="pmanual" style="display:block;margin:10px auto 0">Rather tap through sets at your own pace ›</button>';
   app.innerHTML = html;
   bindSwapButtons(app, d.key);
+  bindTreadmill(function(){ if(PL && !PL.started) renderPlayReady(); else if(!(PL && PL.started)) renderOverview(); });
   document.getElementById("pback").onclick = function(){ PL = null; go("#day=" + d.key); };
   document.getElementById("pmanual").onclick = function(){ PL = null; state.sets = {}; requestWake(); go("#day=" + d.key + "&step=0"); };
   bindToggles();
@@ -3805,6 +3888,10 @@ function plSetSeg(i, carry, quiet){
   if(carry && PL.endAt) PL.endAt = PL.endAt + s.secs * 1000;
   else PL.endAt = now + s.secs * 1000;
   PL.left = Math.max(0, (PL.endAt - now) / 1000);
+  if(s.k === "treadmill" && !PL.walkTimer){
+    PL.paused = true; PL.holdForWalk = true; PL.left = 0; PL.segTotal = 0; PL.endAt = 0;
+    stopPlayer();
+  }
   if(!quiet) plCue(s);
   plPersist();
 }
@@ -3818,14 +3905,15 @@ function plCue(s){
     if(s.g && s.g.k === "finisher" && s.round === s.rounds){ say("Finisher! Clock is running. Leave it all here. Go!"); return; }
     say(PL.S[PL.i-1] && (PL.S[PL.i-1].k === "trans" || PL.S[PL.i-1].k === "rest" || PL.S[PL.i-1].k === "ready") ? "Go!" : moveName(s) + ". Let's go!"); return;
   }
+  if(s.k === "treadmill"){ say("Nice work. Treadmill walk whenever you're ready — your pace, ten to twenty minutes."); return; }
   if(s.k === "warm" || s.k === "cool"){
     var first = s.round === 1 && (!PL.S[PL.i-1] || PL.S[PL.i-1].k !== s.k);
-    say((first && s.k === "warm" ? "Warm-up. " : "") + (first && s.k === "cool" ? "Cool-down. Nice work. " : "") + moveName(s) + ", " + secWords(s.secs) + (s.half ? ". Switch sides halfway." : "."));
+    say((first && s.k === "warm" ? "Warm-up. " : "") + moveName(s) + ", " + secWords(s.secs) + (s.half ? ". Switch sides halfway." : "."));
     return;
   }
   if(!nx) return;
   var nxt = "Next: " + moveName(nx) + ", " + secWords(nx.secs) + ".";
-  if(s.groupStart) say((s.g.k === "cool" ? "You did it! " : "Here we go. ") + s.g.title + ". " + nxt);
+  if(s.groupStart) say("Here we go. " + s.g.title + ". " + nxt);
   else if(s.dropTrans) say("Drop set next. Strip about 30 percent of the weight. " + secWords(nx.secs) + ".");
   else if(s.setRest){
     var n = s.round + 1, last = n === s.rounds;
@@ -3840,6 +3928,7 @@ function plCue(s){
 function plTick(){
   if(!PL || PL.paused) return;
   var now = Date.now(), s = PL.S[PL.i];
+  if(s && s.k === "treadmill" && !PL.walkTimer){ PL.paused = true; stopPlayer(); return; }
   PL.active += Math.min(2000, now - PL.lastT); PL.lastT = now;
   var left = (PL.endAt - now) / 1000, whole = Math.ceil(left);
   if(whole !== PL.lastWhole){
@@ -3847,7 +3936,13 @@ function plTick(){
     if(whole >= 1 && whole <= 3 && PL.segTotal >= 6){ beepTick(); pulseCue("tick", whole, "Get ready"); }
     if(s.half && !PL.halfDone && left <= PL.segTotal / 2 && left > 3){ PL.halfDone = true; tone(660, 0.18, 0.35); tone(990, 0.22, 0.35, 0.2); say("Switch sides."); }
   }
-  if(left <= 0){ plAdvance(true); return; }
+  if(left <= 0){
+    if(s && s.k === "treadmill" && PL.walkTimer){
+      var mins = PL.walkTimer; PL.walkTimer = 0; PL.paused = true; stopPlayer();
+      logWalkMins(mins); return plFinish(false);
+    }
+    plAdvance(true); return;
+  }
   PL.left = left; plUpdate(); plPersist();
 }
 function plMarkWork(natural){
@@ -3879,6 +3974,7 @@ function plPause(){
 }
 function plResume(){
   if(!PL || !PL.paused) return;
+  if(PL.S[PL.i] && PL.S[PL.i].k === "treadmill" && !PL.walkTimer) return;
   primeAudio(); requestWake();
   var m = document.getElementById("pmsg"); if(m) m.remove();
   if(PL.holdForInput && PL.left <= 0){
@@ -3888,10 +3984,10 @@ function plResume(){
   PL.holdForInput = false; PL.paused = false; PL.endAt = Date.now() + PL.left * 1000;
   plPersist(true); plRun(); plUpdate(true);
 }
-function plSegKind(s){ if(s.chal) return "Challenge"; if(s.sprint) return "All-out"; if(s.easy) return "Easy spin"; if(s.burn) return "AMRAP"; if(s.g && s.g.k === "finisher" && s.k === "work") return "Finisher"; return {ready:"Get ready", warm:"Warm-up", work:"Work", rest:"Rest", trans:"Next up", cool:"Cool-down", spin:"Spin"}[s.k]; }
+function plSegKind(s){ if(s.chal) return "Challenge"; if(s.sprint) return "All-out"; if(s.easy) return "Easy spin"; if(s.burn) return "AMRAP"; if(s.k === "treadmill" || (s.g && s.g.k === "treadmill")) return "Treadmill"; if(s.g && s.g.k === "finisher" && s.k === "work") return "Finisher"; return {ready:"Get ready", warm:"Warm-up", work:"Work", rest:"Rest", trans:"Next up", cool:"Cool-down", spin:"Spin"}[s.k]; }
 function plLiftCounts(){
   var groups = [];
-  PL.S.forEach(function(s){ if(s.k === "work" && s.g && s.g.k !== "spin" && s.g.k !== "warm" && s.g.k !== "cool" && groups.indexOf(s.g) < 0) groups.push(s.g); });
+  PL.S.forEach(function(s){ if(s.k === "work" && s.g && s.g.k !== "spin" && s.g.k !== "warm" && s.g.k !== "cool" && s.g.k !== "treadmill" && groups.indexOf(s.g) < 0) groups.push(s.g); });
   var s = PL.S[PL.i], g = (s.k === "rest" || s.k === "trans") && s.nx != null ? PL.S[s.nx].g : s.g;
   var idx = groups.indexOf(g);
   var src = (s.k === "rest" || s.k === "trans") && s.nx != null ? PL.S[s.nx] : s;
@@ -3912,6 +4008,36 @@ function plDemo(x){
 }
 function plSegRender(){
   var s = PL.S[PL.i], x = plDisplaySeg(), isBreak = x !== s;
+  if(s && s.k === "treadmill"){
+    PL.demoKey = "treadmill";
+    document.getElementById("pdemo").innerHTML = plTopHtml();
+    document.getElementById("pclose").onclick = plClose;
+    var html;
+    if(PL.walkTimer){
+      html = '<div class="pmeta"><span class="pkind">Treadmill</span><span class="pgrp">Your pace · '+PL.walkTimer+' min incline</span></div>' +
+        '<div class="pmain"><div class="ring" id="ring"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="ringFg" cx="60" cy="60" r="52"/></svg>' +
+        '<div class="rt"><div><b id="ringT">0:00</b><small id="ringL">left</small></div></div></div>' +
+        '<div class="pinfo"><h2 class="pname">Treadmill walk</h2><div class="paim">Incline, your pace. When the timer ends we’ll add it toward today’s walk goal.</div></div></div>' +
+        '<div class="pctl"><button class="pcb" id="pprev" aria-label="Back">'+ICO.prev+'</button><button class="pcb pp" id="ppause" aria-label="Pause">'+ICO.pause+'</button><button class="pcb" id="pskip" aria-label="Skip">'+ICO.next+'</button></div>' +
+        togglesHtml();
+    } else {
+      html = treadmillCardHtml({play:1}) + togglesHtml();
+    }
+    document.getElementById("pbody").innerHTML = html;
+    if(PL.walkTimer){
+      document.getElementById("ppause").onclick = function(){ if(PL.paused) plResume(); else plPause(); };
+      document.getElementById("pskip").onclick = function(){
+        var ran = Math.round(((PL.segTotal || 0) - (PL.left || 0)) / 60);
+        if(ran > 0) logWalkMins(ran);
+        PL.walkTimer = 0; plFinish(false);
+      };
+      document.getElementById("pprev").onclick = function(){ PL.walkTimer = 0; PL.holdForWalk = true; PL.paused = true; stopPlayer(); plSegRender(); };
+    } else {
+      bindTreadmill(function(){ plSegRender(); }, function(){ plFinish(false); });
+    }
+    bindToggles();
+    return;
+  }
   // keep the looping demo playing if the move didn't change (rest → same move, or next set)
   var dk = (x.ex || "") + "|" + (x.wu || "");
   var act = document.activeElement; if(act && act.id === "wIn") act.blur();
@@ -3944,7 +4070,7 @@ function plSegRender(){
     (effortCue(x) ? '<p class="note effort">'+esc(effortCue(x))+'</p>' : '') + (cue ? '<p class="note">'+esc(cue)+'</p>' : '');
   // Ladder-style "up next" (what comes after the move on screen)
   var after = null;
-  for(var j = (isBreak ? s.nx : PL.i) + 1; j < PL.S.length; j++){ var k = PL.S[j].k; if(k === "work" || k === "warm" || k === "cool"){ after = PL.S[j]; break; } }
+  for(var j = (isBreak ? s.nx : PL.i) + 1; j < PL.S.length; j++){ var k = PL.S[j].k; if(k === "work" || k === "warm" || k === "cool" || k === "treadmill"){ after = PL.S[j]; break; } }
   html += after ? '<div class="upnext">' + (after.ex && EX[after.ex] ? picHtml(after.ex, "thumb") : '<div class="thumb ph"><div class="e">'+((WU[after.wu]||{}).icon||"🔥")+'</div></div>') +
       '<div class="um"><div class="uk">'+(isBreak ? 'After that' : 'Up next')+'</div><div class="un">'+esc(moveName(after))+'</div><div class="ud">'+esc(after.g.title + (after.k === "work" ? " · set " + after.round + " of " + after.rounds : "") + " · " + secWords(after.secs))+'</div></div>' +
       (swapRefFromSeg(after) ? '<button class="swapmini" id="pswapNext" aria-label="Swap next exercise">⇄ Swap</button>' : '') +
@@ -4000,7 +4126,7 @@ function plUpdate(full){
   var pc = document.getElementById("plCnt");
   if(pc){
     var c = plLiftCounts();
-    pc.textContent = c.spin ? "Spin" : (c.move >= 1 ? ("Move "+c.move+"/"+c.moves+(c.sets ? " · Set "+c.set+"/"+c.sets : "")) : (s.k==="cool" ? "Cool-down" : s.k==="warm" || s.k==="ready" ? "Warm-up" : ""));
+    pc.textContent = c.spin ? "Spin" : (c.move >= 1 ? ("Move "+c.move+"/"+c.moves+(c.sets ? " · Set "+c.set+"/"+c.sets : "")) : (s.k==="treadmill" ? "Treadmill walk" : s.k==="warm" || s.k==="ready" ? "Warm-up" : ""));
   }
   var pp = document.getElementById("ppause"); if(pp && (full || pp.dataset.p !== String(PL.paused))){ pp.dataset.p = String(PL.paused); pp.innerHTML = PL.paused ? ICO.play : ICO.pause; pp.setAttribute("aria-label", PL.paused ? "Play" : "Pause"); pp.classList.toggle("paused", PL.paused); var r = document.getElementById("ring"); if(r) r.classList.toggle("paused", PL.paused); var rl = document.getElementById("ringL"); if(rl) rl.textContent = PL.paused ? "paused" : (plDisplaySeg() !== s ? "rest" : "left"); }
 }
@@ -4112,9 +4238,7 @@ function bindChal(rerender){
     var a = b.dataset.chal;
     if(a === "test") return openChalTest(rerender);
     if(a === "w10" || a === "w30"){
-      var add = a === "w10" ? 10 : 30, w = load("mw_walks", {}) || {}, t = ymd(); w[t] = (w[t] || 0) + add; save("mw_walks", w);
-      if(w[t] >= 30){ var gk = "mw_goals_" + t, g = load(gk, {}) || {}; g.walk = true; save(gk, g); }
-      rerender(); toast("🚶‍♀️ +" + add + " walk minutes"); return;
+      logWalkMins(a === "w10" ? 10 : 30); rerender(); return;
     }
     var t2 = todayIdx(), base = t2 >= 0 ? DAYS[t2].key : "mon";
     go("#day=" + weekDay(base).key + "&play=1");
