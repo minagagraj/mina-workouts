@@ -174,7 +174,9 @@ h2{font-size:22px;margin:0;letter-spacing:-.3px}
 .exhead{display:flex;align-items:center;gap:10px}
 .exhead .exname{flex:1;min-width:0}
 .swapbtn{flex:0 0 auto;padding:10px 14px;border-radius:14px;background:var(--card);box-shadow:var(--shadow);font-weight:800;font-size:15px;color:var(--accent);min-height:44px}
-.swapmini{flex:0 0 44px;height:44px;border-radius:14px;background:var(--bg);color:var(--accent);font-size:20px;font-weight:800;display:grid;place-items:center}
+.swapmini{flex:0 0 auto;min-width:44px;height:44px;padding:0 12px;border-radius:14px;background:var(--bg);color:var(--accent);font-size:14px;font-weight:800;display:grid;place-items:center;white-space:nowrap}
+.pswap{display:block;width:100%;margin:10px 0 0;padding:12px 14px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);font-weight:800;font-size:16px;color:var(--accent);min-height:48px}
+.upnext .swapmini{flex:0 0 auto;align-self:center}
 .swapped{font-size:12px;font-weight:700;color:#a8432b;background:var(--accent-soft);display:inline-block;border-radius:8px;padding:2px 8px;margin-top:3px}
 .swopt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border-radius:18px;padding:12px;box-shadow:var(--shadow);border:2px solid transparent;margin-bottom:10px}
 .swopt.cur{border-color:var(--good);cursor:default}
@@ -684,7 +686,12 @@ EX.cableCrunch = {name:"Cable crunch", video:V("Acu5qYSriRY"), cable:1, icon:"�
 EX.beltSquat = {name:"Belt squat", video:V("Z4Cd2HNfhA0"), mech:1, icon:"🏋️‍♀️", cue:"Step into the belt and cinch it around your hips. Hold the handles, sit your hips back and down, then stand tall and squeeze your glutes. Keep your chest up. If this machine is taken, swap to the leg press or the hack squat."};
 EX.adductor = {name:"Adductor machine", video:V("e9AqTFMmP18"), mech:1, icon:"🦵", cue:"Sit tall, pads against the insides of your knees. Squeeze your thighs together, pause, then return with control. Don't use momentum."};
 EX.hipExtMachine = {name:"Hip extension machine", video:V("lwqNo8ypMDo"), uni:"side", mech:1, icon:"🍑", cue:"Stand tall and hold the handles, with the pad behind your working thigh. Drive that leg back by squeezing your glute, then return with control. Don't arch your lower back. Switch sides halfway. If this machine is taken, swap to the glute kickback machine."};
-EX.crunchMachine = {name:"Ab crunch machine", video:V("NpjB_rp756Y"), mech:1, icon:"🧘‍♀️", cue:"Sit tall, pads across your upper chest. Crunch your ribs toward your hips, pause, then return with control. Don't pull with your neck."};
+EX.crunchMachine = {name:"Ab crunch machine", video:V("NpjB_rp756Y"), mech:1, abMachine:1, icon:"🧘‍♀️", cue:"Sit tall, pads across your upper chest. Crunch your ribs toward your hips, pause, then return with control. Don't pull with your neck."};
+EX.captainChair = {name:"Captain's chair knee raise", video:V("7KDDZtaUaxw"), mech:1, icon:"🪑", cue:"Forearms on the pads, back against the back pad, legs hanging. Raise your knees toward your chest and curl your hips up, then lower slowly. Don't swing."};
+EX.hangingKnee = {name:"Hanging knee raise", video:V("iC_fu-XjNPo"), icon:"🧗‍♀️", cue:"Hang from a pull-up bar with a firm grip. Raise your knees toward your chest and curl your hips up, then lower slowly. Don't swing."};
+EX.declineCrunch = {name:"Decline bench crunch", video:V("xfNAzPwNRqw"), icon:"🧘‍♀️", cue:"Feet hooked under the pads of a decline bench, hands lightly behind your head. Curl your ribs toward your hips, then lower slowly. Don't pull on your neck."};
+EX.sideBend45 = {name:"Weighted 45° side bend", video:V("IyCX-a9Lm_U"), uni:"side", mech:1, icon:"📐", cue:"On the 45° back-extension station, turn sideways, hip on the pad, a plate or dumbbell against your top shoulder. Lower toward the floor, then lift by shortening your side. Switch sides halfway."};
+EX.plateRussianTwist = {name:"Plate Russian twist", video:V("fCHFQTBqm-U"), uni:"side", icon:"⚙️", cue:"Sit tall, lean back slightly, and hold a weight plate at your chest. Rotate your ribs side to side. Keep your chest up and your hips still. Feet can stay on the floor."};
 EX.highRow = {name:"High row machine", video:V("F23KFQtZcbI"), mech:1, icon:"💪", cue:"Sit facing the machine and grab the high handles. Pull your elbows down and back, squeeze your upper back, then return slowly."};
 EX.smithUprightRow = {name:"Smith machine upright row", video:V("XPp7NApCbZY"), smith:1, icon:"💪", cue:"Bar against your thighs, hands close together. Pull the bar up toward your chin, elbows high and wide, then lower with control. Don't shrug your shoulders into your ears."};
 EX.bicycle = {name:"Bicycle crunch", video:V("wnuLak2onoA"), uni:"side", bw:1, icon:"🚴‍♀️", cue:"Hands lightly behind your head, low back down. Twist your opposite elbow toward the opposite knee as you extend the other leg. Slow and controlled, don't pull on your neck."};
@@ -726,7 +733,6 @@ var SWAPS = {
   beltSquat:["legPress","hackSquat","goblet"],
   adductor:["abduction","kickMachine"],
   hipExtMachine:["kickMachine","backExt","slGluteBridge"],
-  crunchMachine:["deadbug","plank","bearHold"],
   highRow:["machineRow","pulldown","chestRow"],
   smithUprightRow:["machineLateral","machineShoulder","lateral"],
   legExt:["legPress","goblet","splitSquat"],
@@ -758,8 +764,8 @@ var SWAPS = {
   sarow:["machineRow","chestRow","highRow"],
   lateral:["machineLateral","smithUprightRow","machineShoulder"],
   pullup:["pulldown","highRow"],
-  plank:["hollowHold","bicycle","crunch","bearHold","sidePlank"],
-  deadbug:["toeTap","bicycle","hollowHold","crunch","birdDog"],
+  plank:["captainChair","declineCrunch","hollowHold","bicycle","crunch","bearHold","sidePlank"],
+  deadbug:["captainChair","declineCrunch","toeTap","bicycle","hollowHold","crunch","birdDog"],
   pushup:["inclinePushup","machineChest","dbBench"]
 };
 Object.assign(SWAPS, {
@@ -795,13 +801,46 @@ Object.assign(SWAPS, {
   cableFrontRaise:["machineLateral","smithUprightRow","lateral"],
   cableUprightRow:["smithUprightRow","machineLateral","machineShoulder"],
   sidePlank:["pallof","russianTwist","hollowHold","plank","bearHold"],
-  birdDog:["deadbug","toeTap","bicycle","hollowHold","crunch"],
+  birdDog:["captainChair","declineCrunch","deadbug","toeTap","bicycle","hollowHold","crunch"],
   bearHold:["hollowHold","plank","deadbug","bicycle","sidePlank"],
-  toeTap:["deadbug","bicycle","hollowHold","crunch","birdDog"]
+  toeTap:["deadbug","bicycle","hollowHold","crunch","birdDog"],
+  captainChair:["hangingKnee","declineCrunch","sideBend45","plateRussianTwist","plank","birdDog"],
+  hangingKnee:["captainChair","declineCrunch","sideBend45","plateRussianTwist","plank","birdDog"],
+  declineCrunch:["captainChair","hangingKnee","plateRussianTwist","sideBend45","crunch","plank"],
+  sideBend45:["plateRussianTwist","captainChair","declineCrunch","hangingKnee","sidePlank"],
+  plateRussianTwist:["sideBend45","declineCrunch","captainChair","hangingKnee","crunch"]
 });
 function isCableLike(ex){ var e = EX[ex] || {}; var n = (ex + " " + (e.name || "")).toLowerCase(); return !!e.cable || /cable|rope/.test(n); }
-Object.keys(SWAPS).forEach(function(k){ SWAPS[k] = (SWAPS[k] || []).filter(function(x){ return EX[x] && !isCableLike(x); }); });
-var GYM_ONLY = {kickMachine:1,legPress:1,legExt:1,legCurl:1,lyingLegCurl:1,abduction:1,machineRow:1,preacherCurl:1,dipMachine:1,tricepMachine:1,hackSquat:1,trapBar:1,machineChest:1,machineShoulder:1,pulldown:1,pullup:1,smithHipThrust:1,backExt:1,reversePecDeck:1,machineLateral:1,trapCarry:1,ropePushdown:1,row:1,kickback:1,facepull:1,pullThrough:1,saCableRow:1,saPulldown:1,cableCurl:1,cableAbduction:1,cableLateral:1,deadlift:1,bench:1,kbDeadlift:1,bandwalk:1,bandPullApart:1,clamshell:1,ballCurl:1,goodMorning:1,hipThrust:1,rdl:1,ohp:1,deficitSumo:1,cableFrontRaise:1,cableUprightRow:1,cableOhExt:1,machineSumo:1,standingHipThrust:1,deadliftMachine:1,splitSquatMachine:1,smithRdl:1,smithDeadlift:1,smithSplitSquat:1,hipThrustMachine:1,inclineMachine:1,cableCrunch:1,beltSquat:1,adductor:1,hipExtMachine:1,crunchMachine:1,highRow:1,smithUprightRow:1};
+function isAbMachine(ex){
+  var e = EX[ex] || {};
+  if(e.abMachine) return true;
+  var n = (ex + " " + (e.name || "")).toLowerCase();
+  if(/abduct|adduct/.test(n)) return false;
+  return /crunch machine|abdominal machine|(selectorized|plate-?loaded) ab|ab crunch|ab machine/.test(n) || (/\bab(dominal)?s?\b/.test(n) && /machine/.test(n));
+}
+function gymForbidden(ex){
+  var e = EX[ex] || {};
+  var n = (ex + " " + (e.name || "")).toLowerCase();
+  if(!e || e.carry || isCableLike(ex) || isAbMachine(ex) || e.band || e.ball) return true;
+  if(/medicine[ -]?ball|med[ -]?ball/.test(n)) return true;
+  if(e.band || /(^|\s)banded?\b/.test(n)) return true;
+  return false;
+}
+var GYM_CORE_FALLBACK = ["captainChair","declineCrunch","sideBend45","plateRussianTwist","hangingKnee"];
+// Engine rule kept across monthly plan refreshes: never put an ab/crunch machine in a gym session or gym swap list.
+function replaceBannedGymMoves(d){
+  if(!d || d.home) return;
+  d.blocks.forEach(function(b){
+    b.items.forEach(function(p){
+      if(!p || !p.ex || !(isAbMachine(p.ex) || isCableLike(p.ex))) return;
+      var used = {};
+      d.blocks.forEach(function(b2){ b2.items.forEach(function(it){ if(it !== p){ used[it.ex] = 1; used[moveBase(it.ex)] = 1; } }); });
+      p.ex = GYM_CORE_FALLBACK.filter(function(x){ return EX[x] && !used[x] && !used[moveBase(x)]; })[0] || "plank";
+    });
+  });
+}
+Object.keys(SWAPS).forEach(function(k){ SWAPS[k] = (SWAPS[k] || []).filter(function(x){ return EX[x] && !isCableLike(x) && !isAbMachine(x); }); });
+var GYM_ONLY = {kickMachine:1,legPress:1,legExt:1,legCurl:1,lyingLegCurl:1,abduction:1,machineRow:1,preacherCurl:1,dipMachine:1,tricepMachine:1,hackSquat:1,trapBar:1,machineChest:1,machineShoulder:1,pulldown:1,pullup:1,smithHipThrust:1,backExt:1,reversePecDeck:1,machineLateral:1,trapCarry:1,ropePushdown:1,row:1,kickback:1,facepull:1,pullThrough:1,saCableRow:1,saPulldown:1,cableCurl:1,cableAbduction:1,cableLateral:1,deadlift:1,bench:1,kbDeadlift:1,bandwalk:1,bandPullApart:1,clamshell:1,ballCurl:1,goodMorning:1,hipThrust:1,rdl:1,ohp:1,deficitSumo:1,cableFrontRaise:1,cableUprightRow:1,cableOhExt:1,machineSumo:1,standingHipThrust:1,deadliftMachine:1,splitSquatMachine:1,smithRdl:1,smithDeadlift:1,smithSplitSquat:1,hipThrustMachine:1,inclineMachine:1,cableCrunch:1,beltSquat:1,adductor:1,hipExtMachine:1,crunchMachine:1,captainChair:1,hangingKnee:1,sideBend45:1,declineCrunch:1,plateRussianTwist:1,highRow:1,smithUprightRow:1};
 function homeOk(ex){ var e = EX[ex]; return !!e && !e.cable && !GYM_ONLY[ex]; }
 
 var HOME_SWAPS = {
@@ -856,6 +895,11 @@ var HOME_SWAPS = {
   bandUprightRow:["bandLateral","bandFrontRaise"],
   bandFrontRaise:["bandLateral","dbFrontOh","bandUprightRow"]
 };
+function weekLetter(ver){
+  ver = ver || "A";
+  if(String(ver).charAt(0) === "Q") return ver.length === 1 ? "A" : ver.slice(-1);
+  return ver;
+}
 function homeWeekExercises(day){
   if(!day || !day.home) return [];
   var used = [], ver = day.ver || "A";
@@ -865,18 +909,61 @@ function homeWeekExercises(day){
   });
   return used;
 }
+function gymWeekExercises(day){
+  if(!day || day.home) return [];
+  var used = [], ver = weekLetter(day.ver);
+  var sw = load("mw_swaps", {}) || {};
+  ["mon","tue","wed","thu","fri"].forEach(function(k){
+    var g = weekDay(k, ver); if(!g) return;
+    (g.blocks || []).forEach(function(b, bi){
+      (b.items || []).forEach(function(it, ii){
+        var alt = sw[swapKey(g.key, bi, ii)];
+        used.push((alt && EX[alt] && !gymForbidden(alt)) ? alt : it.ex);
+      });
+    });
+  });
+  return used;
+}
 function swapList(ex, home, day){
   var raw = home ? (HOME_SWAPS[ex] || []).concat((SWAPS[ex] || []).filter(function(x){ return homeOk(x) && (HOME_SWAPS[ex] || []).indexOf(x) < 0; })) : (SWAPS[ex] || []);
-  raw = raw.filter(function(x){ return EX[x] && !EX[x].carry && !isCableLike(x) && (!home || homeOk(x)); });
+  raw = raw.filter(function(x){ return EX[x] && !EX[x].carry && !isCableLike(x) && !isAbMachine(x) && (home ? homeOk(x) : !gymForbidden(x)); });
   var seen = {};
-  raw = raw.filter(function(x){ if(x === ex || seen[x]) return false; seen[x] = 1; return true; });
-  if(home && day && day.home){
+  raw = raw.filter(function(x){ if(x === ex || seen[x] || seen[moveBase(x)]) return false; seen[x] = 1; seen[moveBase(x)] = 1; return true; });
+  if(day){
     var used = {};
-    homeWeekExercises(day).forEach(function(x){ if(x !== ex){ used[x] = 1; used[moveBase(x)] = 1; } });
+    (home && day.home ? homeWeekExercises(day) : (!home ? gymWeekExercises(day) : [])).forEach(function(x){ if(x !== ex && moveBase(x) !== moveBase(ex)){ used[x] = 1; used[moveBase(x)] = 1; } });
     var filtered = raw.filter(function(x){ return !used[x] && !used[moveBase(x)]; });
     if(filtered.length) raw = filtered;
   }
   return raw;
+}
+var WARM_SWAPS = {
+  bridge:["slGluteBridge","donkeyKick"],
+  slGluteBridge:["bridge","donkeyKick"],
+  donkeyKick:["bridge","slGluteBridge"],
+  inclinePushup:["pushup","declinePushup"],
+  pushup:["inclinePushup","declinePushup"],
+  declinePushup:["inclinePushup","pushup"],
+  hinge:["wu:march","wu:squat","wu:cat"],
+  squat:["wu:march","wu:hinge","wu:cat"],
+  arms:["wu:scap","wu:chest","wu:march"],
+  scap:["wu:arms","wu:chest","wu:march"],
+  march:["wu:squat","wu:hinge","wu:arms"],
+  cat:["wu:hinge","wu:march","wu:squat"],
+  chest:["wu:arms","wu:scap","wu:march"]
+};
+function warmOrig(item){ return item.ex ? item.ex : ("wu:" + item.wu); }
+function warmSwapList(item, home, day){
+  var key = item.wu || item.ex;
+  var raw = (WARM_SWAPS[key] || []).slice();
+  var out = [], seen = {};
+  raw.forEach(function(x){
+    if(x === warmOrig(item) || seen[x]) return;
+    if(x.indexOf("wu:") === 0){ if(!WU[x.slice(3)]) return; }
+    else if(!EX[x] || EX[x].carry || isCableLike(x) || isAbMachine(x) || (!home && gymForbidden(x)) || (home && !homeOk(x))) return;
+    seen[x] = 1; out.push(x);
+  });
+  return out;
 }
 // saved swaps are keyed by day + original exercise (+ which time it appears that day), so moving blocks never mixes them up
 function swapKey(dk, bi, ii){
@@ -885,9 +972,13 @@ function swapKey(dk, bi, ii){
   return dk + "|" + ex + "|" + occ;
 }
 // prescription with her swap applied (same sets/reps/rest; "each side" follows the new move)
+function swapStillValid(alt, home){
+  if(!alt || !EX[alt] || EX[alt].carry || isCableLike(alt) || isAbMachine(alt)) return false;
+  return home ? homeOk(alt) : !gymForbidden(alt);
+}
 function effP(dk, bi, ii, p){
   var day = dayByKey(dk), alt = (load("mw_swaps", {}) || {})[swapKey(dk, bi, ii)];
-  if(!alt || !EX[alt] || swapList(p.ex, day && day.home, day).indexOf(alt) < 0) return p;
+  if(!swapStillValid(alt, day && day.home)) return p;
   var q = {}; for(var k in p) q[k] = p[k];
   q.ex = alt; q.orig = p.ex; q.each = EX[alt].uni || undefined;
   return q;
@@ -1030,20 +1121,20 @@ var VARIANTS = {
    {label:"Block 3", rest:45, items:[P("smithUprightRow",4,{reps:12, note:"Bar against your thighs, hands close together. Pull toward your chin, elbows high and wide."})]},
    {label:"Block 4", rest:45, items:[P("tricepMachine",4,{reps:12, note:"Elbows on the pad lined up with the pivot. Straighten your arms, squeeze, return slowly."})]},
    {label:"Block 5", rest:45, items:[P("reversePecDeck",4,{reps:12, tag:"2-sec squeeze", note:"Face the pad, arms out front. Open your arms wide, squeeze your upper back 2 seconds, then return slowly."})]},
-   {label:"Finisher", rest:20, finisher:true, items:[P("crunchMachine",4,{reps:15, note:"Pads across your upper chest. Crunch your ribs toward your hips, then return with control."})]}
+   {label:"Finisher", rest:20, finisher:true, items:[P("declineCrunch",4,{reps:15, note:"Feet hooked under the pads of a decline bench. Curl your ribs toward your hips, then lower slowly. Don't pull on your neck."})]}
   ],
   C:[
    {label:"Block 1", rest:75, items:[P("machineShoulder",4,{reps:8, note:"Heavy: the last 2 reps should be a real fight."})]},
    {label:"Block 2", rest:60, items:[P("machineRow",4,{reps:10})]},
    {label:"Block 3", rest:45, items:[P("smithUprightRow",4,{reps:12, note:"Bar against your thighs, hands close together. Pull toward your chin, elbows high and wide."})]},
    {label:"Block 4", rest:45, items:[P("tricepMachine",4,{reps:12, note:"Elbows on the pad lined up with the pivot. Straighten your arms, squeeze, return slowly."})]},
-   {label:"Block 5", rest:45, items:[P("crunchMachine",4,{reps:15, note:"Pads across your upper chest. Crunch your ribs toward your hips, then return with control."})]},
+   {label:"Block 5", rest:45, items:[P("captainChair",4,{reps:15, note:"Forearms on the pads, back against the back pad. Raise your knees toward your chest and curl your hips up, then lower slowly. Don't swing. If the chair is taken, swap to hanging knee raises."})]},
    {label:"Finisher", rest:20, finisher:true, items:[P("birdDog",4,{reps:10, each:"side"})]}
   ],
   Q:[{label:"Round 1", rest:30, items:[P("inclineMachine",3,{reps:10}), P("highRow",3,{reps:10})]},
      {label:"Round 2", rest:20, items:[P("tricepMachine",3,{reps:12}), P("plank",3,{hold:40})]}],
   QB:[{label:"Round 1", rest:30, items:[P("machineRow",3,{reps:10}), P("inclineMachine",3,{reps:10})]},
-      {label:"Round 2", rest:20, items:[P("smithUprightRow",3,{reps:12}), P("crunchMachine",3,{reps:15})]}],
+      {label:"Round 2", rest:20, items:[P("smithUprightRow",3,{reps:12}), P("declineCrunch",3,{reps:15})]}],
   QC:[{label:"Round 1", rest:30, items:[P("machineShoulder",3,{reps:10}), P("machineRow",3,{reps:10})]},
       {label:"Round 2", rest:20, items:[P("tricepMachine",3,{reps:12}), P("birdDog",3,{reps:10, each:"side"})]}]
  },
@@ -1293,7 +1384,7 @@ function isoWeek(dt){ var d = new Date(Date.UTC(dt.getFullYear(), dt.getMonth(),
 function weekVer(dt){ return "ABC"[isoWeek(dt || new Date()) % 3]; }
 function dayByKey(k){ return ALLDAYS.find(function(x){ return x.key === k; }); }
 var CHAL_SKIP = {deadlift:1, trapBar:1, bench:1, rdl:1, kbDeadlift:1, goodMorning:1, walk:1, spinBike:1, deadliftMachine:1, smithDeadlift:1, smithRdl:1};
-var MOVE_BASE = {bandDbHipThrust:"dbHipThrust", dbOhp:"dbShoulderPress", slRdl:"dbRdl"};
+var MOVE_BASE = {bandDbHipThrust:"dbHipThrust", dbOhp:"dbShoulderPress", slRdl:"dbRdl", hangingKnee:"captainChair", plateRussianTwist:"russianTwist"};
 function moveBase(ex){ return MOVE_BASE[ex] || ex; }
 function pickChallenge(d){
   var marked = null, firstBi = null, firstAny = null;
@@ -1367,7 +1458,7 @@ var FEEL = {
   machineChest:"chest, not the front shoulders", inclineMachine:"upper chest, not the neck", machineShoulder:"shoulders, not the traps",
   smithUprightRow:"shoulders, elbows high, not the neck", machineLateral:"side shoulders, not the traps", tricepMachine:"triceps, elbows stay put",
   preacherCurl:"biceps, no swinging", dipMachine:"triceps and chest, no shoulder pinch", reversePecDeck:"upper back, not the neck",
-  crunchMachine:"abs, don't pull on your neck", birdDog:"core and glute, hips stay level", plank:"core, ribs down", sidePlank:"obliques, hips high",
+  crunchMachine:"abs, don't pull on your neck", captainChair:"lower abs, don't swing", hangingKnee:"lower abs, don't swing", declineCrunch:"abs, don't pull on your neck", sideBend45:"obliques, don't twist or yank", plateRussianTwist:"obliques, chest up", birdDog:"core and glute, hips stay level", plank:"core, ribs down", sidePlank:"obliques, hips high",
   dbRdl:"hamstrings and glutes, not low back", sumoSquat:"glutes and inner thighs, not low back", heelFrontSquat:"quads, chest up",
   dbBentRow:"mid-back, not the arms", dbShoulderPress:"shoulders, don't arch your low back", dbFrontOh:"shoulders, ribs down",
   bandDbHipThrust:"glutes, not low back", bandQuadKick:"glute, not low back", bandSideKick:"glute medius, don't lean",
@@ -1478,7 +1569,7 @@ function burnLabel(p){
   if(p.burnStyle === "partials") return "last set Burnout (partials to failure)";
   return "last set Burnout (drop ~25%)";
 }
-ALLDAYS.forEach(function(d){ applyGymSetRule(d); applySessionSpice(d); applyFeelIt(d); });
+ALLDAYS.forEach(function(d){ replaceBannedGymMoves(d); applyGymSetRule(d); applySessionSpice(d); applyFeelIt(d); });
 function weekDay(base, ver){
   ver = ver || weekVer();
   if(ver === "Q"){
@@ -1517,7 +1608,7 @@ function dayDate(base){ var k = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}; if(
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ var label = isQ(d.ver) ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver; var when = d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.gymBase || d.base); return label + (d.home ? " · Afternoon · Home" : "") + " · " + when; }
-var BUILD = "Nov 19, 2026 6:25 AM ET";
+var BUILD = "Nov 19, 2026 6:50 AM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -1550,7 +1641,7 @@ function picHtml(ex, cls){
 
 
 // ---- Ladder-style demo: looping, muted form video at the top of the exercise screen ----
-var DEMO_START = {"hipThrust":123,"bss":129,"rdl":57,"kickback":0,"lunge":33,"bridge":92,"deadlift":80,"bench":110,"row":48,"ohp":215,"facepull":171,"incline":232,"sarow":159,"lateral":215,"deadbug":85,"pushup":98,"smithHipThrust":65,"slGluteBridge":94,"reverseLunge":84,"splitSquat":54,"slRdl":90,"goodMorning":65,"pullThrough":40,"donkeyKick":90,"legPress":102,"legExt":24,"legCurl":28,"preacherCurl":56,"tricepMachine":49,"hammerCurl":27,"dbCurl":45,"cableCurl":85,"benchDip":16,"ropePushdown":41,"dbOverheadExt":15,"hackSquat":37,"sumoSquat":8,"trapBar":66,"kbDeadlift":59,"dbBench":58,"chestRow":57,"saCableRow":41,"dbShoulderPress":64,"reversePecDeck":64,"cableAbduction":40,"machineLateral":69,"sidePlank":83,"bearHold":49,"birdDog":37,"toeTap":86,"inclinePushup":95,"dbHipThrust":55,"dbRdl":28,"goblet":90,"declinePushup":8,"dbOhp":40,"spinBike":50,"dbFrontOh":6,"dbBentRow":6,"heelFrontSquat":18,"bandSideKick":1,"bandLateral":5,"bandUprightRow":3,"bandFrontRaise":45,"deficitSumo":7,"cableFrontRaise":2,"cableUprightRow":13,"cableOhExt":14,"machineRow":16,"cableLateral":3,"machineSumo":20,"bandQuadKick":12,"bandDbHipThrust":2,"standingHipThrust":42,"deadliftMachine":50,"splitSquatMachine":32,"smithRdl":22,"smithDeadlift":40,"smithSplitSquat":25,"hipThrustMachine":30,"inclineMachine":5,"cableCrunch":10,"beltSquat":32,"adductor":8,"hipExtMachine":8,"crunchMachine":28,"highRow":8,"smithUprightRow":5,"bicycle":4,"hollowHold":4,"russianTwist":18,"pallof":4,"crunch":12}; // seconds: skip intros so the demo opens on the move
+var DEMO_START = {"hipThrust":123,"bss":129,"rdl":57,"kickback":0,"lunge":33,"bridge":92,"deadlift":80,"bench":110,"row":48,"ohp":215,"facepull":171,"incline":232,"sarow":159,"lateral":215,"deadbug":85,"pushup":98,"smithHipThrust":65,"slGluteBridge":94,"reverseLunge":84,"splitSquat":54,"slRdl":90,"goodMorning":65,"pullThrough":40,"donkeyKick":90,"legPress":102,"legExt":24,"legCurl":28,"preacherCurl":56,"tricepMachine":49,"hammerCurl":27,"dbCurl":45,"cableCurl":85,"benchDip":16,"ropePushdown":41,"dbOverheadExt":15,"hackSquat":37,"sumoSquat":8,"trapBar":66,"kbDeadlift":59,"dbBench":58,"chestRow":57,"saCableRow":41,"dbShoulderPress":64,"reversePecDeck":64,"cableAbduction":40,"machineLateral":69,"sidePlank":83,"bearHold":49,"birdDog":37,"toeTap":86,"inclinePushup":95,"dbHipThrust":55,"dbRdl":28,"goblet":90,"declinePushup":8,"dbOhp":40,"spinBike":50,"dbFrontOh":6,"dbBentRow":6,"heelFrontSquat":18,"bandSideKick":1,"bandLateral":5,"bandUprightRow":3,"bandFrontRaise":45,"deficitSumo":7,"cableFrontRaise":2,"cableUprightRow":13,"cableOhExt":14,"machineRow":16,"cableLateral":3,"machineSumo":20,"bandQuadKick":12,"bandDbHipThrust":2,"standingHipThrust":42,"deadliftMachine":50,"splitSquatMachine":32,"smithRdl":22,"smithDeadlift":40,"smithSplitSquat":25,"hipThrustMachine":30,"inclineMachine":5,"cableCrunch":10,"beltSquat":32,"adductor":8,"hipExtMachine":8,"crunchMachine":28,"captainChair":14,"hangingKnee":0,"declineCrunch":0,"sideBend45":0,"plateRussianTwist":8,"highRow":8,"smithUprightRow":5,"bicycle":4,"hollowHold":4,"russianTwist":18,"pallof":4,"crunch":12}; // seconds: skip intros so the demo opens on the move
 function ytId(ex){ var m = /v=([\w-]{11})/.exec((EX[ex] && EX[ex].video) || ""); return m ? m[1] : null; }
 function demoHtml(ex, top){
   var e = EX[ex], id = ytId(ex), online = navigator.onLine !== false, fit = !!load("mw_demo_fit", 0);
@@ -1886,8 +1977,15 @@ function renderOverview(){
     (d.home ? '<div class="tip">🏡 Afternoon burn circuit: 40s on / 15s off, a Burnout on the last round, a short Finisher, then a 4-round spin. Last round: 0–1 reps in the tank.</div>' : '<div class="tip">💡 Finish every set of a machine, then move on. Last set: go until you have 0–1 reps left in the tank.</div>');
   var w = d.warmup;
   var wg = circuitPlan(d)[0];
-  html += '<div class="section"><div class="h"><b>Warm-up</b><span>'+Math.round(wg.list.reduce(function(a, x){ return a + x.s; }, 0)/30)/2+' min · timed</span></div><div class="row">' +
-    '<div class="thumb">🔥</div><div><div class="n">'+esc(wg.list.map(function(x){ return x.ex ? EX[x.ex].name : WU[x.wu].name; }).join(' · '))+'</div><div class="d">'+esc(w.text)+' (Tap-through mode)</div></div></div></div>';
+  html += '<div class="section"><div class="h"><b>Warm-up</b><span>'+Math.round(wg.list.reduce(function(a, x){ return a + x.s; }, 0)/30)/2+' min · timed</span></div>';
+  html += '<div class="d" style="padding:0 4px 8px">'+esc(w.text)+' (Tap-through mode)</div>';
+  (wg.list || []).forEach(function(x, j){
+    var nm = x.ex ? EX[x.ex].name : WU[x.wu].name;
+    var thumb = x.ex ? picHtml(x.ex, "thumb") : '<div class="thumb ph"><div class="e">'+(WU[x.wu].icon||"🔥")+'</div></div>';
+    html += '<div class="row peekrow">'+thumb+'<div style="flex:1;min-width:0"><div class="n">'+esc(nm)+'</div><div class="d">'+x.s+'s</div></div>' +
+      '<button class="swapmini" data-swap="warm:'+j+'" aria-label="Swap exercise">⇄ Swap</button></div>';
+  });
+  html += '</div>';
   circuitPlan(d).forEach(function(g){
     if(g.k === "warm" || g.k === "cool") return;
     var right = g.meta;
@@ -1912,7 +2010,7 @@ function renderOverview(){
       if(p.burnout) bits += ' · ' + burnLabel(p);
       if(p.isoHold) bits += ' · last set +' + p.isoHold + 's hold';
       html += '<div class="row peekrow" data-ovpeek="'+x.bi+':'+x.i+'" role="button">'+picHtml(p.ex, "thumb")+'<div style="flex:1;min-width:0"><div class="n">'+esc(exName(p))+badges+'</div><div class="d">'+esc(bits)+'</div><div class="feel">Feel it here · '+esc(feelLine(p.ex))+'</div>'+(p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '')+'</div>' +
-        (swapList(p0.ex, d.home, d).length ? '<button class="swapmini" data-swap="'+x.bi+':'+x.i+'" aria-label="Swap exercise">⇄</button>' : '<span class="tchev" aria-hidden="true">›</span>') + '</div>';
+        '<button class="swapmini" data-swap="'+x.bi+':'+x.i+'" aria-label="Swap exercise">⇄ Swap</button></div>';
     });
     html += '</div>';
   });
@@ -1926,7 +2024,7 @@ function renderOverview(){
   document.getElementById("play").onclick = function(){ PL = null; go("#day="+d.key+"&play=1"); };
   bindGoals(); bindFood();
   app.querySelectorAll("[data-ver]").forEach(function(b){ b.onclick = function(){ go("#day=" + b.dataset.ver); }; });
-  app.querySelectorAll("[data-swap]").forEach(function(b){ b.onclick = function(e){ e.stopPropagation(); var a = b.dataset.swap.split(":"); openSwap(d.key, +a[0], +a[1], renderOverview); }; });
+  bindSwapButtons(app, d.key);
   app.querySelectorAll("[data-ovpeek]").forEach(function(b){
     b.onclick = function(){
       var a = b.dataset.ovpeek.split(":"), moves = sessionMoves(d), mi = -1;
@@ -1955,7 +2053,7 @@ function renderStep(){
     var p = st.p, b = st.block, e = EX[p.ex], fin = !!b.finisher;
     var key = state.step; var done = state.sets[key] || 0;
     html += '<div class="datetag">'+esc(workoutTag(d))+'</div><div class="exlabel">'+esc(st.label)+(p.circuit?' <span class="tcirc">40s / 15s</span>':'')+(p.burnout?' <span class="tburn">Burnout</span>':'')+(p.pumpSecs?' <span class="tfin">Finisher</span>':'')+'</div>' +
-      '<div class="exhead"><h2 class="exname">'+esc(exName(p))+'</h2>' + (swapList(st.base.ex, d.home, d).length ? '<button class="swapbtn" id="swap">⇄ Swap</button>' : '') + '</div>' +
+      '<div class="exhead"><h2 class="exname">'+esc(exName(p))+'</h2><button class="swapbtn" id="swap">⇄ Swap</button></div>' +
       (p.orig ? '<div class="swapped" style="margin-top:4px">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '');
     var main = p.walkMins ? p.walkText : (p.hold ? p.hold + " sec" : p.reps) + (p.each && !p.walkMins ? "/" + p.each : "");
     html += '<div class="sr">' + (p.walkMins ? '' : '<div class="stat"><div class="v">'+p.sets+'</div><div class="l">Sets</div></div>') +
@@ -2580,29 +2678,125 @@ function startScan(){
 }
 
 // =================== SWAP EXERCISE ===================
-function openSwap(dk, bi, ii, rerender){
-  var day = dayByKey(dk); if(!day) return;
-  var p0 = day.blocks[bi].items[ii], cur = effP(dk, bi, ii, p0), orig = p0.ex;
-  var opts = swapList(orig, day.home, day);
-  var optHtml = function(k, isCur){
-    var e = EX[k];
-    return '<div class="swopt'+(isCur ? ' cur' : '')+'"'+(isCur ? '' : ' role="button" tabindex="0" data-pick="'+k+'"')+'>' + picHtml(k, "thumb") +
-      '<div class="sm"><div class="sn">'+esc(e.name)+(isCur ? '<span class="tag">NOW</span>' : '')+(k === orig && !isCur ? '<span class="tag" style="background:var(--accent)">ORIGINAL</span>' : '')+'</div><div class="sc">'+esc(e.cue)+'</div>' +
-      (e.video ? '<a class="sv" href="'+e.video+'" target="_blank" rel="noopener" data-vid="1">▶ Form video</a>' : '') + '</div></div>';
+function swapKeyRef(dk, ref){
+  if(ref && ref.warm != null) return dk + "|warm|" + ref.warm;
+  return swapKey(dk, ref.bi, ref.ii);
+}
+function warmItemAt(day, j){
+  var kind = dayKind(day), q = isQ(day.ver), home = !!day.home;
+  var list = (q ? WARMQ : home ? WARMH : WARM)[kind] || [];
+  return list[j] || null;
+}
+function warmName(tok){
+  if(!tok) return "move";
+  if(tok.indexOf("wu:") === 0) return (WU[tok.slice(3)] || {}).name || tok;
+  return (EX[tok] || {}).name || tok;
+}
+function swapRefFromSeg(s){
+  if(!s) return null;
+  if(s.k === "warm" || (s.g && s.g.k === "warm")) return {warm: (s.round || 1) - 1};
+  if(s.k === "cool" || (s.g && s.g.k === "cool") || (s.g && s.g.k === "spin")) return null;
+  if(s.it && s.it.bi != null) return {bi:s.it.bi, ii:s.it.i};
+  return null;
+}
+function segMark(s){
+  if(!s) return "";
+  return [s.gi, s.k, s.round||0, s.iso?1:0, s.drop?1:0, s.restPause?1:0, s.pulses?1:0, s.burnExtra?1:0, s.sprint?1:0, s.easy?1:0, s.groupStart?1:0, s.walk?1:0, s.chal?1:0, s.dropTrans?1:0].join(":");
+}
+function plRebuildKeepPlace(){
+  if(!PL) return;
+  var oldS = PL.S, oldI = PL.i, cur = oldS[oldI];
+  var mark = segMark(cur);
+  var left = PL.paused ? PL.left : Math.max(0, (PL.endAt - Date.now()) / 1000);
+  var d = dayByKey(PL.key); if(!d) return;
+  var newS = buildTimeline(d);
+  var done2 = {};
+  for(var i = 0; i < oldS.length; i++){
+    if(!PL.done[i]) continue;
+    var m = segMark(oldS[i]);
+    for(var j = 0; j < newS.length; j++){ if(segMark(newS[j]) === m){ done2[j] = 1; break; } }
+  }
+  var ni = -1;
+  for(var j = 0; j < newS.length; j++){ if(segMark(newS[j]) === mark){ ni = j; break; } }
+  if(ni < 0 && cur){
+    for(var j = 0; j < newS.length; j++){
+      var n = newS[j];
+      if(n.gi === cur.gi && n.k === cur.k && (n.round||0) === (cur.round||0) && !n.burnExtra && !n.iso && !n.groupStart){ ni = j; break; }
+    }
+  }
+  if(ni < 0) ni = Math.max(0, Math.min(newS.length - 1, oldI));
+  PL.S = newS; PL.i = ni; PL.done = done2;
+  PL.d = d;
+  PL.segTotal = newS[ni].secs || 1;
+  PL.left = Math.max(0, Math.min(left, PL.segTotal));
+  if(!PL.paused) PL.endAt = Date.now() + PL.left * 1000;
+  PL.demoKey = null;
+  plPersist(true);
+  if(document.getElementById("pbody")){ plSegRender(); plUpdate(true); }
+}
+function afterSwap(dk){
+  if(PL && PL.key === dk && PL.started){ plRebuildKeepPlace(); return; }
+  var hash = location.hash || "";
+  if(hash.indexOf("step=") >= 0){ renderStep(); return; }
+  if(hash.indexOf("play=1") >= 0){
+    if(PL && PL.key === dk && !PL.started){ PL = plNew(dayByKey(dk)); renderPlayReady(); return; }
+    renderPlayer(); return;
+  }
+  renderOverview();
+}
+function bindSwapButtons(root, dk){
+  (root || document).querySelectorAll("[data-swap]").forEach(function(b){
+    b.onclick = function(e){
+      e.stopPropagation();
+      var a = (b.dataset.swap || "").split(":");
+      if(a[0] === "warm") openSwap(dk, {warm:+a[1]});
+      else openSwap(dk, {bi:+a[0], ii:+a[1]});
+    };
+  });
+}
+function openSwap(dk, biOrRef, ii, rerender){
+  var ref, day = dayByKey(dk); if(!day) return;
+  if(biOrRef && typeof biOrRef === "object"){ ref = biOrRef; rerender = ii || rerender; }
+  else ref = {bi:biOrRef, ii:ii};
+  if(!rerender) rerender = function(){ afterSwap(dk); };
+  var optHtml = function(k, isCur, isWu){
+    var name = isWu || (k && k.indexOf("wu:") === 0) ? warmName(k) : (EX[k] || {}).name;
+    var cue = isWu || (k && k.indexOf("wu:") === 0) ? ((WU[(k||"").slice(3)] || {}).cue || "") : ((EX[k] || {}).cue || "");
+    var pic = (k && k.indexOf("wu:") === 0) ? '<div class="thumb ph"><div class="e">'+((WU[k.slice(3)]||{}).icon||"🔥")+'</div></div>' : picHtml(k, "thumb");
+    var vid = (EX[k] && EX[k].video) ? '<a class="sv" href="'+EX[k].video+'" target="_blank" rel="noopener" data-vid="1">▶ Form video</a>' : "";
+    return '<div class="swopt'+(isCur ? ' cur' : '')+'"'+(isCur ? '' : ' role="button" tabindex="0" data-pick="'+k+'"')+'>' + pic +
+      '<div class="sm"><div class="sn">'+esc(name||k)+(isCur ? '<span class="tag">NOW</span>' : '')+((k === orig && !isCur) ? '<span class="tag" style="background:var(--accent)">ORIGINAL</span>' : '')+'</div><div class="sc">'+esc(cue)+'</div>' + vid + '</div></div>';
   };
-  var html = mhead("Swap exercise") + '<p class="sub" style="margin:-4px 0 12px">Same sets, reps and rest. '+(day.home ? 'Pick another move you can do with your dumbbells and bench.' : 'Pick what your gym has free.')+'</p>';
-  if(cur.orig) html += '<button class="swback" data-pick="'+orig+'">↩ Back to original: '+esc(EX[orig].name)+'</button>';
-  html += optHtml(cur.ex, true);
+  var html, orig, curTok, opts, key;
+  if(ref.warm != null){
+    var w0 = warmItemAt(day, ref.warm); if(!w0) return;
+    orig = warmOrig(w0);
+    key = dk + "|warm|" + ref.warm;
+    var saved = (load("mw_swaps", {}) || {})[key];
+    curTok = saved || orig;
+    opts = warmSwapList(w0, day.home, day);
+    html = mhead("Swap exercise") + '<p class="sub" style="margin:-4px 0 12px">Same time in the warm-up. Pick another easy move to get ready.</p>';
+  } else {
+    var p0 = day.blocks[ref.bi] && day.blocks[ref.bi].items[ref.ii]; if(!p0) return;
+    var cur = effP(dk, ref.bi, ref.ii, p0);
+    orig = p0.ex; curTok = cur.ex;
+    opts = swapList(orig, day.home, day);
+    key = swapKey(dk, ref.bi, ref.ii);
+    html = mhead("Swap exercise") + '<p class="sub" style="margin:-4px 0 12px">Same sets, reps and rest. '+(day.home ? 'Pick another move you can do with your dumbbells and bench.' : 'Pick what your gym has free.')+'</p>';
+  }
+  if(curTok !== orig) html += '<button class="swback" data-pick="'+orig+'">↩ Back to original: '+esc(warmName(orig) || (EX[orig]||{}).name)+'</button>';
+  html += optHtml(curTok, true);
   html += '<div class="lbl">Swap for</div>';
-  [orig].concat(opts).forEach(function(k){ if(k !== cur.ex && (k !== orig || !cur.orig)) html += optHtml(k, false); });
-  if(cur.orig) html += optHtml(orig, false);
+  [orig].concat(opts).forEach(function(k){ if(k !== curTok && (k !== orig || curTok !== orig)) html += optHtml(k, false); });
+  if(!opts.length) html += '<p class="sub">No other move fits this slot right now.</p>';
   openModal(html);
   modal.querySelectorAll("[data-vid]").forEach(function(a){ a.addEventListener("click", function(e){ e.stopPropagation(); }); });
   modal.querySelectorAll("[data-pick]").forEach(function(el){ el.onclick = function(){
-    var k = el.dataset.pick, sw = load("mw_swaps", {}) || {}, key = swapKey(dk, bi, ii);
+    var k = el.dataset.pick, sw = load("mw_swaps", {}) || {};
     if(k === orig) delete sw[key]; else sw[key] = k;
     save("mw_swaps", sw); closeModal(); rerender();
-    toast(k === orig ? "Back to " + EX[k].name : "Swapped to " + EX[k].name);
+    var label = (k && k.indexOf("wu:") === 0) ? warmName(k) : ((EX[k]||{}).name || k);
+    toast(k === orig ? "Back to " + label : "Swapped to " + label);
   }; });
 }
 
@@ -3145,7 +3339,7 @@ function runAiEstimate(){
 
 // =================== LADDER-STYLE STRAIGHT SETS · PRESS PLAY · WEEKLY CHALLENGE ===================
 var APPNAME = "Strong";
-var APPVER = "6.22 One machine at a time";
+var APPVER = "6.23 No ab machine · Swap any move";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
@@ -3230,7 +3424,16 @@ function liftGroup(m, opts){
 // Engine rule kept across monthly plan refreshes: 3-move warm-up; gym is one machine at a time (all sets, then the next); home mids are a 40/15 burn circuit.
 function circuitPlan(d){
   var G = [], kind = dayKind(d), q = isQ(d.ver), home = !!d.home;
-  G.push({k:"warm", title:"Warm-up", list:(q ? WARMQ : home ? WARMH : WARM)[kind]});
+  var list0 = (q ? WARMQ : home ? WARMH : WARM)[kind] || [];
+  var wsw = load("mw_swaps", {}) || {};
+  var wlist = list0.map(function(w, j){
+    var alt = wsw[d.key + "|warm|" + j], o = {s:w.s, half:w.half};
+    if(alt && alt.indexOf("wu:") === 0 && WU[alt.slice(3)]) o.wu = alt.slice(3);
+    else if(alt && EX[alt] && (home || !gymForbidden(alt)) && (!home || homeOk(alt))) o.ex = alt;
+    else { if(w.ex) o.ex = w.ex; if(w.wu) o.wu = w.wu; }
+    return o;
+  });
+  G.push({k:"warm", title:"Warm-up", list:wlist});
   var items = [];
   d.blocks.forEach(function(b, bi){ b.items.forEach(function(p0, i){ items.push({p:effP(d.key, bi, i, p0), p0:p0, b:b, bi:bi, i:i}); }); });
   var walk = items.filter(function(x){ return x.p.walkMins; })[0];
@@ -3549,16 +3752,25 @@ function bindToggles(){
 }
 function planListHtml(d){
   return circuitPlan(d).map(function(g){
-    var names, meta;
+    var body, meta;
     if(g.k === "warm" || g.k === "cool"){
-      var l = g.list.map(function(w){ return w.ex ? EX[w.ex].name : WU[w.wu].name; });
-      if(g.walk) l.unshift("Easy walk " + g.walk.p.walkText);
-      names = l.join(" · "); meta = g.k === "warm" ? Math.round(g.list.reduce(function(a, w){ return a + w.s; }, 0)/60*2)/2 + " min" : (g.walk ? g.walk.p.walkMins + " min" : coolMins(g) + " min");
+      meta = g.k === "warm" ? Math.round(g.list.reduce(function(a, w){ return a + w.s; }, 0)/60*2)/2 + " min" : (g.walk ? g.walk.p.walkMins + " min" : coolMins(g) + " min");
+      var rows = (g.list||[]).map(function(w, j){
+        var nm = w.ex ? EX[w.ex].name : WU[w.wu].name;
+        var btn = g.k === "warm" ? '<button class="swapmini" data-swap="warm:'+j+'" aria-label="Swap exercise">⇄ Swap</button>' : '';
+        return '<div class="pgn" style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span>'+esc(nm)+'</span>'+btn+'</div>';
+      }).join("");
+      if(g.walk) rows = '<div class="pgn">Easy walk '+esc(g.walk.p.walkText)+'</div>' + rows;
+      body = rows;
+    } else if(g.k === "spin"){
+      meta = g.meta; body = '<div class="pgn">Spin bike</div>';
     } else {
-      names = g.items.map(function(x){ return exName(x.p); }).join(" → ");
       meta = g.meta;
+      body = (g.items||[]).map(function(x){
+        return '<div class="pgn" style="display:flex;align-items:center;justify-content:space-between;gap:8px"><span>'+esc(exName(x.p))+'</span><button class="swapmini" data-swap="'+x.bi+':'+x.i+'" aria-label="Swap exercise">⇄ Swap</button></div>';
+      }).join("");
     }
-    return '<div class="pgl"><div class="pgt"><b>'+esc(g.title)+'</b><span>'+esc(meta)+'</span></div><div class="pgn">'+esc(names)+'</div></div>';
+    return '<div class="pgl"><div class="pgt"><b>'+esc(g.title)+'</b><span>'+esc(meta||"")+'</span></div>'+body+'</div>';
   }).join("");
 }
 function renderPlayReady(){
@@ -3574,6 +3786,7 @@ function renderPlayReady(){
     '<p class="sub small" style="text-align:center;margin:8px 0 0">The screen stays awake while it runs.</p>' +
     '<button class="linkbtn" id="pmanual" style="display:block;margin:10px auto 0">Rather tap through sets at your own pace ›</button>';
   app.innerHTML = html;
+  bindSwapButtons(app, d.key);
   document.getElementById("pback").onclick = function(){ PL = null; go("#day=" + d.key); };
   document.getElementById("pmanual").onclick = function(){ PL = null; state.sets = {}; requestWake(); go("#day=" + d.key + "&step=0"); };
   bindToggles();
@@ -3713,7 +3926,12 @@ function plSegRender(){
     '<div class="pmain"><div class="ring k-'+kindCls+'" id="ring"><svg viewBox="0 0 120 120"><circle class="bg" cx="60" cy="60" r="52"/><circle class="fg" id="ringFg" cx="60" cy="60" r="52"/></svg>' +
     '<div class="rt"><div><b id="ringT">0:00</b><small id="ringL">'+(isBreak ? "rest" : "left")+'</small></div></div></div>' +
     '<div class="pinfo">'+(isBreak ? '<div class="pnx">Up next</div>' : '')+'<h2 class="pname">'+esc(moveName(x))+'</h2><div class="paim">'+esc(aim)+'</div>' +
-    (x.p && x.p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[x.p.orig].name)+'</div>' : '') + '</div></div>' +
+    (x.p && x.p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[x.p.orig].name)+'</div>' : '') +
+    (function(){
+      var ref = swapRefFromSeg(x);
+      return ref ? '<button class="pswap" id="pswap" aria-label="Swap exercise">⇄ Swap</button>' : '';
+    })() +
+    '</div></div>' +
     '<div class="pctl"><button class="pcb" id="pprev" aria-label="Back">'+ICO.prev+'</button><button class="pcb pp" id="ppause" aria-label="Pause">'+ICO.pause+'</button><button class="pcb" id="pskip" aria-label="Skip">'+ICO.next+'</button></div>' +
     ((s.k === "rest" || s.k === "trans") ? '<button class="padd" id="padd">+15 sec</button>' : '') +
     (function(){
@@ -3728,7 +3946,9 @@ function plSegRender(){
   var after = null;
   for(var j = (isBreak ? s.nx : PL.i) + 1; j < PL.S.length; j++){ var k = PL.S[j].k; if(k === "work" || k === "warm" || k === "cool"){ after = PL.S[j]; break; } }
   html += after ? '<div class="upnext">' + (after.ex && EX[after.ex] ? picHtml(after.ex, "thumb") : '<div class="thumb ph"><div class="e">'+((WU[after.wu]||{}).icon||"🔥")+'</div></div>') +
-      '<div class="um"><div class="uk">'+(isBreak ? 'After that' : 'Up next')+'</div><div class="un">'+esc(moveName(after))+'</div><div class="ud">'+esc(after.g.title + (after.k === "work" ? " · set " + after.round + " of " + after.rounds : "") + " · " + secWords(after.secs))+'</div></div></div>'
+      '<div class="um"><div class="uk">'+(isBreak ? 'After that' : 'Up next')+'</div><div class="un">'+esc(moveName(after))+'</div><div class="ud">'+esc(after.g.title + (after.k === "work" ? " · set " + after.round + " of " + after.rounds : "") + " · " + secWords(after.secs))+'</div></div>' +
+      (swapRefFromSeg(after) ? '<button class="swapmini" id="pswapNext" aria-label="Swap next exercise">⇄ Swap</button>' : '') +
+      '</div>'
     : '<div class="upnext"><div class="thumb ph"><div class="e">🏁</div></div><div class="um"><div class="uk">Up next</div><div class="un">Finish 🎉</div></div></div>';
   if(x.p && showWeight(x.p) && x.k === "work" && !x.drop) html += '<div style="height:10px"></div>' + weightHtml(x.p);
   html += togglesHtml() + '<div style="height:18px"></div>';
@@ -3737,6 +3957,10 @@ function plSegRender(){
   document.getElementById("ppause").onclick = function(){ if(PL.paused) plResume(); else plPause(); };
   document.getElementById("pskip").onclick = function(){ primeAudio(); var wasP = PL.paused; plAdvance(false); if(wasP){ PL.left = PL.S[PL.i].secs; plUpdate(true); } };
   document.getElementById("pprev").onclick = function(){ primeAudio(); plBack(); };
+  var psw = document.getElementById("pswap");
+  if(psw) psw.onclick = function(e){ e.stopPropagation(); var ref = swapRefFromSeg(x); if(ref) openSwap(PL.key, ref); };
+  var psn = document.getElementById("pswapNext");
+  if(psn) psn.onclick = function(e){ e.stopPropagation(); var ref = swapRefFromSeg(after); if(ref) openSwap(PL.key, ref); };
   var add = document.getElementById("padd"); if(add) add.onclick = function(){ PL.endAt += 15000; PL.segTotal += 15; PL.extra += 15; if(PL.paused) PL.left += 15; plPersist(true); plUpdate(true); };
   var cSave = document.getElementById("chalSave");
   if(cSave){
