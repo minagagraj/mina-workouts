@@ -542,6 +542,8 @@ body.noscroll{overflow:hidden}
 .badge-burn,.badge-fin,.tburn,.tfin{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:99px;vertical-align:middle;margin-left:6px}
 .badge-burn,.tburn{background:#e8664a;color:#fff;box-shadow:0 2px 8px rgba(232,102,74,.45)}
 .badge-fin,.tfin{background:#2b1d18;color:#fff;box-shadow:0 2px 8px rgba(43,29,24,.35)}
+.badge-super,.tsuper{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:99px;vertical-align:middle;margin-left:6px;background:#c2583f;color:#fff}
+.badge-circ,.tcirc{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:3px 8px;border-radius:99px;vertical-align:middle;margin-left:6px;background:#e8664a;color:#fff}
 .feel{font-size:13px;font-weight:700;color:#a8432b;margin:4px 0 0}
 .row .d .tagbit{color:#a8432b;font-weight:700}
 #flash{position:fixed;inset:0;pointer-events:none;z-index:400;opacity:0;background:#e8664a;transition:opacity .08s}
@@ -896,7 +898,7 @@ function P(ex, sets, o){ o = o || {}; o.ex = ex; o.sets = sets; return o; }
 
 var DAYS = [
  {key:"mon", short:"Mon", day:"Monday", title:"Lower Strength", mins:"40–45 min", focus:"Quads · Glutes",
-  warmup:{text:"5 min easy bike or walk, then 10 bodyweight squats.", mins:5},
+  warmup:{text:"3 moves, about 3 minutes: glute bridge, hip hinge, then bodyweight squats.", mins:3},
   blocks:[
    {label:"Block 1", rest:90, items:[P("machineSumo",5,{reps:8, scheme:[12,10,8,8], challenge:1, amrapSecs:45, challengeTarget:8, note:"Heavy. Wide stance, toes out, sit deep. Drive through your heels and squeeze your glutes at the top. Last set is your Challenge set: 45 seconds, beat 8 clean reps. If the machine is taken, swap to the deficit dumbbell sumo squat."})]},
    {label:"Block 2", rest:75, items:[P("splitSquatMachine",3,{reps:10, each:"leg", note:"Same deadlift and split-squat machine. One foot forward. Drop straight down, push through the front heel."})]},
@@ -906,7 +908,7 @@ var DAYS = [
    {label:"Finisher", rest:20, finisher:true, items:[P("abduction",4,{reps:20, note:"Nonstop reps, pause at the end range."})]}
   ]},
  {key:"tue", short:"Tue", day:"Tuesday", title:"Upper Push/Pull", mins:"40–45 min", focus:"Chest · Back · Arms",
-  warmup:{text:"Arm circles (forward & back), then 15 shoulder-blade squeezes."},
+  warmup:{text:"3 moves, about 3 minutes: shoulder blade squeezes, arm circles, then incline push-ups.", mins:3},
   blocks:[
    {label:"Block 1", rest:75, items:[P("machineChest",4,{reps:8, note:"Heavy: the last 2 reps should be a real fight."})]},
    {label:"Block 2", rest:60, items:[P("machineRow",4,{reps:10})]},
@@ -916,7 +918,7 @@ var DAYS = [
    {label:"Finisher", rest:20, finisher:true, items:[P("machineShoulder",4,{reps:10})]}
   ]},
  {key:"wed", short:"Wed", day:"Wednesday", title:"Glute Hypertrophy", mins:"40–45 min", focus:"Hamstrings · Glutes",
-  warmup:{text:"15 bodyweight glute bridges + 10 bodyweight squats.", ex:"bridge"},
+  warmup:{text:"3 moves, about 3 minutes: glute bridge, hip hinge, then bodyweight squats.", mins:3},
   blocks:[
    {label:"Block 1", rest:75, items:[P("standingHipThrust",4,{reps:10, challenge:1, amrapSecs:45, challengeTarget:10, note:"Feet flat, pad across your hips. Drive your hips forward to stand tall. Squeeze your glutes 1–2 sec at the top of every rep. Last set is your Challenge set: 45 seconds, beat 10 clean reps."})]},
    {label:"Block 2", rest:75, items:[P("smithRdl",4,{reps:8, tag:"3-sec lowering", note:"Bar against your thighs, soft knees, push your hips back. Lower in 3 seconds, then stand tall and squeeze your glutes."})]},
@@ -926,7 +928,7 @@ var DAYS = [
    {label:"Finisher", rest:20, finisher:true, items:[P("kickMachine",4,{reps:12, each:"side", note:"Chest on the pad, push back and up, squeeze at the top."})]}
   ]},
  {key:"thu", short:"Thu", day:"Thursday", title:"Upper + Core", mins:"40–45 min", focus:"Arms · Back · Core",
-  warmup:{text:"Light rowing (machine or band) for 3 min + 10 slow shoulder-blade squeezes."},
+  warmup:{text:"3 moves, about 3 minutes: shoulder blade squeezes, arm circles, then incline push-ups.", mins:3},
   blocks:[
    {label:"Block 1", rest:75, items:[P("inclineMachine",4,{reps:8, note:"Handles at your upper chest. 3-sec lowering. Last 2 reps should be a real fight."})]},
    {label:"Block 2", rest:60, items:[P("highRow",4,{reps:10, note:"High handles. Pull your elbows down and back, squeeze your upper back."})]},
@@ -936,7 +938,7 @@ var DAYS = [
    {label:"Finisher", rest:20, finisher:true, items:[P("plank",4,{hold:50})]}
   ]},
  {key:"fri", short:"Fri", day:"Friday", title:"Full Body", mins:"40–45 min", focus:"Total body",
-  warmup:{text:"5 min easy cardio + hip hinge practice (hands on hips, push hips back ×10).", mins:5},
+  warmup:{text:"3 moves, about 3 minutes: glute bridge, arm circles, then bodyweight squats.", mins:3},
   blocks:[
    {label:"Block 1", rest:90, items:[P("deadliftMachine",5,{reps:5, note:"Heavy 5s on the deadlift machine. Stand tall and push the floor away. Last set: as many clean reps as you can. If the machine is taken, swap to a Smith machine deadlift."})]},
    {label:"Block 2", rest:75, items:[P("beltSquat",4,{reps:10, note:"Belt around your hips, hold the handles. Sit your hips back and down, then stand tall and squeeze your glutes."})]},
@@ -1100,12 +1102,12 @@ DAYS.forEach(function(d){
     var bl = VARIANTS[d.key] && VARIANTS[d.key][v]; if(!bl) return;
     ALLDAYS.push({key:d.key + "_" + v.toLowerCase(), base:d.key, ver:v, short:d.short, day:d.day,
       title: sessionTitle(d.key, v) || (isQ(v) ? d.title + " · 15 min" : d.title), mins: isQ(v) ? "15 min" : d.mins, focus:d.focus,
-      warmup: isQ(v) ? {text:"2 min: 10 bodyweight squats + arm circles, then go.", mins:2} : d.warmup, blocks:bl});
+      warmup: isQ(v) ? {text:"2 minutes: three short activation moves, then go.", mins:2} : d.warmup, blocks:bl});
   });
 });
 // optional weekend bonus day: not part of the Mon–Fri plan or the "x of 5" count
 var BONUS = {key:"sat", base:"sat", ver:"A", bonus:true, short:"Sat", day:"Saturday (optional)", title: sessionTitle("sat","A") || "Saturday Glute Burn", mins:"40–45 min", focus:"Glutes",
-  warmup:{text:"5 min easy bike or incline walk, then 15 bodyweight glute bridges + 10 squats.", mins:5},
+  warmup:{text:"3 moves, about 3 minutes: glute bridge, hip hinge, then bodyweight squats.", mins:3},
   blocks:[
    {label:"Block 1", rest:90, items:[P("standingHipThrust",4,{reps:10, note:"Feet flat, pad across your hips. Drive your hips forward to stand tall. Squeeze 1–2 sec at the top."})]},
    {label:"Block 2", rest:75, items:[P("splitSquatMachine",4,{reps:10,each:"leg", note:"Same deadlift and split-squat machine. One foot forward. Drop straight down, push through the front heel."})]},
@@ -1120,7 +1122,7 @@ ALLDAYS.push(BONUS);
 var HOME = [
  {key:"mon_h", short:"Mon", day:"Monday", title:"Upper + Core", mins:"35–40 min", focus:"Back · Shoulders · Core", kind:"upper",
   spin:{rounds:4, on:20, off:40},
-  warmup:{text:"Optional: 3 min easy spin. Then arm circles and a few bodyweight squats."},
+  warmup:{text:"3 moves, about 3 minutes: shoulder blade squeezes, arm circles, then incline push-ups.", mins:3},
   blocks:[
    {label:"Block 1", rest:60, items:[P("dbBentRow",4,{reps:8, tag:"pause at the hip", wt:"30s each", challenge:1, note:"Both arms together, flat back. Try the 30s; use the 20s if your form slips. Pause 1 sec at the top."})]},
    {label:"Block 2", rest:30, items:[P("dbShoulderPress",3,{reps:10, wt:"10s each", note:"Sit tall with your back on the bench. Try the 10s; use the 5s if your form slips. Press up from shoulder height, don't arch your low back."})]},
@@ -1131,7 +1133,7 @@ var HOME = [
   ]},
  {key:"tue_h", short:"Tue", day:"Tuesday", title:"Glutes + Legs", mins:"35–40 min", focus:"Glutes · Legs", kind:"lower",
   spin:{rounds:4, on:20, off:40},
-  warmup:{text:"Optional: 3 min easy spin. Then 10 bodyweight squats and 10 glute bridges."},
+  warmup:{text:"3 moves, about 3 minutes: glute bridge, hip hinge, then bodyweight squats.", mins:3},
   blocks:[
    {label:"Block 1", rest:60, items:[P("bandDbHipThrust",4,{reps:12, tag:"2-sec squeeze at the top", wt:"40 lb", challenge:1, note:"Band just above your knees, the 40 on your hips (or the 35), upper back on the bench. Drive through your heels and squeeze your glutes for 2 seconds at the top. No barbell."})]},
    {label:"Block 2", rest:30, items:[P("goblet",3,{reps:10, wt:"30 or 35", note:"Hold one dumbbell at your chest. Sit down between your hips, then stand tall."})]},
@@ -1142,7 +1144,7 @@ var HOME = [
   ]},
  {key:"wed_h", short:"Wed", day:"Wednesday", title:"Upper + Core", mins:"35–40 min", focus:"Shoulders · Arms · Core", kind:"upper",
   spin:{rounds:4, on:20, off:40},
-  warmup:{text:"Optional: 3 min easy spin. Then arm circles and a few push-ups on the floor."},
+  warmup:{text:"3 moves, about 3 minutes: shoulder blade squeezes, arm circles, then incline push-ups.", mins:3},
   blocks:[
    {label:"Block 1", rest:60, items:[P("bandLateral",4,{reps:12, challenge:1, note:"Stand on the band, raise out to shoulder height. Last set is a 45-second challenge — as many clean reps as you can."})]},
    {label:"Block 2", rest:30, items:[P("bandFrontRaise",3,{reps:12, note:"Stand on the band and raise your arms forward to shoulder height."})]},
@@ -1153,7 +1155,7 @@ var HOME = [
   ]},
  {key:"thu_h", short:"Thu", day:"Thursday", title:"Glutes + Legs", mins:"35–40 min", focus:"Glutes · Legs", kind:"lower",
   spin:{rounds:4, on:20, off:40},
-  warmup:{text:"Optional: 3 min easy spin. Then 10 bodyweight squats and 10 glute bridges."},
+  warmup:{text:"3 moves, about 3 minutes: glute bridge, hip hinge, then bodyweight squats.", mins:3},
   blocks:[
    {label:"Block 1", rest:60, items:[P("heelFrontSquat",4,{reps:10, tag:"3-1-1 tempo", wt:"20s each", challenge:1, note:"Dumbbells on your shoulders. Heels on a folded mat, a book, or a small wedge. Try the 20s: 3 seconds down, 1-sec pause, stand up."})]},
    {label:"Block 2", rest:30, items:[P("sumoSquat",3,{reps:10, tag:"3-sec lowering", wt:"40 lb", note:"One dumbbell between your legs, standing on the floor. Try the 40 or the 35. 3 seconds down, then stand tall."})]},
@@ -1164,7 +1166,7 @@ var HOME = [
   ]},
  {key:"fri_h", short:"Fri", day:"Friday", title:"Shoulders + Core", mins:"35–40 min", focus:"Shoulders · Arms · Core", kind:"upper",
   spin:{rounds:4, on:20, off:40},
-  warmup:{text:"Optional: 3 min easy spin. Then arm circles."},
+  warmup:{text:"3 moves, about 3 minutes: shoulder blade squeezes, arm circles, then incline push-ups.", mins:3},
   blocks:[
    {label:"Block 1", rest:60, items:[P("dbFrontOh",4,{reps:10, tag:"3-sec lowering", wt:"5s each", challenge:1, note:"Raise the 5s in front of you and keep going until your arms are straight overhead. Lower in 3 seconds."})]},
    {label:"Block 2", rest:30, items:[P("splitSquat",3,{reps:10, each:"leg", wt:"15s or 20s", note:"One foot forward, drop straight down, push through the front heel."})]},
@@ -1416,42 +1418,65 @@ function applyFeelIt(d){
       if(!p.tag || !/squeeze|pause/.test(p.tag)) p.tag = p.tag ? (p.tag + " · 1–2s squeeze") : "1–2s squeeze";
     }
   });
-  // Burnout: last set of the opener + one more mid move (not the finisher)
+  var BURN_ROTATE = ["drop", "restPause", "pulses"];
   var opener = lifts[0].p;
   if(!opener.hold && !opener.walkMins){
     opener.burnout = 1;
+    opener.burnStyle = d.home ? "1.5-rep" : "drop";
     if(!d.home) opener.drop = 1;
-    else opener.burnStyle = "1.5-rep";
   }
-  var ch = lifts.filter(function(x){ return x.p.challenge; })[0];
-  var second = null;
-  for(var i = 1; i < lifts.length - 1; i++){
-    var p = lifts[i].p;
-    if(p.hold || (ch && p === ch.p)) continue;
-    if(GLUTE_BACK[p.ex] || MAIN_LIFTS[p.ex]){ second = p; break; }
-  }
-  if(!second){
-    for(var i = 1; i < lifts.length - 1; i++){
-      var p = lifts[i].p;
-      if(p.hold || (ch && p === ch.p)) continue;
-      second = p; break;
-    }
-  }
-  if(second){
-    second.burnout = 1;
-    if(!d.home) second.drop = 1;
-    else second.burnStyle = "partials";
-  }
-  // Last strength move becomes a 75s Finisher (spin, if any, still follows at home)
+  if(isGluteLeg(opener.ex) && !opener.hold) opener.isoHold = 12;
+  // Last strength move stays a 75s Finisher (spin, if any, still follows at home)
   var last = lifts[lifts.length - 1];
   if(last && last.p !== opener){
     last.p.sets = 1;
     last.p.pumpSecs = 75;
-    last.p.burnout = 0;
-    last.p.drop = 0;
     last.b.finisher = true;
     if(last.p.challenge) last.p.amrapSecs = last.p.pumpSecs;
   }
+  var midI = 0;
+  lifts.forEach(function(x, i){
+    var p = x.p, first = i === 0, isLast = i === lifts.length - 1;
+    if(first) return;
+    // Accessories: raise the top of the rep range to 12–15 (leave already-high pumps alone)
+    if(!p.hold && !p.pumpSecs && p.reps){
+      if(p.reps < 12) p.reps = 12;
+      else if(p.reps === 12) p.reps = 15;
+      if(p.challenge && p.challengeTarget && p.challengeTarget < p.reps) p.challengeTarget = p.reps;
+    }
+    // Burnout on the last set of every non-opener, rotating styles
+    p.burnout = 1;
+    if(isLast && p.pumpSecs){
+      p.burnStyle = "pulses";
+      p.drop = 0;
+    } else if(d.home){
+      p.burnStyle = (midI % 2 === 0) ? "pulses" : "restPause";
+      p.drop = 0;
+      if(p.ex === "dbRdl"){ p.circuit = 0; p.sets = 4; p.reps = 10; p.noCircuit = 1; if(!p.tag || !/3s down|3-sec/.test(p.tag)) p.tag = p.tag ? ("3s down · " + p.tag) : "3s down"; }
+      else p.circuit = 1;
+    } else {
+      p.burnStyle = BURN_ROTATE[midI % BURN_ROTATE.length];
+      p.drop = p.burnStyle === "drop" ? 1 : 0;
+      if(!isLast) p.superset = 1;
+    }
+    if(isGluteLeg(p.ex) && !p.hold) p.isoHold = 12;
+    midI++;
+  });
+}
+function isGluteLeg(ex){
+  if(GLUTE_LEG[ex]) return true;
+  var n = (ex + " " + ((EX[ex] || {}).name || "")).toLowerCase();
+  if(/row|pulldown|pull-up|pullup|press|chest|shoulder|tricep|bicep|curl|crunch|plank|deadbug|bird|dip/.test(n) && !/leg curl|leg press|leg ext|hack|belt|sumo|hip|glute|squat|lunge|deadlift|rdl|abduct|adduct|kick/.test(n)) return false;
+  return /squat|lunge|leg press|leg ext|leg curl|hack|belt|deadlift|rdl|glute|hip thrust|hip ext|abduct|adduct|kick|bridge|hinge/.test(n);
+}
+var GLUTE_LEG = {beltSquat:1,hackSquat:1,legPress:1,machineSumo:1,splitSquatMachine:1,smithSplitSquat:1,deadliftMachine:1,smithRdl:1,smithDeadlift:1,standingHipThrust:1,hipThrustMachine:1,hipExtMachine:1,kickMachine:1,abduction:1,adductor:1,legExt:1,legCurl:1,lyingLegCurl:1,backExt:1,dbRdl:1,sumoSquat:1,heelFrontSquat:1,goblet:1,splitSquat:1,reverseLunge:1,slGluteBridge:1,bridge:1,donkeyKick:1,bandQuadKick:1,bandSideKick:1,bandDbHipThrust:1,dbHipThrust:1,deficitSumo:1,lunge:1,bss:1};
+function burnLabel(p){
+  if(!p || !p.burnout) return "";
+  if(p.burnStyle === "restPause") return "last set Burnout (rest-pause +5 after 10s)";
+  if(p.burnStyle === "pulses") return "last set Burnout (10 pulse partials)";
+  if(p.burnStyle === "1.5-rep") return "last set Burnout (1.5-reps)";
+  if(p.burnStyle === "partials") return "last set Burnout (partials to failure)";
+  return "last set Burnout (drop ~25%)";
 }
 ALLDAYS.forEach(function(d){ applyGymSetRule(d); applySessionSpice(d); applyFeelIt(d); });
 function weekDay(base, ver){
@@ -1492,7 +1517,7 @@ function dayDate(base){ var k = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}; if(
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ var label = isQ(d.ver) ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver; var when = d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.gymBase || d.base); return label + (d.home ? " · Afternoon · Home" : "") + " · " + when; }
-var BUILD = "Nov 18, 2026 7:30 PM ET";
+var BUILD = "Nov 18, 2026 9:44 PM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -1561,7 +1586,7 @@ function buildSteps(d){
   var steps = [{type:"warmup", w:d.warmup}];
   d.blocks.forEach(function(b, bi){
     b.items.forEach(function(p0, i){
-      var label = b.finisher ? (b.items.length > 1 && i === b.items.length - 1 ? "Burnout" : "Finisher") : (bi === 0 && i === 0 && !isQ(d.ver) ? "Main lift" : "Straight sets");
+      var label = b.finisher ? (p0 && p0.pumpSecs ? "Finisher" : "Finisher") : (bi === 0 && i === 0 && !isQ(d.ver) ? "Main lift" : (p0 && p0.circuit ? "Burn circuit" : (p0 && p0.superset ? "Superset" : "Straight sets")));
       steps.push({type:"ex", p:effP(d.key, bi, i, p0), base:p0, block:b, bi:bi, idx:i, label:label});
     });
   });
@@ -1858,7 +1883,7 @@ function renderOverview(){
     '<div class="hero"><div class="k">'+workoutTag(d)+(doneThisWeek(d.base)?' · ✓ Done this week':'')+'</div><h1>'+d.title+'</h1>' +
     '<div class="pills"><span class="pill">⏱ ~'+planMinutes(d)+' min</span><span class="pill">'+nEx+' exercises</span><span class="pill">'+d.focus+'</span></div></div>' +
     (d.bonus ? '<div class="tip" style="background:#f4efff;color:#5b44a8">⭐ Optional bonus day. It doesn’t change your Mon–Fri plan or weekly count.</div>' : verSwitchHtml(d)) +
-    (d.home ? '<div class="tip">🏡 Afternoon home session — complementary to this morning’s gym workout. Tempo, a squeeze, a Burnout set, and a short Finisher, then a 4-round spin.</div>' : '<div class="tip">💡 Pick a weight where the last 2 reps are a real fight.</div>');
+    (d.home ? '<div class="tip">🏡 Afternoon burn circuit: 40s on / 15s off, a Burnout on the last round, a short Finisher, then a 4-round spin. Last round: 0–1 reps in the tank.</div>' : '<div class="tip">💡 Accessories are supersets. Last set: go until you have 0–1 reps left in the tank.</div>');
   var w = d.warmup;
   var wg = circuitPlan(d)[0];
   html += '<div class="section"><div class="h"><b>Warm-up</b><span>'+Math.round(wg.list.reduce(function(a, x){ return a + x.s; }, 0)/30)/2+' min · timed</span></div><div class="row">' +
@@ -1866,7 +1891,8 @@ function renderOverview(){
   circuitPlan(d).forEach(function(g){
     if(g.k === "warm" || g.k === "cool") return;
     var right = g.meta;
-    html += '<div class="section"><div class="h"><b>'+esc(g.title)+'</b><span>'+right+'</span></div>';
+    var headBadge = g.k==='superset' ? ' <span class="badge-super">Superset</span>' : g.k==='circuit' ? ' <span class="badge-circ">40s / 15s</span>' : '';
+    html += '<div class="section"><div class="h"><b>'+esc(g.title)+headBadge+'</b><span>'+right+'</span></div>';
     g.items.forEach(function(x, j){
       var p = x.p, p0 = x.p0 || p;
       if(!p || !p.ex) return;
@@ -1883,7 +1909,8 @@ function renderOverview(){
       if(p.wt) bits += ' · try ' + p.wt;
       if(lw) bits += ' · last ' + lw.w + ' lbs';
       if(g.challenge) bits += ' · 🎯 Challenge set';
-      if(g.burnout && !g.pumpSecs) bits += d.home ? (p.burnStyle === '1.5-rep' ? ' · last set 1.5-reps' : ' · last set partials to failure') : ' · last set drop ~25%';
+      if(p.burnout) bits += ' · ' + burnLabel(p);
+      if(p.isoHold) bits += ' · last set +' + p.isoHold + 's hold';
       html += '<div class="row peekrow" data-ovpeek="'+x.bi+':'+x.i+'" role="button">'+picHtml(p.ex, "thumb")+'<div style="flex:1;min-width:0"><div class="n">'+esc(exName(p))+badges+'</div><div class="d">'+esc(bits)+'</div><div class="feel">Feel it here · '+esc(feelLine(p.ex))+'</div>'+(p.orig ? '<div class="swapped">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '')+'</div>' +
         (swapList(p0.ex, d.home, d).length ? '<button class="swapmini" data-swap="'+x.bi+':'+x.i+'" aria-label="Swap exercise">⇄</button>' : '<span class="tchev" aria-hidden="true">›</span>') + '</div>';
     });
@@ -1927,7 +1954,7 @@ function renderStep(){
   } else {
     var p = st.p, b = st.block, e = EX[p.ex], fin = !!b.finisher;
     var key = state.step; var done = state.sets[key] || 0;
-    html += '<div class="datetag">'+esc(workoutTag(d))+'</div><div class="exlabel">'+esc(st.label)+(p.burnout?' <span class="tburn">Burnout</span>':'')+(p.pumpSecs?' <span class="tfin">Finisher</span>':'')+'</div>' +
+    html += '<div class="datetag">'+esc(workoutTag(d))+'</div><div class="exlabel">'+esc(st.label)+(p.superset?' <span class="tsuper">Superset</span>':'')+(p.circuit?' <span class="tcirc">40s / 15s</span>':'')+(p.burnout?' <span class="tburn">Burnout</span>':'')+(p.pumpSecs?' <span class="tfin">Finisher</span>':'')+'</div>' +
       '<div class="exhead"><h2 class="exname">'+esc(exName(p))+'</h2>' + (swapList(st.base.ex, d.home, d).length ? '<button class="swapbtn" id="swap">⇄ Swap</button>' : '') + '</div>' +
       (p.orig ? '<div class="swapped" style="margin-top:4px">⇄ Swapped from '+esc(EX[p.orig].name)+'</div>' : '');
     var main = p.walkMins ? p.walkText : (p.hold ? p.hold + " sec" : p.reps) + (p.each && !p.walkMins ? "/" + p.each : "");
@@ -1939,7 +1966,7 @@ function renderStep(){
     else if(fin && !p.walkMins) html += '<p class="note">🔥 Finisher: do all sets of this move, then go on to the next.</p>';
     if(p.burnout) html += '<p class="note">🔥 Burnout on the last set: '+(d.home ? '1.5-reps or partials until you can’t keep clean form.' : 'drop the weight about 25% and go to near-failure.')+'</p>';
     html += '<p class="feel">Feel it here · '+esc(feelLine(p.ex))+'</p>';
-    html += '<p class="note">'+esc(e.cue)+'</p><div class="tip" style="margin:0 0 14px">💡 Pick a weight where the last 2 reps are a real fight.</div>';
+    html += '<p class="note">'+esc(e.cue)+'</p><div class="tip" style="margin:0 0 14px">💡 Last set: go until you have 0–1 reps left in the tank.</div>';
     if(p.walkMins){
       html += '<button class="holdbtn" id="holdbtn" data-secs="'+(p.walkMins*60)+'">⏱ Start '+p.walkMins+'-min walk timer</button>';
     } else {
@@ -3118,7 +3145,7 @@ function runAiEstimate(){
 
 // =================== LADDER-STYLE STRAIGHT SETS · PRESS PLAY · WEEKLY CHALLENGE ===================
 var APPNAME = "Strong";
-var APPVER = "6.20 Feel it";
+var APPVER = "6.21 Feel the burn · 3-move warm-up";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
@@ -3129,22 +3156,24 @@ var WU = {
   child:{name:"Child’s pose", icon:"🧘‍♀️", cue:"Knees wide, sit back toward your heels, arms long. Slow breaths."},
   ham:{name:"Hamstring stretch", icon:"🦵", cue:"Sit or lie down, one leg long, reach gently toward your toes. Switch legs halfway."},
   cat:{name:"Cat-cow", icon:"🐈", cue:"On hands and knees, slowly round then arch your back with your breath."},
-  chest:{name:"Doorway chest stretch", icon:"🙆‍♀️", cue:"Forearm on a wall or doorway, step through gently. Switch sides halfway."}
+  chest:{name:"Doorway chest stretch", icon:"🙆‍♀️", cue:"Forearm on a wall or doorway, step through gently. Switch sides halfway."},
+  scap:{name:"Shoulder blade squeezes", icon:"💪", cue:"Bend your elbows, squeeze your shoulder blades together, hold a beat, then release. Keep your neck relaxed."}
 };
+// Engine rule kept across monthly plan refreshes: exactly 3 short warm-up moves (~3 min).
 var WARM = {
-  lower:[{wu:"march",s:60},{wu:"squat",s:45},{ex:"bridge",s:45},{wu:"hinge",s:45},{ex:"lunge",s:45,half:1},{ex:"birdDog",s:60,half:1}],
-  upper:[{wu:"march",s:60},{wu:"arms",s:45},{ex:"bandPullApart",s:45},{ex:"inclinePushup",s:45},{wu:"squat",s:45},{ex:"birdDog",s:60,half:1}],
-  full:[{wu:"march",s:60},{wu:"squat",s:45},{ex:"bridge",s:45},{wu:"hinge",s:45},{wu:"arms",s:45},{ex:"bandPullApart",s:45}]
+  lower:[{ex:"bridge",s:60},{wu:"hinge",s:60},{wu:"squat",s:60}],
+  upper:[{wu:"scap",s:60},{wu:"arms",s:60},{ex:"inclinePushup",s:60}],
+  full:[{ex:"bridge",s:60},{wu:"arms",s:60},{wu:"squat",s:60}]
 };
 var WARMQ = {
-  lower:[{wu:"march",s:40},{wu:"squat",s:30},{ex:"bridge",s:30}],
-  upper:[{wu:"march",s:40},{wu:"arms",s:30},{ex:"bandPullApart",s:30}],
-  full:[{wu:"march",s:40},{wu:"squat",s:30},{wu:"arms",s:30}]
+  lower:[{ex:"bridge",s:40},{wu:"hinge",s:40},{wu:"squat",s:40}],
+  upper:[{wu:"scap",s:40},{wu:"arms",s:40},{ex:"inclinePushup",s:40}],
+  full:[{ex:"bridge",s:40},{wu:"arms",s:40},{wu:"squat",s:40}]
 };
 var WARMH = {
-  upper:[{wu:"march",s:45},{wu:"arms",s:40},{ex:"inclinePushup",s:40},{ex:"birdDog",s:45,half:1}],
-  lower:[{wu:"march",s:45},{wu:"squat",s:40},{ex:"bridge",s:40},{wu:"hinge",s:40}],
-  full:[{wu:"march",s:40},{wu:"squat",s:35},{ex:"bridge",s:35},{wu:"arms",s:35}]
+  lower:[{ex:"bridge",s:60},{wu:"hinge",s:60},{wu:"squat",s:60}],
+  upper:[{wu:"scap",s:60},{wu:"arms",s:60},{ex:"inclinePushup",s:60}],
+  full:[{ex:"bridge",s:60},{wu:"arms",s:60},{wu:"squat",s:60}]
 };
 var COOL = { lower:[{wu:"fig4",s:60,half:1},{wu:"ham",s:60,half:1},{wu:"child",s:45}], upper:[{wu:"chest",s:60,half:1},{wu:"cat",s:45},{wu:"child",s:45}], full:[{wu:"fig4",s:60,half:1},{wu:"chest",s:60,half:1},{wu:"child",s:45}] };
 var COOLH = { lower:[{wu:"fig4",s:40,half:1},{wu:"child",s:30}], upper:[{wu:"chest",s:40,half:1},{wu:"child",s:30}], full:[{wu:"fig4",s:35,half:1},{wu:"chest",s:35}] };
@@ -3171,13 +3200,34 @@ function schemeLabel(p){
 }
 function setSecs(p, round){
   if(p.hold) return p.hold * (p.each ? 2 : 1);
-  var s = Math.max(45, Math.min(60, r5((setReps(p, round) || p.reps || 8) * 4 + 10)));
+  var s = Math.max(45, Math.min((p.reps || 0) >= 12 ? 70 : 60, r5((setReps(p, round) || p.reps || 8) * 4 + 10)));
   if(p.tag && /1\.5|tempo|pause/.test(p.tag)) s = Math.min(70, s + 10);
   return p.each ? Math.min(80, s * 2 - 10) : s;
 }
 function chunkSizes(n){ return n <= 3 ? [n] : n === 4 ? [2,2] : n === 5 ? [3,2] : [3,3].concat(n > 6 ? chunkSizes(n - 6) : []); }
 function maxSets(items){ return items.reduce(function(a, x){ return Math.max(a, x.p.sets || 1); }, 1); }
-// turn the day's moves into: warm-up → straight sets of each move (all sets of 1, then all of 2, …) → cool-down
+function decorateGroup(g, m){
+  var p = m.p;
+  if(g.pumpSecs){ g.drop = false; }
+  else if(p.burnStyle === "drop" || p.drop) g.drop = true;
+  if(p.burnout) g.burnout = 1;
+  if(p.amrapSecs) g.burnSecs = p.amrapSecs;
+  if(p.challenge){ g.challenge = 1; g.chalTarget = p.challengeTarget || p.reps || 10; if(!g.burnSecs) g.burnSecs = p.amrapSecs || 45; }
+  if(p.isoHold) g.isoHold = p.isoHold;
+  if(p.burnStyle) g.burnStyle = p.burnStyle;
+  return g;
+}
+function liftGroup(m, opts){
+  opts = opts || {};
+  var q = opts.q, home = opts.home, isMain = !!opts.isMain, isFin = !!opts.isFin, lastFin = !!opts.lastFin;
+  var pump = !q && lastFin && m.p.pumpSecs;
+  var rounds = q ? Math.min(3, m.p.sets || 3) : pump ? 1 : home ? (isMain ? m.p.sets : (m.p.sets || 3)) : (isMain ? 4 : 3);
+  var rest = q ? 15 : isMain ? (m.b.rest || (home ? 60 : 90)) : pump ? 0 : home ? 45 : 60;
+  var g = {k: isMain ? "strength" : isFin ? "finisher" : "sets", title: isMain ? "Main lift" : isFin ? "Finisher" : exName(m.p), items:[m], rounds:rounds, rest:rest, fin:isFin?1:0, q:q?1:0, home:home?1:0};
+  if(pump) g.pumpSecs = m.p.pumpSecs;
+  return decorateGroup(g, m);
+}
+// Engine rule kept across monthly plan refreshes: 3-move warm-up, gym accessories in supersets, home mid moves as a 40/15 burn circuit.
 function circuitPlan(d){
   var G = [], kind = dayKind(d), q = isQ(d.ver), home = !!d.home;
   G.push({k:"warm", title:"Warm-up", list:(q ? WARMQ : home ? WARMH : WARM)[kind]});
@@ -3185,26 +3235,46 @@ function circuitPlan(d){
   d.blocks.forEach(function(b, bi){ b.items.forEach(function(p0, i){ items.push({p:effP(d.key, bi, i, p0), p0:p0, b:b, bi:bi, i:i}); }); });
   var walk = items.filter(function(x){ return x.p.walkMins; })[0];
   items = items.filter(function(x){ return !x.p.walkMins; });
-  var fins = items.filter(function(x){ return x.b.finisher; });
-  items.forEach(function(m, idx){
-    var isMain = !q && idx === 0 && !m.b.finisher;
-    var isFin = !!m.b.finisher;
-    var lastFin = isFin && m === fins[fins.length - 1];
-    var hinge = HINGE.indexOf(m.p.ex) >= 0;
-    var pump = !q && lastFin && m.p.pumpSecs;
-    var rounds = q ? Math.min(3, m.p.sets || 3) : pump ? 1 : home ? (isMain ? m.p.sets : (isFin ? Math.max(3, m.p.sets || 3) : (m.p.sets || 3))) : (isMain ? 4 : 3);
-    var rest = q ? 15 : isMain ? (m.b.rest || (home ? 60 : 90)) : pump ? 0 : home ? 45 : 60;
-    var g = {k: isMain ? "strength" : isFin ? "finisher" : "sets", title: isMain ? "Main lift" : isFin ? "Finisher" : exName(m.p), items:[m], rounds:rounds, rest:rest, fin:isFin?1:0, q:q?1:0};
-    if(pump){ g.pumpSecs = m.p.pumpSecs; g.drop = false; }
-    else {
-      if(m.p.burnout && !home && !m.p.hold) g.drop = true;
-      else if(m.p.drop) g.drop = true;
+  if(q){
+    var fins = items.filter(function(x){ return x.b.finisher; });
+    items.forEach(function(m, idx){
+      G.push(liftGroup(m, {q:1, home:home, isMain: idx===0 && !m.b.finisher, isFin:!!m.b.finisher, lastFin: !!m.b.finisher && m===fins[fins.length-1]}));
+    });
+  } else {
+    var opener = (items[0] && !items[0].b.finisher) ? items[0] : null;
+    var rest = opener ? items.slice(1) : items.slice();
+    var fins = rest.filter(function(m){ return m.b.finisher || m.p.pumpSecs; });
+    var mids = rest.filter(function(m){ return fins.indexOf(m) < 0; });
+    if(opener) G.push(liftGroup(opener, {home:home, isMain:1}));
+    if(home){
+      if(mids.length){
+        var isolated = mids.filter(function(m){ return m.p.ex === "dbRdl" || m.p.noCircuit; });
+        var circ = mids.filter(function(m){ return isolated.indexOf(m) < 0; });
+        isolated.forEach(function(m){ m.p.sets = Math.max(4, m.p.sets || 4); m.p.circuit = 0; G.push(liftGroup(m, {home:1, isMain:0})); });
+        if(circ.length){
+          var cg = {k:"circuit", title:"Burn circuit", items:circ, rounds:5, on:40, off:15, rest:15, circuit:1, home:1, burnout:1};
+          circ.forEach(function(m){ if(m.p.challenge){ cg.challenge = 1; cg.chalTarget = m.p.challengeTarget || m.p.reps || 10; } });
+          G.push(cg);
+        }
+      }
+      fins.forEach(function(m){ G.push(liftGroup(m, {home:1, isFin:1, lastFin:1})); });
+    } else {
+      for(var i = 0; i < mids.length; i += 2){
+        if(i + 1 < mids.length){
+          var a = mids[i], b = mids[i+1];
+          var sg = {k:"superset", title:"Superset", items:[a, b], rounds:3, rest:60, super:1, burnout:1};
+          if(a.p.challenge || b.p.challenge){
+            var chp = a.p.challenge ? a.p : b.p;
+            sg.challenge = 1; sg.chalTarget = chp.challengeTarget || chp.reps || 10; sg.burnSecs = chp.amrapSecs || 45;
+          }
+          G.push(sg);
+        } else {
+          G.push(liftGroup(mids[i], {home:0}));
+        }
+      }
+      fins.forEach(function(m, fi){ G.push(liftGroup(m, {home:0, isFin:1, lastFin: fi === fins.length - 1})); });
     }
-    if(m.p.burnout) g.burnout = 1;
-    if(m.p.amrapSecs) g.burnSecs = m.p.amrapSecs;
-    if(m.p.challenge){ g.challenge = 1; g.chalTarget = m.p.challengeTarget || m.p.reps || 10; if(!g.burnSecs) g.burnSecs = m.p.amrapSecs || 45; }
-    G.push(g);
-  });
+  }
   if(d.spin) G.push({k:"spin", title:"Spin finisher", rounds:d.spin.rounds, on:d.spin.on, off:d.spin.off, rest:d.spin.off, items:[{p:{ex:"spinBike", sets:d.spin.rounds, spin:1}}]});
   G.push({k:"cool", title:"Cool-down", walk:walk, list: walk ? [] : q ? [{wu:"child",s:45}] : (home ? COOLH : COOL)[kind]});
   G.forEach(function(g){ g.meta = groupMeta(g); });
@@ -3213,22 +3283,28 @@ function circuitPlan(d){
 var HINGE = ["deadlift","trapBar","rdl","kbDeadlift","goodMorning","slRdl","backExt","dbRdl"];
 function groupMeta(g){
   if(g.k === "spin") return g.rounds + " rounds · " + g.on + "s all-out / " + g.off + "s easy";
+  if(g.k === "circuit") return "🔥 " + g.rounds + " rounds · " + g.on + "s on / " + g.off + "s off · last round Burnout";
   if(!g.items) return "";
-  if(g.pumpSecs) return "🔥 Finisher · " + g.pumpSecs + "s pump";
+  if(g.pumpSecs) return "🔥 Finisher · " + g.pumpSecs + "s pump" + (g.burnout ? " · Burnout" : "");
+  if(g.k === "superset"){
+    var extra = g.challenge ? " · Challenge on the last set" : "";
+    return "3 rounds · back to back · last set Burnout · " + (g.rest || 50) + "s rest after the pair" + extra;
+  }
   var p = g.items[0] && g.items[0].p;
   var extra = g.challenge ? " · last set is the Challenge (" + (g.burnSecs || 45) + "s)" : "";
-  if(g.burnout){
-    var homeBurn = p && (p.burnStyle === "1.5-rep" || p.burnStyle === "partials");
-    extra += homeBurn ? (p.burnStyle === "1.5-rep" ? " · last set Burnout (1.5-reps)" : " · last set Burnout (partials)") : " · last set Burnout (drop ~25%)";
-  }
+  if(g.burnout) extra += " · " + burnLabel(p);
   var tags = p && p.tag ? " · " + p.tag : "";
+  if(p && p.isoHold) tags += " · last set +" + p.isoHold + "s hold";
   return g.rounds + " sets" + extra + tags + (g.rest ? " · " + g.rest + "s rest" : "");
 }
 function effortCue(s){
   if(!s || s.k !== "work") return "";
   if(s.sprint) return "🔥 All-out for 20 seconds. Turn the resistance up and fight for it.";
   if(s.easy) return "🚴‍♀️ Easy spin. Catch your breath — the next sprint is coming.";
-  if(s.drop) return "🔥 Drop set: strip about 30% of the weight and keep going until only 1–2 reps are left in the tank.";
+  if(s.drop || (s.burnStyle === "drop" && s.burnExtra)) return "🔥 Drop set: strip about 25% of the weight and go until you have 0–1 reps left in the tank.";
+  if(s.restPause || s.burnStyle === "restPause" && s.burnExtra) return "🔥 Rest-pause: rest 10 seconds, then grind out 5 more clean reps.";
+  if(s.pulses || s.burnStyle === "pulses" && s.burnExtra) return "🔥 10 pulse partials — short reps at the hardest part of the move. Feel the burn.";
+  if(s.iso) return "🔥 Hold it! Squeeze for " + (s.secs || 12) + " seconds. Don't let go early.";
   if(s.chal || (s.burn && s.g && s.g.challenge)){
     var tgt = s.p ? challengeTarget(s.p) : 10, best = s.p ? prBest(s.p.ex) : 0;
     return "🎯 Challenge set: " + (s.g.burnSecs || 45) + " seconds, as many clean reps as you can. Beat " + tgt + (best ? " — your best is " + best + "." : ".") + " Stop the moment your form slips.";
@@ -3236,11 +3312,11 @@ function effortCue(s){
   if(s.burn) return "🔥 45-second AMRAP: as many clean reps as you can. Stop the moment your form slips.";
   if(s.amrap) return "🔥 Last set: as many clean reps as you can. Stop the moment your form slips.";
   if((PL && PL.d && PL.d.home) || (s.g && s.g.home)){
-    if(s.g.k === "strength" || s.g.k === "sets") return "💪 Make these feel hard. Last reps should be a fight, but keep your form — this is your second session today.";
+    if(s.g.k === "strength" || s.g.k === "sets" || s.g.k === "circuit") return "💪 40 seconds of work. Last round: go until you have 0–1 reps left in the tank. Keep your form.";
     if(s.g.k === "finisher") return "🔥 Keep moving and finish strong, but keep your form.";
     if(s.g.k === "spin") return "";
   }
-  if(s.g.k === "strength" || s.g.k === "sets") return "💪 Pick a weight where the last 2 reps are a real fight. Got every rep clean? Go up 5 lbs next time.";
+  if(s.g.k === "strength" || s.g.k === "sets" || s.g.k === "superset") return "💪 Last set: go until you have 0–1 reps left in the tank. Got every clean rep? Go up 5 lbs next time.";
   if(s.g.k === "finisher") return "🔥 Burnout: keep moving the whole time. Slow down before you stop.";
   if(s.p && s.p.hold) return "💪 Brace hard and breathe. Make it harder than last week.";
   return "💪 Heavy enough that the last 3 reps are hard. Lower for 3 seconds on every rep.";
@@ -3253,7 +3329,10 @@ function aimText(s){
   if(s.easy) return "Easy spin · catch your breath";
   var p = s.p; if(!p) return "";
   if(p.hold) return "Hold " + p.hold + " sec" + (p.each ? " each " + p.each + " · switch halfway" : "");
-  if(s.drop) return "Drop set · lighter weight · reps until 1–2 left in the tank";
+  if(s.iso) return "Hold and squeeze · " + s.secs + " seconds";
+  if(s.drop) return "Drop set · lighter weight · go to 0–1 reps in the tank";
+  if(s.restPause && s.burnExtra) return "Rest-pause · 5 more clean reps";
+  if(s.pulses) return "10 pulse partials · feel the burn";
   if(s.chal || (s.burn && s.g && s.g.challenge)){
     var tgt = challengeTarget(p);
     var best = prBest(p.ex);
@@ -3268,10 +3347,27 @@ function aimText(s){
   if(s.g.k !== "finisher" && !(p.tag && /tempo|pause|lowering|1\.5/.test(p.tag))) t += " · 3-sec lowering";
   return t;
 }
+function pushBurnExtras(push, g, gi, it, r){
+  var p = it.p || {};
+  if(p.isoHold) push({k:"work", g:g, gi:gi, it:it, p:p, ex:p.ex, secs:p.isoHold, half:false, round:r, rounds:g.rounds, iso:1});
+  if(g.pumpSecs) return;
+  var style = p.burnStyle || (g.drop ? "drop" : "");
+  if(style === "drop"){
+    push({k:"trans", g:g, gi:gi, secs:12, round:r, rounds:g.rounds, dropTrans:1});
+    push({k:"work", g:g, gi:gi, it:it, p:p, ex:p.ex, secs:p.each ? 50 : 30, half:!!p.each, round:r, rounds:g.rounds, drop:1, burnExtra:1, burnStyle:"drop"});
+  } else if(style === "restPause"){
+    push({k:"rest", g:g, gi:gi, secs:10, round:r, rounds:g.rounds, restPause:1});
+    push({k:"work", g:g, gi:gi, it:it, p:p, ex:p.ex, secs:20, half:!!p.each, round:r, rounds:g.rounds, restPause:1, burnExtra:1, burnStyle:"restPause"});
+  } else if(style === "pulses"){
+    push({k:"work", g:g, gi:gi, it:it, p:p, ex:p.ex, secs:15, half:!!p.each, round:r, rounds:g.rounds, pulses:1, burnExtra:1, burnStyle:"pulses"});
+  } else if(style === "1.5-rep" || style === "partials"){
+    push({k:"work", g:g, gi:gi, it:it, p:p, ex:p.ex, secs:20, half:!!p.each, round:r, rounds:g.rounds, burnExtra:1, burnStyle:style});
+  }
+}
 function buildTimeline(d){
   var G = circuitPlan(d), S = [];
   var push = function(o){ S.push(o); };
-  var qPlan = isQ(d.ver), tsec = qPlan ? 15 : (d.home ? 15 : 20), csec = qPlan ? 10 : 15;
+  var qPlan = isQ(d.ver), tsec = qPlan ? 15 : (d.home ? 15 : 30), csec = qPlan ? 10 : 15;
   G.forEach(function(g, gi){
     if(gi > 0 && g.k !== "cool" && G[gi-1].k !== "warm") push({k:"trans", g:g, gi:gi, secs:tsec, groupStart:1});
     else if(gi > 0 && G[gi-1].k === "warm") push({k:"trans", g:g, gi:gi, secs:tsec, groupStart:1});
@@ -3289,6 +3385,32 @@ function buildTimeline(d){
       }
       return;
     }
+    if(g.k === "circuit"){
+      for(var r = 1; r <= g.rounds; r++){
+        var lastR = r === g.rounds;
+        g.items.forEach(function(it, ii){
+          push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:g.on, half:!!it.p.each, round:r, rounds:g.rounds, circuit:1, chal:lastR && it.p.challenge, burnStyle: lastR ? it.p.burnStyle : ""});
+          if(lastR) pushBurnExtras(push, g, gi, it, r);
+          var lastItem = ii === g.items.length - 1;
+          if(!(lastR && lastItem)) push({k:"rest", g:g, gi:gi, secs:g.off, round:r, rounds:g.rounds, setRest:1, circuitOff:1});
+        });
+      }
+      return;
+    }
+    if(g.k === "superset"){
+      for(var r = 1; r <= g.rounds; r++){
+        var last = r === g.rounds;
+        g.items.forEach(function(it, ii){
+          var secs = setSecs(it.p, r);
+          if(last && it.p.challenge && (it.p.amrapSecs || g.burnSecs)) secs = it.p.amrapSecs || g.burnSecs;
+          push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:secs, half:!!it.p.each, round:r, rounds:g.rounds, super:1, chal:last && it.p.challenge, burn:last && it.p.challenge, burnStyle:it.p.burnStyle});
+          if(last) pushBurnExtras(push, g, gi, it, r);
+          if(ii < g.items.length - 1) push({k:"trans", g:g, gi:gi, secs:12, round:r, rounds:g.rounds, superTrans:1});
+        });
+        if(r < g.rounds) push({k:"rest", g:g, gi:gi, secs:g.rest, round:r, rounds:g.rounds, setRest:1});
+      }
+      return;
+    }
     if(g.items && g.items.length === 1){
       var it = g.items[0];
       var work = function(p, r){ return (g.k === "strength" || !g.fin) ? setSecs(p, r) : workSecs(p, 1, g.q); };
@@ -3297,12 +3419,9 @@ function buildTimeline(d){
         var secs = work(it.p, r) + (last && g.amrap && !g.burnSecs ? 15 : 0);
         if(g.pumpSecs) secs = g.pumpSecs;
         else if(last && g.burnSecs) secs = g.burnSecs;
-        push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:secs, half:!!it.p.each, round:r, rounds:g.rounds, amrap:last && g.amrap, burn:last && g.burnSecs, chal:last && g.challenge});
+        push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:secs, half:!!it.p.each, round:r, rounds:g.rounds, amrap:last && g.amrap, burn:last && g.burnSecs, chal:last && g.challenge, burnStyle:it.p.burnStyle});
+        if(last) pushBurnExtras(push, g, gi, it, r);
         if(r < g.rounds) push({k:"rest", g:g, gi:gi, secs:g.rest, round:r, rounds:g.rounds, setRest:1});
-      }
-      if(g.drop){
-        push({k:"trans", g:g, gi:gi, secs:15, round:g.rounds, rounds:g.rounds, dropTrans:1});
-        push({k:"work", g:g, gi:gi, it:it, p:it.p, ex:it.p.ex, secs:it.p.each ? 70 : 40, half:!!it.p.each, round:g.rounds, rounds:g.rounds, drop:1});
       }
       return;
     }
