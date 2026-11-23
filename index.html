@@ -536,6 +536,14 @@ body.noscroll{overflow:hidden}
 #tcards .sesslab + .tcard{margin-top:0}
 .tcard.home .thero{background:linear-gradient(135deg,#4a6fa5,#6d8fc2)}
 .tcard.home.done .thero{background:linear-gradient(135deg,#3fa66b,#6cc08d)}
+.tcard.walk .thero{background:linear-gradient(135deg,#2a8a74,#57b89a)}
+.tcard.walk.done .thero{background:linear-gradient(135deg,#3fa66b,#6cc08d)}
+.tcard.walk .walkbody{padding:14px 16px 18px}
+.tcard.walk .walkbody .d{font-size:13px;color:var(--muted);font-weight:600;line-height:1.4;margin:0 0 4px}
+.dchip2.wknd{border-style:dashed;border-color:#9ad4c4}
+.dchip2.wknd .dw{color:#2a8a74}
+.dchip2.wknd.on{background:#2a8a74;border-color:#2a8a74;border-style:solid}
+.dchip2.wknd.on .dw,.dchip2.wknd.on .dn{color:#fff}
 .peekrow{cursor:pointer;-webkit-tap-highlight-color:transparent}
 .tcard .thint{font-size:12px;font-weight:600;opacity:.9;margin:2px 0 0}
 .td .wt{color:var(--accent);font-weight:700}
@@ -1213,7 +1221,12 @@ var BONUS = {key:"sat", base:"sat", ver:"A", bonus:true, short:"Sat", day:"Satur
   ]};
 ALLDAYS.push(BONUS);
 
-// ---- afternoon home sessions (second workout of the day; complementary to the morning gym plan) ----
+// Afternoon home sessions and the optional Saturday bonus are archived and kept for compatibility (localStorage, deep links, in-progress sessions). They are not scheduled.
+// Engine rule kept across monthly plan refreshes: do not put Afternoon · Home sessions or the weekend bonus back on the schedule. Weekdays are morning gym plus an afternoon walk (20–30 min, stroller counts). Weekends are a walk or rest.
+var SCHEDULE_HOME = false;
+var SCHEDULE_BONUS = false;
+
+// ---- afternoon home sessions (archived data; not scheduled) ----
 // Keys: mon_h / mon_h_b / mon_h_c so weekDay() and markDone() stay separate from the gym day.
 var HOME = [
  {key:"mon_h", short:"Mon", day:"Monday", title:"Upper + Core", mins:"35–40 min", focus:"Back · Shoulders · Core", kind:"upper",
@@ -1612,7 +1625,7 @@ function dayDate(base){ var k = {mon:0,tue:1,wed:2,thu:3,fri:4,sat:5,sun:6}; if(
 function dayDateLabel(base){ var d = dayDate(base); return DOW3[d.getDay()] + ", " + md(d); }
 function weekRange(){ var a = dayDate("mon"), b = dayDate("fri"); return md(a) + " – " + md(b); }
 function workoutTag(d){ var label = isQ(d.ver) ? "15-min" : d.bonus ? "Bonus" : "Week " + d.ver; var when = d.bonus ? "Sat " + md(dayDate("sat")) + " or Sun " + md(dayDate("sun")) : dayDateLabel(d.gymBase || d.base); return label + (d.home ? " · Afternoon · Home" : "") + " · " + when; }
-var BUILD = "Nov 19, 2026 10:41 AM ET";
+var BUILD = "Nov 23, 2026 6:44 PM ET";
 function weekStart(d){ d = new Date(d || new Date()); d.setHours(0,0,0,0); var w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return d; }
 function doneThisWeek(key){
   var log = load("mw_done", []); var ws = weekStart().getTime(); var we = ws + 7*864e5;
@@ -1835,16 +1848,33 @@ function bindFood(){
 // ---- HOME ----
 // ---- HOME (Ladder-style: day picker on top, one workout card, everything else below) ----
 var homeSel = null;
-function homeDefault(){ var t = todayIdx(); return t >= 0 ? DAYS[t].key : "mon"; }
-function dayChipsHtml(sel){
+function isWeekendSel(sel){ return sel === "sat" || sel === "sun"; }
+function homeDefault(){
   var t = todayIdx();
+  if(t >= 0) return DAYS[t].key;
+  return new Date().getDay() === 0 ? "sun" : "sat";
+}
+function walkMinsOn(base){ return (load("mw_walks", {}) || {})[ymd(dayDate(base))] || 0; }
+function walkDoneThisWeek(base){
+  var key = ymd(dayDate(base));
+  var w = (load("mw_walks", {}) || {})[key] || 0;
+  var g = load("mw_goals_" + key, {}) || {};
+  return w >= 20 || !!g.walk;
+}
+function dayChipsHtml(sel){
+  var t = todayIdx(), dow = new Date().getDay();
   var chips = DAYS.map(function(d, i){
     var done = doneThisWeek(d.key);
     return '<button class="dchip2'+(d.key === sel ? ' on' : '')+(done ? ' done' : '')+(i === t ? ' today' : '')+'" data-pick="'+d.key+'" aria-pressed="'+(d.key === sel)+'">' +
       '<span class="dw">'+d.short+'</span><span class="dn">'+(done ? '✓' : dayDate(d.key).getDate())+'</span></button>';
   }).join("");
-  var bd = doneThisWeek("sat");
-  chips += '<button class="dchip2 bonus'+(sel === "sat" ? ' on' : '')+(bd ? ' done' : '')+'" data-pick="sat" aria-pressed="'+(sel === "sat")+'"><span class="dw">Sat</span><span class="dn">'+(bd ? '✓' : '⭐')+'</span></button>';
+  // Weekends are a walk or rest — the Saturday bonus workout is archived and not scheduled.
+  ["sat","sun"].forEach(function(k){
+    var isToday = (k === "sat" && dow === 6) || (k === "sun" && dow === 0);
+    var done = walkDoneThisWeek(k);
+    chips += '<button class="dchip2 wknd'+(k === sel ? ' on' : '')+(done ? ' done' : '')+(isToday ? ' today' : '')+'" data-pick="'+k+'" aria-pressed="'+(k === sel)+'">' +
+      '<span class="dw">'+ (k === "sat" ? "Sat" : "Sun") +'</span><span class="dn">'+(done ? "✓" : dayDate(k).getDate())+'</span></button>';
+  });
   return '<div class="dpick" id="dpick" role="tablist">'+chips+'</div>';
 }
 function prStore(){ var m = load("mw_pr", {}); return m && typeof m === "object" ? m : {}; }
@@ -1938,15 +1968,47 @@ function sessionCardHtml(wd, opts){
     '<button class="cta play" id="'+opts.playId+'">▶ '+(done ? 'Do it again · Press play' : 'Start · Press play')+'</button>' +
     '<div class="tlinks"><button class="linkbtn" id="'+opts.detailId+'">Details &amp; swaps ›</button>' + (opts.shortId ? '<button class="linkbtn" id="'+opts.shortId+'">⚡ 15-min version</button>' : '') + '</div></div>';
 }
+function afternoonWalkCardHtml(opts){
+  opts = opts || {};
+  var logged = todayWalkMins();
+  var weekend = !!opts.weekend;
+  var title = weekend ? "Walk or rest" : "Afternoon walk";
+  var kicker = (weekend ? "Walk day" : "Afternoon walk") + " · 20–30 min, stroller counts";
+  var hint = weekend
+    ? "An easy 20–30 minute walk is plenty. The stroller counts. Or rest — that’s okay too."
+    : "A 20–30 minute easy walk. The stroller counts. This is your afternoon, not a second workout.";
+  var done = logged >= 20;
+  return '<div class="tcard walk'+(done ? ' done' : '')+'" id="wcard">' +
+    '<div class="thero"><div class="k">'+esc(kicker)+(opts.today ? ' <span class="badge">TODAY</span>' : '')+(done ? ' <span class="badge good">DONE ✓</span>' : '')+'</div>' +
+    '<h2 class="ttitle">'+esc(title)+'</h2>' +
+    '<div class="thint">'+esc(hint)+'</div>' +
+    '<div class="pills"><span class="pill">⏱ 20–30 min</span><span class="pill">🚶 Stroller counts</span></div></div>' +
+    '<div class="walkbody">' +
+      (logged ? '<div class="d">'+logged+' min already logged today.</div>' : '<div class="d">Log it toward today’s walk goal. Your morning treadmill minutes count too.</div>') +
+      '<div class="twalk">' +
+        '<button type="button" data-walklog="20">Log 20 min</button>' +
+        '<button type="button" data-walklog="25">Log 25 min</button>' +
+        '<button type="button" data-walklog="30">Log 30 min</button>' +
+      '</div></div></div>';
+}
 function todayCardHtml(sel){
-  var isToday = sel !== "sat" && DAYS[todayIdx()] && DAYS[todayIdx()].key === sel;
-  var gym = sel === "sat" ? BONUS : weekDay(sel);
+  var weekend = isWeekendSel(sel);
+  var dow = new Date().getDay();
+  var isToday = weekend ? ((sel === "sat" && dow === 6) || (sel === "sun" && dow === 0)) : !!(DAYS[todayIdx()] && DAYS[todayIdx()].key === sel);
   var html = '<div id="tcards">';
-  if(sel !== "sat") html += '<div class="sesslab">Morning · Gym</div>';
-  html += sessionCardHtml(gym, {id:"gcard", playId:"gplay", detailId:"gdetail", shortId: sel !== "sat" ? "gshort" : "", today:isToday});
-  if(sel !== "sat"){
-    var hd = homeWeekDay(sel);
-    if(hd) html += '<div class="sesslab">Afternoon · Home</div>' + sessionCardHtml(hd, {id:"hcard", playId:"hplay", detailId:"hdetail", today:isToday, hint:"Complements this morning’s gym session · tempo, pauses, and a spin finish"});
+  // Engine rule kept across monthly plan refreshes: never schedule Afternoon · Home or the weekend bonus here.
+  if(weekend){
+    html += '<div class="sesslab">Weekend · Walk or rest</div>' + afternoonWalkCardHtml({weekend:true, today:isToday});
+  } else {
+    var gym = weekDay(sel);
+    html += '<div class="sesslab">Morning · Gym</div>';
+    html += sessionCardHtml(gym, {id:"gcard", playId:"gplay", detailId:"gdetail", shortId:"gshort", today:isToday});
+    if(SCHEDULE_HOME){
+      var hd = homeWeekDay(sel);
+      if(hd) html += '<div class="sesslab">Afternoon · Home</div>' + sessionCardHtml(hd, {id:"hcard", playId:"hplay", detailId:"hdetail", today:isToday, hint:"Complements this morning’s gym session"});
+    } else {
+      html += '<div class="sesslab">Afternoon walk · 20–30 min, stroller counts</div>' + afternoonWalkCardHtml({today:isToday});
+    }
   }
   return html + '</div>';
 }
@@ -1956,15 +2018,29 @@ function bindPeeks(wd, peekId){
   });
 }
 function bindTodayCard(sel){
-  var gym = sel === "sat" ? BONUS : weekDay(sel);
-  document.getElementById("gplay").onclick = function(){ PL = null; go("#day=" + gym.key + "&play=1"); };
-  document.getElementById("gdetail").onclick = function(){ go("#day=" + gym.key); };
-  var sh = document.getElementById("gshort"); if(sh) sh.onclick = function(){ go("#day=" + weekDay(sel, "Q").key); };
-  var hp = document.getElementById("hplay"), hd = homeWeekDay(sel);
-  if(hp && hd){ hp.onclick = function(){ PL = null; go("#day=" + hd.key + "&play=1"); }; }
-  var hdet = document.getElementById("hdetail"); if(hdet && hd) hdet.onclick = function(){ go("#day=" + hd.key); };
-  bindPeeks(gym, "gcard");
-  if(hd) bindPeeks(hd, "hcard");
+  var weekend = isWeekendSel(sel);
+  if(!weekend){
+    var gym = weekDay(sel);
+    var gp = document.getElementById("gplay");
+    if(gp && gym) gp.onclick = function(){ PL = null; go("#day=" + gym.key + "&play=1"); };
+    var gd = document.getElementById("gdetail");
+    if(gd && gym) gd.onclick = function(){ go("#day=" + gym.key); };
+    var sh = document.getElementById("gshort"); if(sh && gym) sh.onclick = function(){ go("#day=" + weekDay(sel, "Q").key); };
+    if(gym) bindPeeks(gym, "gcard");
+    if(SCHEDULE_HOME){
+      var hd = homeWeekDay(sel);
+      var hp = document.getElementById("hplay");
+      if(hp && hd){ hp.onclick = function(){ PL = null; go("#day=" + hd.key + "&play=1"); }; }
+      var hdet = document.getElementById("hdetail"); if(hdet && hd) hdet.onclick = function(){ go("#day=" + hd.key); };
+      if(hd) bindPeeks(hd, "hcard");
+    }
+  }
+  bindTreadmill(function(){
+    var box = document.getElementById("tcards");
+    if(!box) return;
+    var c = document.createElement("div"); c.innerHTML = todayCardHtml(sel); box.replaceWith(c.firstChild);
+    bindTodayCard(sel);
+  });
   app.querySelectorAll("[data-pick]").forEach(function(b){ b.onclick = function(){
     if(homeSel === b.dataset.pick) return;
     homeSel = b.dataset.pick;
@@ -1981,10 +2057,10 @@ function renderHome(){
   var doneCount = DAYS.filter(function(d){ return doneThisWeek(d.key); }).length;
   var html = '<div class="hhead"><div><p class="brand">'+APPNAME+'</p><p class="sub">'+greet+'</p><div class="wkhead">Week '+weekVer()+' · '+weekRange()+'</div></div><div style="display:flex;align-items:center;gap:8px"><div class="hcount"><b>'+doneCount+'/5</b><span>this week</span></div><button class="iconbtn" id="settings" aria-label="Settings">⚙</button></div></div>' +
     dayChipsHtml(homeSel) + todayCardHtml(homeSel) +
-    (t<0 ? '<p class="sub" style="margin:4px 4px 10px">Weekend = rest, an easy walk, or the optional Saturday bonus 🌿</p>' : '') +
+    (t<0 ? '<p class="sub" style="margin:4px 4px 10px">Weekend = a 20–30 min walk (stroller counts), or rest 🌿</p>' : '') +
     (t<0 && new Date().getDay() === 0 ? (function(){ var n = new Date(); n.setDate(n.getDate() + 1); return '<p class="sub nextwk" style="margin:0 4px 10px">Tomorrow starts <b>Week '+weekVer(n)+'</b> (Mon '+md(n)+').</p>'; })() : '') +
     streakHtml() + chalCardHtml() + trackCardHtml() + goalsHtml() + bodyCardHtml() + foodHtml() +
-    '<div class="footer">Pick a day up top · gym in the morning, home in the afternoon · optional Saturday glute day<br><span class="appver">App version: '+esc(APPVER)+' · '+esc(BUILD)+'</span></div>';
+    '<div class="footer">Pick a day up top · gym in the morning, a 20–30 min walk in the afternoon (stroller counts) · weekends are a walk or rest<br><span class="appver">App version: '+esc(APPVER)+' · '+esc(BUILD)+'</span></div>';
   app.innerHTML = html;
   bindTodayCard(homeSel);
   bindFood();
@@ -3397,7 +3473,7 @@ function runAiEstimate(){
 
 // =================== LADDER-STYLE STRAIGHT SETS · PRESS PLAY · WEEKLY CHALLENGE ===================
 var APPNAME = "Strong";
-var APPVER = "6.25 Bench and floor core";
+var APPVER = "6.26 Afternoon walk";
 // warm-up / cool-down moves that don't need a gym video (Ladder-style: everything is timed and auto-advances)
 var WU = {
   march:{name:"March in place", icon:"🚶‍♀️", cue:"Easy march, swing your arms, breathe and loosen up."},
@@ -3480,8 +3556,9 @@ function liftGroup(m, opts){
   if(pump) g.pumpSecs = m.p.pumpSecs;
   return decorateGroup(g, m);
 }
-// Engine rule kept across monthly plan refreshes: 3-move warm-up; gym is one machine at a time (all sets, then the next); home mids are a 40/15 burn circuit.
-// Engine rule: never attach a stretch cool-down. Gym sessions end with a treadmill walk that is not part of the lifting time. Home ends on the spin bike.
+// Engine rule kept across monthly plan refreshes: 3-move warm-up; gym is one machine at a time (all sets, then the next). Home session data is archived and is not scheduled.
+// Engine rule: never attach a stretch cool-down. Gym sessions end with a treadmill walk that is not part of the lifting time.
+// Engine rule kept across monthly plan refreshes: the weekday schedule is morning gym only, plus an afternoon walk (20–30 min, stroller counts). Weekends are a walk or rest. Do not re-attach Afternoon · Home sessions.
 function circuitPlan(d){
   var G = [], kind = dayKind(d), q = isQ(d.ver), home = !!d.home;
   var list0 = (q ? WARMQ : home ? WARMH : WARM)[kind] || [];
